@@ -65,7 +65,7 @@ $(".backList").click(
       <table class="table table-borderless">
 
          <tr>
-            <th colspan="2"><h3>기본정보</h3></th>
+            <th colspan="2"><h3>강정강정</h3></th>
          </tr>
          <tr>
             <th>닉네임 :</th>
