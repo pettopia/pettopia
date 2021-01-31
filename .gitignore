@@ -7,12 +7,10 @@
 *.project
 
 # folder
-/Project/.metadata/
-/Project/.settings/
-/Project/build/
+/FinalProject/.metadata/
+/FinalProject/.settings/
+/FinalProject/build/
 
 # 01.Servers Ignore
 /Servers/
 
-# dispatcher-servlet
-/Project/WebContent/WEB-INF/dispatcher-servlet.xml
