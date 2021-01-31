@@ -1,0 +1,99 @@
+@charset "UTF-8";
+/************footer********************************/
+#line{
+	margin-top: 35px;
+	width:100%;
+	border: 1px solid #EEEEEE;
+}
+#footer{
+	position: relative;
+	width:100%;
+	
+}
+.footer_inner{
+	position: relative;
+	margin: 0 auto;
+	 width:1150px;
+	height: 215px;
+	margin-bottom:50px;
+	display:block;
+	overflow-y:hidden;
+}
+.copyright {
+	width:450px;
+	float:left;
+	text-align: left;
+	overflow: hidden;
+	box-sizing: border-box;	
+}
+.copyright1 {
+	width:420px;
+	float:left;
+	text-align: left;
+	overflow: hidden;
+	box-sizing: border-box;
+	margin-left: 100px;
+	height: 210px;
+}
+.copyright2 {
+	width:140px;
+	float:left;
+	text-align: left;
+	overflow: hidden;
+	box-sizing: border-box;
+	margin-left:20px;
+	height:140px;
+}
+.footer_image{
+	height:50px;
+	float:right;
+	margin-right:200px;
+	margin-top:80px;
+}
+.follow{
+	margin-left:15px;
+	font-size:35px;
+	padding-top:17px;
+}
+dt{
+	font-family:  'Noto Sans KR Regular', 'Noto Sans KR Thin';
+	margin-left: 10px;
+	float: left;
+	padding-top:5px;
+	font-size:15px;
+	color: #707070;
+}
+.last{
+	padding-top:16px;
+}
+
+dd{
+	font-family:  'Noto Sans KR Regular', 'Noto Sans KR Thin';
+	font-size:35px;
+	padding-top:17px;
+	margin-bottom:29px;
+	color:#707070
+}
+.fa-phone-alt{
+	position: relative;
+	top:5px;
+	left:10px;
+	font-size: 30px;
+	color:#707070
+}
+.fa-facebook-f{
+	font-size: 25px;
+	padding-left: 9px;
+	color:#707070
+	
+}
+.fa-instagram{
+	font-size: 25px;
+	padding-left: 20px;
+	color:#707070
+}
+.fa-twitter{
+	font-size: 25px;
+	padding-left: 20px;
+	color:#707070
+}

@@ -1,0 +1,196 @@
+@charset "UTF-8";
+
+*
+{
+	margin : 0 auto;
+}
+#Diary
+{
+	margin : 0 auto;
+	width: 1150px;
+	margin-top: 152px;
+}
+.Diary_text
+{
+	margin: 0 auto;
+	font-size: 80px;
+	font-weight: bold;
+	text-align: center;
+	padding-top: 50px;
+	color:#777777;
+}
+.Diary_text_small
+{
+	margin: 0 auto;
+	font-size: 20px;
+	text-align: center;
+	font-weight: bold;
+	color:#777777;
+}
+.Diary_select
+{
+	width: 800px;
+	margin: 0 auto;
+	height: 60px;
+	margin-top: 67px;
+}
+.Diary_information
+{
+	width: 50%;
+	height: 60px;
+	float: left;
+	border-right: 1px solid #cccccc;
+	text-align: center;
+	background-color: white;
+	line-height: 60px;
+	border: 1px solid #cccccc;
+}
+.Diary_information a
+{
+	font-size: 20px;
+	font-weight: bold;
+	color:#777777;
+}
+.Diary_information a:hover
+{
+	font-size: 20px;
+	font-weight: bold;
+	list-style:none;
+	text-decoration: none;
+	color:#777777;
+}
+.Diary_start
+{
+	width: 50%;
+	height: 60px;
+	float:left;
+	text-align: center;
+	line-height: 60px;
+	font-size: 20px;
+	font-weight: bold;
+	color:white;
+	background-color: #777777;
+}
+.Diary_start a
+{
+	font-size: 20px;
+	font-weight: bold;
+	color:white;
+}
+.Diary_start a:hover
+{
+	font-size: 20px;
+	font-weight: bold;
+	color:white;
+	list-style:none;
+	text-decoration: none;
+}
+.mypet_name{
+	float: left;
+	width: 200px;
+	margin-right: 50px;
+	
+}
+.tit_name{
+	padding: 0 0 30px 2px;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 41px;
+    color: #4a4a4a;
+    font-family: "Noto Sans KR Black", "Noto Sans KR Bold", "Noto Sans KR Light", "Noto Sans KR Medium", "Noto Sans KR Regular", "Noto Sans KR Thin";
+}
+.inner_snb{
+	border: 1px solid #dcdbde;
+    border-bottom: 0
+}
+.list_menu li{
+	border-bottom: 1px solid #dcdbde;
+    display: block;
+    overflow: hidden;
+    padding: 16px 0 16px 19px;
+    background-size: 6px 10px;
+    font-size: 15px;
+    color: #666;
+    line-height: 18px;
+    font-family: "Noto Sans KR Black", "Noto Sans KR Bold", "Noto Sans KR Light", "Noto Sans KR Medium", "Noto Sans KR Regular", "Noto Sans KR Thin";
+}
+/* .list_menu li:hover{
+    background-color: #f7f7f7;
+	color:#777777;
+	text-decoration: none;
+	list-style: none;
+	cursor : pointer; 
+} */
+#tab
+{
+	width:800px;
+	height: 600px;
+}
+#Calendar
+{
+	margin: 0 auto;
+	width: 500px;
+	height: 450px;
+}
+#CalendarImg
+{
+	width: 500px;
+	height: 450px;
+}
+.PetCreateDiv
+{
+	margin: 0 auto;
+	width: 500px;
+}
+.PetCreate
+{
+	width:200px;
+	height: 50px;
+	margin-top: 10px;
+	float: left;
+}
+.PetShare
+{
+	width:200px;
+	height: 50px;
+	margin-top: 10px;
+	margin-left: 50px;
+}
+.Pet
+{
+	margin: 0 auto;
+	width: 500px;
+}
+.petBtn
+{
+	width:350px;
+	height: 50px;
+	margin-top: 10px;
+}
+.diarySelect
+{
+	font-weight: 700;
+    font-size: 28px;
+    line-height: 41px;
+    color: #4a4a4a;
+    font-family: "Noto Sans KR Black", "Noto Sans KR Bold", "Noto Sans KR Light", "Noto Sans KR Medium", "Noto Sans KR Regular", "Noto Sans KR Thin";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

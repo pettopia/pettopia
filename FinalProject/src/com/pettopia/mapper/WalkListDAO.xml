@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pettopia.hj.IWalkListDAO">
+
+
+	 
+	 <!-- 모임 전체 리스트 제목 닉네임 작성일 위치 조회수-->
+	 <select id="list" resultType="com.pettopia.hj.WalkListDTO">
+		SELECT WM.WALKTITLE "WALKTITLE" ,WM.WRITEDATE "WRITEDATE" , WM.VIEWS "VIEWS", MR.NICK "NICK" 
+				, RL.LARNAME||' '||RM.MIDNAME "REGION_HAP", WM.SEQ "WALK_MEETING_SEQ"
+		FROM WALK_MEETING WM , WALK_JOIN WJ, PET_CON_REG PCREG, PET_CON_REQ PCREQ, MEMBER_CODE MC, MEMBER_REG MR
+    		 ,REGION_MID RM, REGION_LAR RL
+		WHERE WM.SEQ = WJ.WALK_MEETING_SEQ AND WM.PET_CON_REG_SEQ = WJ.PET_CON_REG_SEQ
+				AND WM.PET_CON_REG_SEQ = PCREG.SEQ AND PCREG.PET_CON_REQ_SEQ = PCREQ.SEQ
+				AND PCREQ.MEMBER_CODE_SEQ = MC.SEQ AND MC.SEQ = MR.MEMBER_CODE_SEQ
+				AND WM.REGION_MID_SEQ = RM.SEQ AND RM.REGION_LAR_SEQ = RL.SEQ
+		ORDER BY WRITEDATE DESC
+	 </select>
+	 
+	 <!-- 최근게시물목록 -->
+	 <select id="newlist" resultType="com.pettopia.hj.WalkListDTO">
+	 	SELECT WALKTITLE, NICK, REGION_HAP, WALK_MEETING_SEQ
+		FROM WALKLISTMAINVIEW
+		ORDER BY WRITEDATE DESC
+	 </select>
+	  
+<!-- 	 가까운 산책모임 순 -->
+	 <select id="nearlist" resultType="com.pettopia.hj.WalkListDTO">
+		SELECT WALKTITLE,NICK,REGION_HAP, WALK_MEETING_SEQ
+		FROM WALKLISTMAINVIEW
+		WHERE LARNAME = 
+		(
+			SELECT MR.ADDR1 
+			FROM MEMBER_CODE MC,MEMBER_REG MR 
+			WHERE MC.SEQ = MR.MEMBER_CODE_SEQ AND MC.SEQ = #{code} <!-- 'MEM-000001' -->
+		)
+	 </select>
+	 
+	
+	 
+	 
+	 <!-- 
+		 SELECT NICK,REGION_HAP
+		FROM WALKLISTMAINVIEW
+		WHERE LARNAME = '서울특별시';
+	  -->
+</mapper>

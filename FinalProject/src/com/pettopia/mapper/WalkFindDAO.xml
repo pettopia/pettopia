@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- ○ mapper 엘리먼트의 『namespace="패키지경로가 포함된 인터페이스"』 -->
+<!--    - 인터페이스 내부에 메소드명 선언이 되어 있어야 한다. -->
+<!--    - 메소드명과 『id="식별자"』가 일치해야 한다. -->
+<mapper namespace="com.pettopia.hj.IWalkFindDAO">
+
+	
+	 <!-- 검색DAO -->
+	 <select id="listdao" resultType="com.pettopia.hj.WalkFindDTO">
+		SELECT NICK, ADDR1, GENDER, AGE,PETNAME, BREED,PETGENDER,NEUTRAL,PETAGE, (SELECT ASCORE FROM ASCORE WHERE NICK = WPFV.NICK) "ASCORE" ,WPFV.SEQ "SEQ" 
+		FROM WALKPROFILEVIEW WPFV
+		WHERE SEQ='WMT-000001' 
+	 </select>
+	 
+
+	 
+	 
+	 <!-- 모임 전체 리스트 제목 닉네임 작성일 위치 조회수 -->
+	 <!-- 조건으로 걸수있는것 모임인원, 목적, 지역, 성별, 연령대, 강아지크기 -->
+	 <select id="list" resultType="com.pettopia.hj.WalkFindDTO">
+		SELECT WALKTITLE, WRITEDATE, VIEWS, NICK, REGION_HAP, WALK_MEETING_SEQ
+		FROM WALKBOARDLIST
+		<where>
+		<if test="pet_size_seq != null">AND pet_size_seq = #{pet_size_seq}</if>
+		<if test="gender_op_seq != null">AND gender_op_seq = #{gender_op_seq}</if>
+		<if test="age_op_seq != null">AND age_op_seq = #{age_op_seq}</if>
+		<if test="region_lar_seq != null">AND region_lar_seq = #{region_lar_seq}</if>
+		<if test="walk_aim_seq != null">AND walk_aim_seq = #{walk_aim_seq}</if>
+		<if test="walk_nop_seq != null">AND walk_nop_seq = #{walk_nop_seq}</if>
+		</where>
+	 </select>
+	 
+
+	<select id="addrlarname" resultType="com.pettopia.hj.WalkFindDTO">
+		SELECT SEQ "region_lar_seq", LARNAME
+		FROM REGION_LAR
+	 </select>
+	 
+	 
+</mapper>

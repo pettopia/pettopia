@@ -1,0 +1,103 @@
+@charset "UTF-8";
+*
+{
+	margin : 0 auto;
+}
+#Diary
+{
+	margin : 0 auto;
+	width: 1150px;
+}
+.Diary_text
+{
+	margin: 0 auto;
+	font-size: 80px;
+	font-weight: bold;
+	text-align: center;
+	padding-top: 50px;
+	color:#777777;
+}
+.Diary_text_small
+{
+	margin: 0 auto;
+	font-size: 20px;
+	text-align: center;
+	font-weight: bold;
+	color:#777777;
+}
+.Diary_select
+{
+	width: 800px;
+	margin: 0 auto;
+	height: 60px;
+	margin-top: 67px;
+}
+.Diary_information
+{
+	width: 50%;
+	height: 60px;
+	float: left;
+	border-right: 1px solid #cccccc;
+	text-align: center;
+	background-color: white;
+	line-height: 60px;
+	border: 1px solid #cccccc;
+}
+.Diary_information a
+{
+	font-size: 20px;
+	font-weight: bold;
+	color:#777777;
+}
+.Diary_information a:hover
+{
+	font-size: 20px;
+	font-weight: bold;
+	list-style:none;
+	text-decoration: none;
+	color:#777777;
+}
+.Diary_start
+{
+	width: 50%;
+	height: 60px;
+	float:left;
+	text-align: center;
+	line-height: 60px;
+	font-size: 20px;
+	font-weight: bold;
+	color:white;
+	background-color: #777777;
+}
+.Diary_start a
+{
+	font-size: 20px;
+	font-weight: bold;
+	color:white;
+}
+.Diary_start a:hover
+{
+	font-size: 20px;
+	font-weight: bold;
+	color:white;
+	list-style:none;
+	text-decoration: none;
+}
+#InsertDiary
+{
+	width:800px;
+	font-size: 20px;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+.InsertDiary_text
+{
+	text-align: center;
+	font-size: 25px;
+	font-weight: bold;
+}
+.button
+{
+	margin: 0 auto;
+	text-align: center;
+}

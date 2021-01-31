@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pettopia.bk.IBoardDAO">
+
+	<!-- 자유게시판 게시글 리스트 조회 -->
+	<select id="boardList" resultType="com.pettopia.bk.BoardDTO">
+		SELECT BOARD_CODE, HEAD, NICK, TITLE, VIEW_NUM, HIT, REG_DATE, DATE_CHECK
+			 , BLIND_COUNT, REPLY_COUNT
+		FROM BOARD_VIEW_B
+		WHERE BLIND_COUNT = 0
+		ORDER BY BOARD_CODE DESC
+	</select>
+
+	<!-- 말머리 목록 -->
+	<select id="headList" resultType="com.pettopia.bk.CodeDTO">
+		SELECT SEQ AS CODE, HEAD AS CONTENT
+		FROM HEAD
+	</select>
+
+	<!-- 게시글 내용 -->
+	<select id="content" resultType="com.pettopia.bk.BoardDTO">
+		SELECT MEMBER_CODE, BOARD_CODE, HEAD_CODE, HEAD, TITLE, NICK, VIEW_NUM, HIT, REG_DATE, DATE_CHECK, CONTENT
+		FROM BOARD_VIEW_B
+		WHERE BOARD_CODE = #{board_code} 
+	</select>
+
+	<!-- 댓글 리스트 조회 -->
+	<select id="replyList" resultType="com.pettopia.bk.ReplyDTO">
+		SELECT REPLY_CODE, MEMBER_CODE, NICK, REG_DATE, CONTENT, BOARD_CODE
+			 , BLIND_COUNT
+		FROM REPLY_VIEW_B
+		WHERE BOARD_CODE = #{board_code}
+		AND BLIND_COUNT = 0
+		ORDER BY REPLY_CODE
+	</select>
+	 
+	<!-- 댓글 수 조회 -->
+	<!--
+	<select id="replyCnt" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM REPLY_VIEW_B
+		WHERE BOARD_CODE = #{board_code}
+		AND BLIND_COUNT = 0
+	</select>
+	-->
+	
+	
+	
+	<!-- 게시글 생성 액션 - 작성 완료 insert 쿼리 -->
+	<insert id="contentInsert">
+		INSERT INTO BOARD
+		VALUES('BOD-'||LPAD(BOARD_SEQ.NEXTVAL,6,0), #{head_code}, #{member_code}, #{title}, #{content}, SYSDATE, 0, 0)
+	</insert>
+	
+	<!-- 게시글 수정 액션 - update 쿼리 -->
+	<update id="contentUpdate">
+		UPDATE BOARD
+		SET HEAD_SEQ = #{head_code}, TITLE = #{title}, CONTENT = #{content}
+		WHERE SEQ = #{board_code}
+	</update>	
+	
+	<!-- 게시글 삭제 처리 delete 쿼리 -->
+	<delete id="contentDelete">
+		DELETE
+		FROM BOARD
+		WHERE SEQ = #{board_code}
+	</delete>
+	
+	
+	
+	
+	<!-- 댓글 등록 -->
+	<insert id="replyInsert">
+		INSERT INTO REPLY
+		VALUES('REP-'||LPAD(REPLY_SEQ.NEXTVAL,6,0), #{member_code}, #{board_code}, SYSDATE, #{content})
+	</insert>	
+	
+	<!-- 댓글 삭제 -->
+	<delete id="replyDelete">
+		DELETE
+		FROM REPLY
+		WHERE SEQ = #{reply_code}
+	</delete>
+	
+	
+	
+	
+	<!-- 게시글 조회수 증가 -->
+	<update id="viewnumUpdate">
+		UPDATE BOARD
+		SET VIEW_NUM = VIEW_NUM + 1
+		WHERE SEQ = #{board_code}
+	</update>
+</mapper>

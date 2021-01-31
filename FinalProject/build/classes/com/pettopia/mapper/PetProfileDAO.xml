@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pettopia.jw.IPetProfileDAO">
+	
+   
+   <!-- 펫 프로필 조회  -->
+   <select id="select" resultType="com.pettopia.jw.PetProfileDTO">
+    SELECT PETNAME, PETGENDER, BREED, BIRTH, NEUTRAL, PETREGNUM ,SEQ AS PETID,BREEDID,SIZENAME,SIZEID
+	FROM PET_PROFILE_VIEW
+	WHERE SEQ = #{petId}
+   </select>
+   
+   <!-- 펫 가장 최근 몸무게 조회 -->
+   <select id="weight" resultType="java.lang.String">
+   		SELECT WEIGHT AS PETWEIGHT
+		FROM PET_WEIGHT
+		WHERE WRITEDATE = (SELECT MAX(T.WRITEDATE) AS 가장최신날
+                   			FROM
+                  			(
+                    			SELECT PETCONNECTID, WRITEDATE, PETWEIGHT
+                    			, SYSDATE - TO_DATE(WRITEDATE,'YYYY-MM-DD') AS 최신날
+                      			FROM PETWEIGHTVIEW
+                     			 WHERE PETID=#{petId}
+                   			)T
+						  )
+   </select>
+   
+   <!-- 펫 공유회원 조회 -->
+   <select id="petConnect" resultType="com.pettopia.jw.PetProfileDTO">
+    SELECT PETID, PETNAME, PETCONNECTER, MEMBERNICK
+	FROM CONNECTVIEW
+	WHERE PETOWNER != PETCONNECTER AND PETID= #{petId}	
+   </select>
+   
+   <!-- 한 회원이 가지고 있는 펫(들) 조회 -->
+   <select id="petSelect" resultType="com.pettopia.jw.PetProfileDTO">
+  	SELECT PETNAME AS PETNAME
+          ,SEQ  AS PETID
+          ,MEMBER_CODE_SEQ AS MEMBERCODE
+          ,P_OPEN_SEQ AS P_OPEN
+	FROM PET_REG
+	WHERE MEMBER_CODE_SEQ = #{code}
+	ORDER BY SEQ
+   </select>
+   
+   <!-- 한 회원이 공유 받고 있는 펫(들) 조회 -->
+   <select id="petShare" resultType="com.pettopia.jw.PetProfileDTO">
+    SELECT PETNAME AS PETNAME
+         , PETID AS PETID
+         , P_OPEN AS P_OPEN
+	FROM PETSHAREVIEW
+	WHERE MEMBER = #{code} AND OTHER IN('OTHERPET')
+   </select>
+   
+   <!-- 펫의 다이어리 내역 조회 -->
+   <select id="petdiaryselect" resultType="com.pettopia.jw.PetDiarySelectDTO">
+    SELECT ROWNUM AS NUM, PETNAME, MEMBERNICK, LARNAME,DIARYTITLE, WRITEDAY,DIARYID 
+	FROM
+	(
+	SELECT PETNAME, MEMBERNICK, LARNAME,DIARYTITLE, WRITEDAY,DIARYID 
+	FROM DIARYSELECTVIEW
+	WHERE PETID = #{petId}
+	ORDER BY WRITEDAY DESC
+	)E
+   </select>
+   
+   <!-- 펫의 다이어리 상세 내역 조회 -->
+    <select id="selectdetail" resultType="com.pettopia.jw.PetDiarySelectDTO">
+    SELECT DIARYTITLE , WRITEDAY , LARNAME , MIDNAME , MEMBERNICK , DIARYCONTENT
+       ,STARTDATE , ENDDATE , DIARYID , PLACE
+	FROM DIARYSELECTDETAILVIEW
+	WHERE DIARYID=#{diaryId}
+   </select>
+   
+   <!-- 곧 있을 일정 다이어리 조회 -->
+   <select id="sooncomediarylist" resultType="com.pettopia.jw.PetDiarySelectDTO">
+	SELECT ROW_NUMBER() OVER(ORDER BY KO) AS NUM, PETNAME, MIDNAME, DIARYTITLE, MEMBERNICK, WRITEDAY, STARTDATE, MEMBERID, KO , DIARYID, P_OPEN
+	FROM SOONDIARYVIEW
+	WHERE MEMBERID=#{code}
+	ORDER BY KO
+   </select>
+   
+   <!-- 다이어리 작성시 대분류 조회 -->
+   <select id="diarylarname" resultType="com.pettopia.jw.PetDiarySelectDTO">
+   SELECT SEQ AS DIARY_LAR_ID, LARNAME AS LARNAME
+   FROM DIARY_LAR
+   </select>
+	
+   <!-- 다이어리 작성시 대분류에 따른 중분류 조회  -->
+   <select id="diarymidname" resultType="com.pettopia.jw.PetDiarySelectDTO">
+   	SELECT MIDNAME AS MIDNAME, SEQ AS DIARY_MID_ID
+	FROM DIARY_MID
+   	WHERE DIARY_LAR_SEQ = #{diary_lar_id}
+   </select>
+   
+   <!-- 펫 연결코드 조회  -->
+   <select id="petconcode" resultType="java.lang.String">
+   	SELECT SEQ AS PETCONCODE
+	FROM PET_CON_REG_VIEW
+	WHERE MEMBER_CODE_SEQ = #{code} AND PET_REG_SEQ = #{petId} 
+   </select>
+  
+   <!-- 다이어리 입력 -->
+   <insert id="adddiary">
+   INSERT INTO DIARY_CONTENT(SEQ,PET_CON_REG_SEQ,DIARY_MID_SEQ,WRITEDATE,STARTDATE,ENDDATE,ALLDAY,TITLE,DIACONTENT,PLACE)
+   VALUES('PDIA-'||LPAD(DIARY_CONTENT_SEQ.NEXTVAL,6,'0'),#{petconcode},#{diary_mid_id},SYSDATE,to_date(#{startdate},'YYYY-MM-DD HH24:MI')
+   ,to_date(#{enddate},'YYYY-MM-DD HH24:MI'),0,#{title},#{content},#{place})
+   </insert>
+   
+   <!-- 다이어리 삭제 -->
+   <delete id="removediary">
+    DELETE
+	FROM DIARY_CONTENT
+	WHERE SEQ = #{diaryId}
+   </delete>
+   
+   <!-- 다이어리 수정 -->
+   <update id="modifydiary">
+   UPDATE DIARY_CONTENT
+	SET
+	DIARY_MID_SEQ = #{diary_mid_id}
+	,STARTDATE = to_date(#{startdate},'YYYY-MM-DD HH24:MI')
+	,ENDDATE = to_date(#{enddate},'YYYY-MM-DD HH24:MI')
+	,TITLE = #{title}
+	,DIACONTENT = #{content}
+	WHERE SEQ = #{diaryId}
+   </update>
+   
+   <!-- 펫 견종 조회 -->
+   <select id="breed" resultType="com.pettopia.jw.PetprofileInsertDTO">
+    SELECT SEQ AS BREEDID , BREEDNAME 
+	FROM PET_BREED
+   </select>
+   
+   <!-- 펫 사이즈 조회 -->
+   <select id="petsize" resultType="com.pettopia.jw.PetprofileInsertDTO">
+    SELECT SEQ AS SIZEID , SIZENAME
+	FROM PET_SIZE
+   </select>
+   
+   <!-- 펫 체중 전체 조회 -->
+   <select id="petweight" resultType="com.pettopia.jw.PetProfileDTO">
+    SELECT PETID , PETNAME , PETWEIGHT, WRITEDATE AS WRITEDAY, NICK AS MEMBERNICK
+	FROM PETWEIGHTVIEW
+	WHERE PETID=#{petId}
+	ORDER BY WRITEDATE DESC
+   </select>
+   
+   <!-- 펫 체중 등록 -->
+   <insert id="addpetweight">
+    INSERT INTO PET_WEIGHT(PET_CON_REG_SEQ,WRITEDATE,WEIGHT)
+	VALUES(#{petconcode},SYSDATE,#{petWeight})
+   </insert>
+   
+   <!-- 펫 등록 -->
+  <!--  <insert id="addpet">
+    INSERT INTO PET_REG(SEQ,MEMBER_CODE_SEQ,PET_BREED_SEQ,PET_SIZE_SEQ,PETNAME,PETGENDER,PETBIRTH,PETREGNUM,PETREGDATE,P_OPEN_SEQ,PETNEUTRAL)
+	VALUES('PET-'||LPAD(PET_REG_SEQ.NEXTVAL,6,'0'),#{code},#{breedId},#{sizeId},#{petName},#{petGender},#{petBirth},#{petNum},SYSDATE,1,#{neutral})
+   </insert> -->
+   
+   <insert id="addpet">
+   CALL PET_INSERT(#{code},#{breedId}, #{sizeId}, #{petName}, #{petGender}, #{petBirth}, #{petNum}, SYSDATE, 1, #{neutral})
+   </insert>
+   
+   <!-- 펫 프로필 수정  -->
+   <update id="petmodify">
+    UPDATE PET_REG
+	SET
+	PET_BREED_SEQ = #{breedId}
+	,PET_SIZE_SEQ = #{sizeId}
+	,PETNAME= #{petName}
+	,PETGENDER = #{petGender}
+	,PETBIRTH = #{petBirth}
+	,PETREGNUM = #{petNum}
+	,PETNEUTRAL = #{neutral}
+	WHERE SEQ = #{petId}  
+   </update>
+    
+   <!-- 펫 삭제  -->
+   <update id="petdelete">
+    UPDATE PET_REG
+	SET
+	P_OPEN_SEQ = 0
+	WHERE SEQ = #{petId}
+   </update>
+   
+   <!-- 펫 공유신청 등록 -->
+   <insert id="addpetshare">
+    INSERT INTO PET_CON_REQ(SEQ,PET_REG_SEQ,MEMBER_CODE_SEQ,REQDATE)
+	VALUES('PREQ-'||LPAD(PET_CON_REQ_SEQ.NEXTVAL,6,'0'),#{petId},#{membercode},SYSDATE)
+   </insert>
+   
+   <!-- 닉네임으로 회원 고유코드 값 조회 -->
+   <select id="membercodeselect" resultType="java.lang.String">
+   	SELECT MEMBER_CODE_SEQ
+	FROM MEMBER_REG
+	WHERE NICK=#{memberNick}
+   </select>
+   
+   
+   <!-- 펫 공유 신청 후 펫공유신청코드 조회 (알람 전송) -->
+   <select id="searchPetConReqCode" resultType="java.lang.String">
+	SELECT SEQ AS PET_CON_REQ_SEQ
+	FROM PET_CON_REQ
+	WHERE PET_REG_SEQ = #{petId}
+	AND MEMBER_CODE_SEQ = #{membercode}
+   </select>
+   
+   <!-- 펫 연결 등록 (펫 공유 신청 수락) -->
+   <insert id="petConReg">
+	INSERT INTO PET_CON_REG
+	VALUES('PREG-'||LPAD(PET_CON_REG_SEQ.NEXTVAL,6,0), #{pet_con_req_seq}, SYSDATE)
+   </insert>
+   
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

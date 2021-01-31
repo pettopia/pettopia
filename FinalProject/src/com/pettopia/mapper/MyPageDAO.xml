@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pettopia.mh.IMyPageDAO">
+
+	
+	<select id="list" resultType="com.pettopia.mh.MyPageDTO">
+		SELECT MREG.SEQ, MREG.MEMBER_CODE_SEQ, MREG.ID, MREG.PW, MREG.SSN, MREG.NICK, MREG.ADDRNUMBER, MREG.ADDR1, MREG.ADDR2, MREG.ADDR3, MREG.EMAIL, MREG.PHONENUMBER
+		, (SELECT COUNT(*)
+		FROM FOLLOW
+		WHERE FOLLOWER=MREG.SEQ) FOLLOWER
+		, (SELECT COUNT(*) 
+		FROM FOLLOW
+		WHERE FOLLOWING=MREG.SEQ) FOLLOWING
+		, MIMG.FILEPATH
+		FROM MEMBER_REG MREG LEFT JOIN MEMBER_PRO_IMG MIMG
+		ON MREG.SEQ = MIMG.MEMBER_REG_SEQ
+		WHERE ID=#{id}
+	</select>
+	
+	<!-- 내가쓴 게시글 내역 -->
+   <select id="myboard" resultType="com.pettopia.mh.MyBoardDTO">
+      SELECT B.SEQ AS BOARD_SEQ, H.SEQ AS HEAD_SEQ, H.HEAD AS HEAD, MEMBER_CODE_SEQ, TITLE, CONTENT, REG_DATE, VIEW_NUM, RECOM_NUM
+      , (SELECT NICK FROM MEMBER_REG WHERE MEMBER_REG.MEMBER_CODE_SEQ = B.MEMBER_CODE_SEQ) AS NICK
+      , (SELECT COUNT(*) FROM REPLY WHERE BOARD_SEQ = B.SEQ) AS REPLY
+      FROM BOARD B JOIN HEAD H
+      ON B.HEAD_SEQ = H.SEQ
+      WHERE MEMBER_CODE_SEQ = #{member_code_seq}
+   </select>
+	
+	<!-- 내가쓴 댓글 내역 -->
+	<select id="myreply" resultType="com.pettopia.mh.MyReplyDTO">
+		SELECT H.HEAD HEAD, B.TITLE TITLE, R.CONTENT CONTENT, R.REG_DATE REG_DATE, M.NICK NICK
+		FROM REPLY R JOIN MEMBER_REG M
+		ON R.MEMBER_CODE_SEQ = M.MEMBER_CODE_SEQ
+		JOIN BOARD B
+		ON B.SEQ = R.BOARD_SEQ
+		JOIN HEAD H
+		ON H.SEQ = B.HEAD_SEQ
+		WHERE M.MEMBER_CODE_SEQ = #{member_code_seq}
+	</select>
+	
+	<select id="login" resultType="java.lang.String">
+		SELECT ID 
+		FROM MEMBER_REG 
+		WHERE ID=#{id} 
+		AND PW = CRYPTPACK.ENCRYPT(#{pw}, #{pw})
+	</select>
+	
+	<!-- 회원고유코드 찾기 -->
+	<select id="searchCode" resultType="java.lang.String">
+		SELECT MEMBER_CODE_SEQ 
+		FROM MEMBER_REG 
+		WHERE ID=#{id}
+	</select>
+
+	
+	
+	<!-- 회원정보수정 -->
+	<update id="modify" >
+		UPDATE MEMBER_REG
+		SET NICK=#{nick}, ADDRNUMBER=#{addrnumber}, ADDR1=#{addr1}
+		, ADDR2=#{addr2}, ADDR3=#{addr3}, EMAIL=#{email},PHONENUMBER=#{phonenumber} 
+		WHERE ID=#{id}
+	</update>
+	
+	<select id="nicklist" resultType="com.pettopia.mh.MyPageDTO">
+		SELECT NICK
+		FROM MEMBER_REG
+	</select>
+	
+	<select id="idlist" resultType="com.pettopia.mh.MyPageDTO">
+		SELECT ID
+		FROM MEMBER_REG
+	</select>
+	
+ 	<update id="modifyPw">
+		UPDATE MEMBER_REG
+		SET PW=CRYPTPACK.ENCRYPT(#{pw}, #{pw})
+		WHERE ID=#{id}
+	</update>
+	
+	<insert id="join">
+		CALL PRC_JOIN(#{id}, CRYPTPACK.ENCRYPT(#{pw}, #{pw}), #{ssn}, #{nick}, #{addrnumber}, #{addr1}, #{addr2}, #{addr3}, #{email}, #{phonenumber})
+	</insert>
+	
+	<!-- 펫시터인지 확인 -->
+	<select id="isps" resultType="java.lang.String">
+	SELECT PRG.SEQ
+	FROM PS_REG PRG JOIN PS_REQ PRQ
+	ON PRQ.SEQ = PRG.PS_REQ_SEQ
+	WHERE PRQ.MEMBER_CODE_SEQ = #{member_code_seq}
+	</select>
+	
+	
+	<!-- 닉네임 찾기 -->
+	<select id="searchNick" resultType="java.lang.String">
+		SELECT NICK
+		FROM MEMBER_REG 
+		WHERE ID=#{id}
+	</select>
+	
+</mapper>

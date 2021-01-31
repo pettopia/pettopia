@@ -1,0 +1,192 @@
+#content
+{
+	
+	
+	font-weight: bold; 
+	width : 1150px;
+	margin: 0  auto;
+}
+
+
+#now_date 
+{
+	margin: 20px;
+	width: 130px;
+	height: 30px;
+	color: rgb(56, 60, 72);
+	font-size: 12px;
+	margin-right: 12px;
+	margin-left: 12px;
+	max-width: 350px;
+	flex-grow: 1;
+	border:1px solid #cccccc;
+}
+
+.addressInput 
+{
+	height: 30px;
+	width: 300px;
+	color: rgb(56, 60, 72);
+	font-size: 12px;
+	margin-right: 12px;
+	margin-left: 12px;
+	max-width: 350px;
+	flex-grow: 1;
+	border:1px solid #cccccc;
+	
+}
+
+
+
+#btn {
+  background: #222;
+  height: 30px;
+  width : 70px;
+  border: none;
+  border-radius: 10px;
+  color: #eee;
+  font-size: 17px;
+  font-family: 'Cookie', cursive;
+  position: relative;
+  transition: 1s;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding-top: 5px;
+  position: relative;
+  left: 655px;
+  top: -50px;
+  
+}
+
+#btn #circle {
+  width: 5px;
+  height: 5px;
+  background: transparent;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  overflow: hidden;
+  transition: 500ms;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+            font-weight: lighter;
+}
+
+#btn:hover {
+  background: transparent;
+}
+
+#btn:hover #circle {
+  height: 30px;
+  width: 70px;
+  left: 0;
+  border-radius: 0;
+  border-bottom: 2px solid #eee;
+}
+
+.contant
+{
+	width:50%;
+
+	font-family:  'Noto Sans KR Regular', 'Noto Sans KR Thin';
+}
+.menu
+{
+	margin-left: 20%;
+	height: 70px;
+}
+.Diary_text
+{
+   margin: 0 auto;
+   font-size: 80px;
+   font-weight: bold;
+   text-align: center;
+   padding-top: 50px;
+   color:#777777;
+}
+.Diary_text_small
+{
+   margin: 0 auto;
+   font-size: 20px;
+   text-align: center;
+   font-weight: bold;
+   color:#777777;
+}
+.Diary_select
+{
+   width: 800px;
+   margin: 0 auto;
+   height: 60px;
+   border: 1px solid #cccccc;
+   margin-top: 67px;
+}
+.Diary_information
+{
+   width: 50%;
+   height: 60px;
+   float: left;
+   border-right: 1px solid #cccccc;
+   text-align: center;
+   background-color: #777777;
+   line-height: 60px;
+}
+.Diary_information a
+{
+   font-size: 20px;
+   font-weight: bold;
+   color:white;
+}
+.Diary_information a:hover
+{
+   font-size: 20px;
+   font-weight: bold;
+   color:white;
+   list-style:none;
+   text-decoration: none;
+}
+.Diary_start
+{
+   width: 50%;
+   height: 60px;
+   float:left;
+   text-align: center;
+   line-height: 60px;
+   font-size: 20px;
+   font-weight: bold;
+   color:#777777;
+}
+.Diary_start a
+{
+   font-size: 20px;
+   font-weight: bold;
+   color:#777777;
+}
+.Diary_start a:hover
+{
+   font-size: 20px;
+   font-weight: bold;
+   color:#777777;
+   list-style:none;
+   text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- ○ mapper 엘리먼트의 『namespace="패키지경로가 포함된 인터페이스"』 -->
+<!--    - 인터페이스 내부에 메소드명 선언이 되어 있어야 한다. -->
+<!--    - 메소드명과 『id="식별자"』가 일치해야 한다. -->
+
+<mapper namespace="com.pettopia.hj.IWalkCreateInsertDAO">
+
+   <!-- ○ id="식별자" 속성 추가 -->
+   <!--    - 인터페이스에 선언된 메소드의 이름과 일치해야 하며, -->
+   <!--      호출 메소드명 역할을 수행하게 된다. -->
+   <!-- ○ resultType="패키지경로가 포함된 자료형 클래스" -->
+   <!--    
+           - string : java.lang.String
+           - byte : java.lang.Byte
+           - long : java.lang.Long
+           - short : java.lang.Short
+           - int : java.lang.Integer
+           - integer : java.lang.Integer
+           - double : java.lang.Double
+           - float : java.lang.Float
+           - boolean : java.lang.Boolean
+           - decimal : java.math.BigDecimal
+           - object : java.lang.Object
+           - map : java.util.Map
+           - hashmap : java.util.HashMap
+           - list : java.util.List
+           - arraylist : java.util.ArrayList
+           - collection : java.util.Collection
+           - iterator : java.util.Iterator
+    -->
+    <!-- ○ 쿼리 내부에 있는 컬러명의 정보가 -->
+    <!--    자료형 클래스(DTO) 멤버 변수(속성)와 일치하는 경우 -->
+    <!--    자동 매핑이 이루어진다. -->
+    
+
+
+
+<!-- 	    산책모임 개설 테이블 insert -->
+<!--     <insert id="walkinsert"> 시간 호출 to_char(컬럼명, 'yyyy-mm-dd hh24:mi:ss') -->
+<!-- 	    INSERT INTO WALK_MEETING(SEQ,WALK_NOP_SEQ,WALK_AIM_SEQ,REGION_MID_SEQ,PET_CON_REG_SEQ,PET_SIZE_SEQ, -->
+<!-- 	    						 WALKTITLE,WALKDATE,WALKPLACE,WRITEDATE,VIEWS,GENDER_OP_SEQ, AGE_OP_SEQ,CONTENTS) -->
+<!-- 		VALUES('WMT-'||LPAD(WALK_MEETING_SEQ.NEXTVAL,6,'0'),#{walk_nop_seq},#{walk_aim_seq},#{region_mid_seq},#{pet_con_reg_seq},#{pet_size_seq},#{walktitle } -->
+<!-- 		,to_date(#{walkdate },'YYYY-MM-DD HH24:MI'),#{walkplace},SYSDATE,0,#{gender_op_seq},#{age_op_seq },#{contents} ) -->
+    
+<!--     </insert> -->
+<!--     <insert id="walkinsert"> 시간 호출 to_char(컬럼명, 'yyyy-mm-dd hh24:mi:ss') -->
+<!-- 	    INSERT INTO WALK_MEETING(SEQ,WALK_NOP_SEQ,WALK_AIM_SEQ,REGION_MID_SEQ,PET_CON_REG_SEQ,PET_SIZE_SEQ, -->
+<!-- 	    						 WALKTITLE,WALKDATE,WALKPLACE,WRITEDATE,VIEWS,GENDER_OP_SEQ, AGE_OP_SEQ,CONTENTS) -->
+<!-- 		VALUES('WMT-'||LPAD(WALK_MEETING_SEQ.NEXTVAL,6,'0'),#{walk_nop_seq},#{walk_aim_seq},#{region_mid_seq},#{pet_con_reg_seq},#{pet_size_seq},#{walktitle } -->
+<!-- 		,replace(A.NM, 'Steven', 'S.')#{walkdate },#{walkplace},SYSDATE,0,#{gender_op_seq},#{age_op_seq },#{contents} ) -->
+    
+<!--     </insert> -->
+
+	<select id="list" resultType="java.lang.String">
+	 	SELECT PET_SIZE_SEQ <!-- 견종크기코드 -->
+		FROM WALKDOGNAMEVIEW
+		WHERE PET_CON_REG_SEQ = #{pet_con_reg_seq}
+	 </select>
+
+
+	<insert id="walkinsert">
+		CALL PRC_WALK_MEETING(#{walk_nop_seq},#{walk_aim_seq},#{region_mid_seq},#{pet_con_reg_seq},#{pet_size_seq},#{walktitle }
+		,to_date(#{walkdate },'YYYY-MM-DD HH24:MI'),#{walkplace},#{gender_op_seq},#{age_op_seq },#{contents} )
+	
+	 </insert>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

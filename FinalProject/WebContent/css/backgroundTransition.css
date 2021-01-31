@@ -1,0 +1,29 @@
+
+html, body, .section1, .section1 .image-top, .section1 .image-bottom {
+  height: 100%;
+  width: 100%;
+}
+
+body { margin: 0; }
+
+body .section1 {
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+}
+
+body .section1 .image-bottom, body .section1 .image-top {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-size: cover;
+}
+
+body .section1 .image-bottom { z-index: -2; }
+
+body .section1 .image-top {
+  z-index: -1;
+  display: none;
+}
+
+#image-download { display: none; }

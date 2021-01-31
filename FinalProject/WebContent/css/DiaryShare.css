@@ -1,0 +1,15 @@
+@charset "UTF-8";
+*
+{
+	margin : 0 auto;
+}
+#Diary
+{
+	margin : 0 auto;
+	width: 1150px;
+	border: 1px solid #cccccc;
+}
+#InsertDiary
+{
+	font-size: 20px;
+}
