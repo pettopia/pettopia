@@ -1,0 +1,18 @@
+/.metadata/
+
+# 00.pettopia Ignore
+
+# file
+*.classpath
+*.project
+
+# folder
+/Project/.metadata/
+/Project/.settings/
+/Project/build/
+
+# 01.Servers Ignore
+/Servers/
+
+# dispatcher-servlet
+/Project/WebContent/WEB-INF/dispatcher-servlet.xml

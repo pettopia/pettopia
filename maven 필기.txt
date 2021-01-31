@@ -1,0 +1,114 @@
+0. maven 의 필요성
+
+- 회사에서 개발하다가 집에서 개발하려고 할 때, build-path 가 일치하지 않아서 실행할 수 없게 된다.
+	-> maven 이 이것을 해결해 준다.
+- 프로젝트 개발에 필요한 라이브러리(부품)을 직접 구해서 다운해서 경로 설정(build-path)할 필요 없다.
+	-> pom.xml 에 dependency 에 입력(설정)해주면 maven의 저장소에서 local의 maven 저장소로 알아서 라이브러리를 가지고 와 준다. 
+		maven 이 운영하는 저장소에 수많은 사용자들이 라이브러리를 올려놓았고 그 라이브러리들을 사용할 수 있다.
+- 만약 다른 프로젝트를 생성할 경우 이전프로젝트에서 사용하던 라이브러리를 local maven 저장소에서 꺼내 쓴다. 사용자 계정의 홈디렉토리에 .m2 숨김 폴더를 만들고 그 안의 repository 디렉토리에 저장시킨다.
+	-> 관련 라이브러리를 한 곳에 모아놓고 여러 프로젝트가 같이 쓰기 때문에 효율성이 높아진다.
+
+1. maven 설치
+
+	http://maven.apache.org/
+
+	apache-maven-3.6.3-bin.zip 다운로드 > 압축풀기
+
+	path 설정
+		- 시스템변수 > 새로만들기 : M2_HOME	(메이븐의 기본적인 홈 디렉토리를 의미하는 약속된 키워드. 메이븐의 홈디렉토리를 찾는 다를 util 을 위해 설정해줌. 안해도 상관은 없음)
+							C:\Download_F\23_maven\apache-maven-3.6.3	(압축해제 메이븐의 bin 이 위치한)
+				 > path 편집 > 새로만들기 > %M2_HOME%\bin 입력 > 확인	(M2_HOME 생성 안했으면 bin 디렉토리까지 경로 전체 입력)
+	설치 확인 : cmd 에
+				mvn -version
+			/*===================================================	
+			에러발생 : 
+					The JAVA_HOME environment variable is not defined correctly 
+					This environment variable is needed to run this program NB: 
+					JAVA_HOME should point to a JDK not a JRE
+			환경변수에서 JAVA_HOME 경로는 \bin 제거
+					새로만들기 > %JAVA_HOME%\bin 추가 후 다시 mvn -version 확인하면 됨
+			성공 시 :		
+					Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
+					Maven home: C:\Download_F\23_maven\apache-maven-3.6.3\bin\..
+					Java version: 1.8.0_261, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk1.8.0_261\jre
+					Default locale: ko_KR, platform encoding: MS949
+					OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
+			===================================================*/
+
+2. 기존 프로젝트에 maven 적용하기
+
+	이클립스 프로젝트명 우클릭 > configure > convert to maven project 클릭
+	create new POM 창 > finish
+		(메이븐에 의해 의존성 관리되는 내 작업물을 나중에 다른 누군가가 유용히 사용하게 될 라이브러리가 될 수 있는데, 그것을 위해 이름표를 붙이는 과정임.)
+	프로젝트의 WebContent 에 pom.xml 파일이 생성됨
+
+※ POM (Project Object Model)- 프로젝트의 구조와 내용을 설명하고 있음
+	pom.xml 파일에 프로젝트 관리 및 빌드에 필요한 환경 설정, 의존성 관리 등의 정보들을 기술함
+
+
+2-1. 다른 maven 프로젝트를 이클립스에 import 하기
+	import > Maven > Existing Maven Projects > Browser 에서 Maven 프로젝트 선택 (pom.xml 파일이 선택됨) > finish
+	
+3. 라이브러리 찾아서 pom.xml 에 넣기
+
+	https://mvnrepository.com/		( 구글에 maven repository 라고 검색해도 나옴)
+	
+	검색창에 필요한 라이브러리를 검색 > 버전 선택 > maven 소스 복사 > pom.xml 에 붙여넣기
+	
+	ex) 톰캣 
+		검색 : tomcat jsp
+			tomcat jsp 클릭 > 사용하고자하는 버전 클릭 (오른쪽 usages 노란색 바가 이용률을 나타냄. 많이 사용하는 것 사용하기)
+			가운데의 maven 태그 소스 클릭 -> 클릭만 해도 클립보드에 저장됨
+		이클립스 pom.xml
+			<dependencies> 태그 하위에 붙여넣고 저장 -> 다운로드 현상이 나타남 (maven 원격의 라이브러리가 로컬 저장소에 저장됨)
+		확인해보기 : c:\사용자\newlec\.m2\repository\org\apache\tomcat
+		이클립스에서 확인해보기 : 프로젝트 > Java Resources > Maven Dependencies
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
