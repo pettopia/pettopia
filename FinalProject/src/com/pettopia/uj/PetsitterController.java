@@ -341,7 +341,7 @@ public class PetsitterController
 		// 세션값을 받아 회원 고유 코드 저장
 		String code = (String) session.getAttribute("code");
 		paramMap.put("code", code);
-		System.out.println(paramMap);
+		//System.out.println(paramMap);
 		
 		/* 
 		 * 로그인한 회원의 펫 목록
