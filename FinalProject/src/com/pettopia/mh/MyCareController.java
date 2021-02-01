@@ -57,6 +57,7 @@ public class MyCareController
 		{
 			model.addAttribute("dto", dao.psreviewlist(care_req_seq));
 			result = "/WEB-INF/views/WriteReview.jsp";
+		
 
 		} else if (state.equals("예치금입금"))
 		{
@@ -65,8 +66,10 @@ public class MyCareController
 			result = "/WEB-INF/views/Deposit.jsp";
 
 		} /*
-			 * else if (state.equals("환불승인하기")) { model.addAttribute("dto",
-			 * dao.refundinf(care_req_seq)); result = "/WEB-INF/views/Deposit.jsp";
+			 * else if (state.equals("환불승인하기")) 
+			 * { model.addAttribute("dto", dao.refundinf(care_req_seq)); 
+			 * 
+			 * result = "/WEB-INF/views/Deposit.jsp";
 			 * 
 			 * }
 			 */else if (state.equals("승인/거절"))
@@ -74,8 +77,15 @@ public class MyCareController
 			model.addAttribute("dto", dao.carereqinf(care_req_seq));
 			result = "/WEB-INF/views/CareReqAgree.jsp";
 
+		} else if (state.equals("일지작성하기"))
+		{
+			
+			result = "/WEB-INF/views/PsDailyLog.jsp";
+			
+			System.out.println();
 		}
 		
+	
 		
 		
 		return result;
@@ -106,6 +116,8 @@ public class MyCareController
 
 		return result;
 	}
+	
+	
 
 	// 예치금INSERT 액션
 	@RequestMapping(value = "/deposit.action", method =
@@ -185,6 +197,32 @@ public class MyCareController
 
 		return result;
 	}
+	
+	// 일지INSERT 액션
+		@RequestMapping(value = "/dailylog.action", method =
+		{ RequestMethod.GET, RequestMethod.POST })
+		public String dailylog(Model model, PsReviewDTO dto)
+		{
+			String result = null;
+
+			IMyCareDAO dao = sqlSession.getMapper(IMyCareDAO.class);
+
+			try
+			{
+				dao.addpsreview(dto);
+				model.addAttribute("msg", "일지작성 성공");
+				model.addAttribute("url", "/mycarelist.action");
+
+			} catch (NullPointerException e)
+			{
+				model.addAttribute("msg", "일지작성 실패");
+				model.addAttribute("url", "/mycarelist.action");
+			}
+
+			result = "/WEB-INF/views/AlertAndClose.jsp";
+
+			return result;
+		}
 
 	
 	// 내가 쓴 돌봄 리뷰
