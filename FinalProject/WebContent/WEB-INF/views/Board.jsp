@@ -20,9 +20,32 @@
 <script type="text/javascript">
 	
 	var code = "<%=(String)session.getAttribute("code") %>";
+	var search_text = "<%=(String)request.getParameter("search_text")%>";
 	
 	$().ready(function()
 	{
+		//검색 정보 가리기
+		$(".search_info").css("display","none");
+		
+		//검색했을 경우 검색 정보 노출
+		if(search_text != 'null')
+		{
+			$(".search_info").css("display","block");			
+		}
+		
+		// 검색 버튼 클릭 액션
+		$(".search").click(function()
+		{
+			if($("#search_text").val() == "")
+			{
+				alert("검색어를 입력하세요.");
+				return;
+			}
+			$(location).attr("href","board.action?search_type=" + $("#search_type").val() +"&head_code=" + $("#head_code").val() + "&search_text=" + $("#search_text").val());
+			
+		});
+		
+		// 글 작성 버튼 클릭 액션
 		$(".create").click(function()
 		{
 			if(code == 'null')
@@ -34,6 +57,15 @@
 			$(location).attr("href", "boardinsertform.action");
 		});
 	});
+	
+	//검색창 input 태그 엔터 액션
+	function search()
+	{
+		if(event.keyCode==13)
+		{
+			$(".search").trigger("click");
+		}
+	}
 
 </script>
 
@@ -57,25 +89,26 @@
 						자유게시판
 						<div class="board_search_wrap" style="float:right; margin-right:0px">
 							<span class="word_input" style="margin-top:0;"> 
-								<input type="text" name="search_text" class> 
+								<input type="text" name="search_text" id="search_text" value="${search_text }"
+								onKeypress="search()"> 
 								<span class="btn"> 
-									<a href="#a">
+									<a href="javascript:void(0);" class="search">
 										<img src="<%=cp%>/img/search_btn.png"></a>
 								</span>
 							</span>
 							
 							<span class="sort_wrap" style="margin-top:0;"> 
-								<select name="search_type">
-									<option value="title">제목</option>
-									<option value="name">작성자</option>
-									<option value="titleAndContent">제목+내용</option>
+								<select name="search_type" id="search_type">
+									<option value="title" ${search_type == 'title'? "selected=\"selected\"" : "" }>제목</option>
+									<option value="nick" ${search_type == 'nick'? "selected=\"selected\"" : "" }>작성자</option>
+									<option value="titleAndContent" ${search_type == 'titleAndContent'? "selected=\"selected\"" : "" }>제목+내용</option>
 								</select>
 							</span> 
 							<span class="sort_wrap" style="margin-top:0;">
-								<select name="head_code">
+								<select name="head_code" id="head_code">
 									<option value="0">전체</option>
 									<c:forEach var="head" items="${headList }">									
-									<option value="${head.code }">${head.content }</option>
+									<option value="${head.code }" ${head_code == head.code? "selected=\"selected\"" : "" }>${head.content }</option>
 									</c:forEach>
 								</select>
 							</span> 
@@ -83,6 +116,11 @@
 						
 						
 					</h1>
+					
+					<div class="search_info" style="margin-top:0; margin-bottom:30px;">
+						<span>'${search_text }'</span>
+						(으)로 검색한 결과입니다.
+					</div>
 					
 					<div class="board">
 					<ul>
