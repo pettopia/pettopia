@@ -254,6 +254,19 @@ AccordionMenu.prototype = {
 </script>
 
 <script type="text/javascript">
+	$(document).ready(function()
+	{
+		$(".psreg").click(function()
+		{
+			$(location).attr('href', 'petsitterform.action');	
+		});
+	});
+
+</script>
+
+
+
+<script type="text/javascript">
    $(document).ready(function()
    {
       $("#modifyBtn").click(function()
@@ -293,7 +306,7 @@ AccordionMenu.prototype = {
          } else
          {
          %>
-          <button class="btn btn-primary" style="width: 100%; height: 50px; margin-bottom: 30px;">
+          <button class="btn btn-primary psreg" style="width: 100%; height: 50px; margin-bottom: 30px;">
             <span>펫시터 등록하기</span>
          </button>
          <%

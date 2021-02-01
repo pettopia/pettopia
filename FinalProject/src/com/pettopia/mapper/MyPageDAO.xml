@@ -88,11 +88,17 @@
 	
 	<!-- 펫시터인지 확인 -->
 	<select id="isps" resultType="java.lang.String">
+	SELECT PS_PROFILE_SEQ
+	FROM PS_PROFILE_SEQ_VIEW
+	WHERE MEMBER_CODE_SEQ = #{code}
+	</select>
+	
+	<!-- <select id="isps" resultType="java.lang.String">
 	SELECT PRG.SEQ
 	FROM PS_REG PRG JOIN PS_REQ PRQ
 	ON PRQ.SEQ = PRG.PS_REQ_SEQ
 	WHERE PRQ.MEMBER_CODE_SEQ = #{member_code_seq}
-	</select>
+	</select> -->
 	
 	
 	<!-- 닉네임 찾기 -->

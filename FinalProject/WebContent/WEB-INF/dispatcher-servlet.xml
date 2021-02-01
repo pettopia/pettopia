@@ -15,6 +15,8 @@ http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
 	<context:component-scan
 		base-package="org.springframework.samples.petclinic.web" />
+	<context:component-scan
+		base-package="com.pettopia.*" />
 
 	<!-- ※ 『dispatcher-servlet』의 기본 샘플 코드 -->
 	<!-- 이 코드는 기본 설정 내용을 복사하기 위해서 스프링 doc 를 참고하여 작성한다. -->

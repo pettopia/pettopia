@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public interface IBoardDAO
 {
 	// 자유게시판 게시글 리스트 조회
-	public ArrayList<BoardDTO> boardList();
+	public ArrayList<BoardDTO> boardList(BoardDTO board);
 	// 말머리 목록
 	public ArrayList<CodeDTO> headList();
 	// 게시글 내용 조회

@@ -18,18 +18,19 @@ import com.pettopia.mh.IMyPageDAO;
 @Controller
 public class PetsitterListController
 {
-// sqlSession �쓣 �솢�슜�븯�뿬 留덉씠諛뷀떚�뒪 媛앹껜 �쓽議댁꽦 (�옄�룞) 二쇱엯
-// �썝移숈쟻�쑝濡쒕뒗 setter 援ъ꽦�빐�꽌 二쇱엯�빐�빞�븯吏�留� @Autowired 瑜� �넻�빐 �옄�룞二쇱엯�븷 �닔 �엳寃� �맖
-	@Autowired
-	private SqlSession sqlSession;
+// sqlSession 을 활용하여 마이바티스 객체 의존성 (자동) 주입
+// 원칙적으로는 setter 구성해서 주입해야하지만 @Autowired 를 통해 자동주입할 수 있게 됨
+   @Autowired
+   private SqlSession sqlSession;
 
-// ��@RequestMapping(value = "�슂泥�二쇱냼", method = �쟾�넚諛⑹떇)��
-// �씠 �븣, �쟾�넚 諛⑹떇�� submit �븸�뀡�씤 寃쎌슦�뿉留� POST
-// �굹癒몄� 紐⑤뱺 �쟾�넚 諛⑹떇�� GET �쑝濡� 泥섎━�븳�떎.
+// 『@RequestMapping(value = "요청주소", method = 전송방식)』
+// 이 때, 전송 방식은 submit 액션인 경우에만 POST
+// 나머지 모든 전송 방식은 GET 으로 처리한다.
+
 	
 	
 	
-	// �렖�떆�꽣 由ъ뒪�듃 action 泥섎━
+   // 펫시터 리스트 action 처리
 	@RequestMapping(value = "/petsitter.action", method = RequestMethod.GET)
 	public String PetsitterList(Model model, HttpSession session)
 	{
@@ -45,9 +46,9 @@ public class PetsitterListController
 
 			model.addAttribute("profile", dao.profile());
 			
-			if(code != null)	// 濡쒓렇�씤�맂 �쉶�썝�씠�씪硫�
+			if(code != null)	
 			{
-				// �렖�떆�꽣肄붾뱶�룄 �떞�븘�꽌 �쟾�떖
+				
 				model.addAttribute("psregcode", dao1.searchPsRegCode(code));
 				
 			}
@@ -67,7 +68,7 @@ public class PetsitterListController
 	
 	
 	
-	// �렖�떆�꽣 �떊泥� action 泥섎━
+	// 펫시터 신청 action 처리
 	@RequestMapping(value = "/petsitterreq.action", method = { RequestMethod.GET, RequestMethod.POST })
 	public String petsitterreq(Model model, HttpSession session, String code)
 	{
@@ -76,9 +77,9 @@ public class PetsitterListController
 		IPetsitterListDAO dao = sqlSession.getMapper(IPetsitterListDAO.class);
 		IPetsitterDAO dao1 = sqlSession.getMapper(IPetsitterDAO.class);
 		
-		if((String)session.getAttribute("code") != null)	// 濡쒓렇�씤�맂 �쉶�썝�씠�씪硫�
+		if((String)session.getAttribute("code") != null)	
 		{
-			// �렖�떆�꽣肄붾뱶�룄 �떞�븘�꽌 �쟾�떖
+			
 			model.addAttribute("psregcode", dao1.searchPsRegCode((String)session.getAttribute("code")));
 			
 		}
@@ -90,7 +91,7 @@ public class PetsitterListController
 	
 	
 	
-	// �렖�떆�꽣 �봽濡쒗븘 �긽�꽭蹂닿린 action 泥섎━
+	// 펫시터 프로필 상세보기 action 처리
 	@RequestMapping(value = "/petsitterprofileview.action", method = RequestMethod.GET)
 	public String petsitterprofileview(String seq, Model model)
 	{

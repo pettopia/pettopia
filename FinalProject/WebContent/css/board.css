@@ -222,6 +222,22 @@ select:not(:-internal-list-box) {
     float: left;
     color: #1c6ac3;
 }
+.search_info {
+    width: 100%;
+    float: left;
+    height: 68px;
+    border-top: 1px solid #e3e3e3;
+    border-bottom: 1px solid #e3e3e3;
+    background-color: #f7f7f7;
+    margin-top: 30px;
+    text-align: center;
+    line-height: 68px;
+    font-size: 16px;
+    color: #333;
+}
+.search_info span {
+    color: #1c6ac3;
+}
 .board_other_info ul {
     float: left;
 }
