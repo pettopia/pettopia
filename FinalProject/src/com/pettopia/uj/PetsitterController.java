@@ -115,15 +115,17 @@ public class PetsitterController
 		System.out.println(insertdto.getPs_reg_seq());
 		System.out.println(insertdto.getPs_care_type_seq());
 		System.out.println(insertdto.getPscontent());
+		System.out.println(insertdto.getPs_service_seq());
+		System.out.println(insertdto.getPs_open_seq());
+		System.out.println(insertdto.getFilepath());
 		System.out.println(insertdto.getPsaddrnumber());
 		System.out.println(insertdto.getPsaddr1());
 		System.out.println(insertdto.getPsaddr2());
 		System.out.println(insertdto.getPsaddr3());
-		System.out.println(insertdto.getPs_open_seq());
-		System.out.println(insertdto.getPs_service_seq());
 		System.out.println(insertdto.getBank_seq());
-		System.out.println(insertdto.getPs_profile_seq()); 
-		System.out.println(insertdto.getFilepath());
+		System.out.println(insertdto.getPsaccountname());
+		System.out.println(insertdto.getPsaccountnumber());
+		//System.out.println(insertdto.getPs_profile_seq()); 
 		System.out.println(insertdto.getPet_size_seq());
 		System.out.println(insertdto.getCarepay());
 
@@ -180,7 +182,7 @@ public class PetsitterController
 
 		// System.out.println("result 가 0이면 인서트 실패, 1이면 성공. 지금 result 값 = " + result);
 
-		return "redirect:petsitterlist.action";
+		return "redirect:petsitterview2.action";
 	}
 	
 	
