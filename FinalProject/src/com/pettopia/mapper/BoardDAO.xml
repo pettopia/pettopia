@@ -9,7 +9,13 @@
 		SELECT BOARD_CODE, HEAD, NICK, TITLE, VIEW_NUM, HIT, REG_DATE, DATE_CHECK
 			 , BLIND_COUNT, REPLY_COUNT
 		FROM BOARD_VIEW_B
-		WHERE BLIND_COUNT = 0
+		<where>
+		BLIND_COUNT = 0
+		<if test="search_type == 'title'">AND TITLE LIKE '%${search_text}%'</if>
+		<if test="search_type == 'nick'">AND NICK = #{search_text}</if>
+		<if test="search_type == 'titleAndContent'">AND TITLE LIKE '%${search_text}%' OR CONTENT LIKE '%${search_text}%'</if>
+		<if test="head_code != null and head_code != 0">AND HEAD_CODE = #{head_code}</if>
+		</where>
 		ORDER BY BOARD_CODE DESC
 	</select>
 

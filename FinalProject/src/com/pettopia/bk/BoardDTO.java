@@ -11,10 +11,29 @@ public class BoardDTO
 	//-- blind_check : 블라인드 게시물이면 1 이상, 아니면 0
 	private String reply_count;
 	//-- 게시물의 댓글 수
+	private String search_type, search_text;
+	//-- 검색 타입(제목, 닉네임, 제목+내용), 검색어
+	
 	// getter/ setter
 	public String getReply_count()
 	{
 		return reply_count;
+	}
+	public String getSearch_type()
+	{
+		return search_type;
+	}
+	public void setSearch_type(String search_type)
+	{
+		this.search_type = search_type;
+	}
+	public String getSearch_text()
+	{
+		return search_text;
+	}
+	public void setSearch_text(String search_text)
+	{
+		this.search_text = search_text;
 	}
 	public void setReply_count(String reply_count)
 	{

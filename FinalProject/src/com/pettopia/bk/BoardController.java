@@ -21,12 +21,21 @@ public class BoardController
 	
 	// 자유게시판 메인
 	@RequestMapping(value = "board.action", method = RequestMethod.GET)
-	public String board(Model model, HttpSession session)
+	public String board(Model model, HttpSession session, BoardDTO board)
 	{
+		System.out.println("search_type : " + board.getSearch_type());
+		System.out.println("head_code : " + board.getHead_code());
+		
+		if(board.getSearch_text() != null)	// 게시물을 검색했을 경우
+		{
+			model.addAttribute("search_type", board.getSearch_type());
+			model.addAttribute("head_code", board.getHead_code());
+			model.addAttribute("search_text", board.getSearch_text());
+		}
 		
 		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);
 		
-		model.addAttribute("boardList", dao.boardList());
+		model.addAttribute("boardList", dao.boardList(board));
 		model.addAttribute("headList", dao.headList());
 		
 		return "WEB-INF/views/Board.jsp";
