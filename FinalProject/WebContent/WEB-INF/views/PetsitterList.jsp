@@ -88,19 +88,24 @@ String cp = request.getContextPath();
 			</div>
 
 		</div>
+		
+							
 
 
-		<!-- <div class="menu">
-			<input type="text" class="addressInput"
-				placeholder="동 이름을 검색하세요 (예. 논현동)"> <input type="date"
-				id="now_date"> <a>~</a> <input type="date" id="now_date">
+		 	<div class="menu">
+			<input type="text" name="search_text" id="search_text" value="${search_text }"
+				placeholder="동 이름을 검색하세요 (예. 논현동)" onKeypress="search()"> 
+			<!-- <input type="date" id="now_date"> <a>~</a> <input type="date" id="now_date"> -->
 			<div id="btn">
-				<span class="noselect">Search</span>
+				<span class="noselect">Search
+				<a href="javascript:void(0);" class="search">
+				</span>
+				
 				<div id="circle"></div>
 			</div>
 
 
-		</div> -->
+		</div> 
 
 		<br> <br> <br>
 
