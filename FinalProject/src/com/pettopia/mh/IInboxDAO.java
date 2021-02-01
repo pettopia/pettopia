@@ -19,4 +19,10 @@ public interface IInboxDAO
 	
 	//보낸쪽지갯수
 	public int sendcount(String member_code_seq);
+	
+	//톡톡 insert 액션(쪽지 보내기 action)
+	public int add(InboxDTO dto);
+	
+	//닉네임으로 MEMBER_CODE_SEQ 검색하기
+	public String findcode(String nick);
 }

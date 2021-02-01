@@ -16,6 +16,7 @@ public class InboxController
 	@Autowired
 	private SqlSession sqlSession;
 
+	//톡톡함으로 이동
 	@RequestMapping(value = "/inbox.action", method ={ RequestMethod.GET, RequestMethod.POST })
 	public String inbox(Model model, HttpSession session)
 	{
@@ -30,7 +31,7 @@ public class InboxController
 		return result;
 	}
 
-	
+	//보낸톡톡함으로 이동
 	@RequestMapping(value = "/sendinbox.action", method ={ RequestMethod.GET, RequestMethod.POST })
 	public String sendinbox(Model model, HttpSession session)
 	{
@@ -46,16 +47,43 @@ public class InboxController
 		return result;
 	}
 	
-	
+	//톡톡보내기 창으로 이동
 	@RequestMapping(value = "/writemsg.action", method ={ RequestMethod.GET, RequestMethod.POST })
 	public String writemsg(Model model, HttpSession session)
 	{
-		IInboxDAO dao = sqlSession.getMapper(IInboxDAO.class);
 
 		String result = null;
 
 		result = "/WEB-INF/views/WriteMsg.jsp";
 
+		return result;
+	}
+	
+	//톡톡 insert action
+	@RequestMapping(value = "/sendmsg.action", method ={ RequestMethod.GET, RequestMethod.POST })
+	public String sendmsg(Model model, InboxDTO dto, HttpSession session, HttpServletRequest request)
+	{
+		IInboxDAO dao = sqlSession.getMapper(IInboxDAO.class);
+
+		String result = null;
+
+		dto.setMember_code_seq1((String)session.getAttribute("code"));
+		dto.setMember_code_seq2(dao.findcode(request.getParameter("nick")));
+		
+		try
+		{
+			dao.add(dto);
+			model.addAttribute("msg", "톡톡보내기 완료");
+			model.addAttribute("url", "/writemsg.action");
+			
+		}catch(NullPointerException e)
+		{
+			model.addAttribute("msg", "톡톡보내기 실패");
+			model.addAttribute("url", "/inbox.action");
+		}
+		
+		result = "/WEB-INF/views/Alert.jsp";
+		
 		return result;
 	}
 	

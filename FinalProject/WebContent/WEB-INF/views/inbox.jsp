@@ -47,7 +47,7 @@ String cp = request.getContextPath();
 
 <div class="wrapper">
 	<div class="sidebar">
-		<h2>톡톡</h2>
+		<h2><a href="inbox.action" >톡톡</a></h2>
 		<div id="menu_write" class="btn_workset">
 			<input type="button" id="write_msg" class="btn btn-primary" value="톡톡보내기" style="width:100%; height:50px;">
 			

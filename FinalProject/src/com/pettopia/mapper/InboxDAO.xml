@@ -36,9 +36,19 @@
 	SELECT COUNT(*)
 	FROM TALKTALK
 	WHERE MEMBER_CODE_SEQ1 = #{member_code_seq}	
-	
 	</select>
 	
 	
+	<insert id="add">
+	INSERT INTO TALKTALK(SEQ, MEMBER_CODE_SEQ1, MEMBER_CODE_SEQ2, TALK, SENDDATE)
+	VALUES('TALK-'||LPAD(TALKTALK_SEQ.NEXTVAL,6,'0'),#{member_code_seq1}, #{member_code_seq2}, #{talk}, sysdate)
+	</insert>
+	
+	
+	<select id="findcode" resultType="java.lang.String">
+	SELECT MEMBER_CODE_SEQ
+	FROM MEMBER_REG
+	WHERE NICK=#{nick}
+	</select>
 	
 </mapper>
