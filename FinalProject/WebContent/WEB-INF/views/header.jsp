@@ -73,7 +73,7 @@
 
 
                <li><a href="mypage.action"> <span>마이페이지</span></a></li>
-               <li><a href="inbox.action"> <span>톡톡</span></a></li>
+               <li><a href="#" onclick="window.open('inbox.action', '', 'width=700, height=600, top=100, left=300');"> <span>톡톡</span></a></li>
                <li><a href="javascript:void(0)" onclick="window.open('notify.action', '', 'width=600, height=500, top=300, left=400');"> <span>알림</span></a></li>
                <li><a href="#"> <span><%=nick%></span></a></li>
                <%

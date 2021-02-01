@@ -35,9 +35,9 @@ String cp = request.getContextPath();
 	    });
 	    
 	    $("#write_msg").click(function()
-   	    {
-   	    	$(location).attr('href','writemsg.action');
-	   	});
+	    {
+	    	$(location).attr('href','writemsg.action');
+	    });
 	});
 </script>
 
@@ -50,6 +50,7 @@ String cp = request.getContextPath();
 		<h2>톡톡</h2>
 		<div id="menu_write" class="btn_workset">
 			<input type="button" id="write_msg" class="btn btn-primary" value="톡톡보내기" style="width:100%; height:50px;">
+
 			
 		</div>
 		
@@ -79,7 +80,7 @@ String cp = request.getContextPath();
 						<th>
 						<input type="checkbox" class="chk" id="chk_all">
 						</th>
-						<th>보낸사람</th>
+						<th>받는사람</th>
 						<th style="width:50%;">내용</th>
 						<th>날짜</th>
 						<th>차단</th>
@@ -87,25 +88,23 @@ String cp = request.getContextPath();
 					
 					
 					<c:if test="${count eq 0 }">
-						<td colspan="5">받은 쪽지가 없습니다.</td>
+						<td colspan="5">보낸 쪽지가 없습니다.</td>
 					</c:if>
 					
 					
 					<c:if test="${count ne 0 }">
-					
 					<c:forEach var="dto" items="${list}">
                   	<tr>
 						<td>
 						<input type="checkbox" class="chk" >
 						<!-- 쪽지 선택 체크박스 -->
 						</td>
-						<td>${dto.nick1 }</td>
+						<td>${dto.nick2 }</td>
 						<td>${dto.talk }</td>						
 						<td>${dto.senddate }</td>
 						<td><input type="button" class="btn btn-danger" value="차단하기"></td>
 					</tr>
 					</c:forEach>
-					
 					</c:if>
 				</table>
 			</div>
