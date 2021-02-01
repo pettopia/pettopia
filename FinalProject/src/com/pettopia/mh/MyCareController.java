@@ -79,7 +79,7 @@ public class MyCareController
 
 		} else if (state.equals("일지작성하기"))
 		{
-			
+			model.addAttribute("dto", dao.psreviewlist(care_req_seq));
 			result = "/WEB-INF/views/PsDailyLog.jsp";
 			
 			System.out.println();
@@ -199,8 +199,7 @@ public class MyCareController
 	}
 	
 	// 일지INSERT 액션
-		@RequestMapping(value = "/dailylog.action", method =
-		{ RequestMethod.GET, RequestMethod.POST })
+		@RequestMapping(value = "/dailylog.action", method = { RequestMethod.GET, RequestMethod.POST })
 		public String dailylog(Model model, PsReviewDTO dto)
 		{
 			String result = null;
