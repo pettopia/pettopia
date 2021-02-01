@@ -199,8 +199,7 @@ public class MyCareController
 	}
 	
 	// 일지INSERT 액션
-		@RequestMapping(value = "/dailylog.action", method =
-		{ RequestMethod.GET, RequestMethod.POST })
+		@RequestMapping(value = "/dailylog.action", method = { RequestMethod.GET, RequestMethod.POST })
 		public String dailylog(Model model, PsReviewDTO dto)
 		{
 			String result = null;

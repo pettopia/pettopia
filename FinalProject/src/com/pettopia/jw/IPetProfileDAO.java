@@ -88,4 +88,7 @@ public interface IPetProfileDAO
 	
 	// 펫 연결 등록 (펫 공유 신청 수락)
 	public int petConReg(String pet_con_req_seq);
+	
+	// 펫 프로필 이미지 등록
+	public int imageupload(PetprofileInsertDTO petprofileInsertdto);
 }

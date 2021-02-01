@@ -99,7 +99,7 @@ $(function() {
       <!-- 다이어리 생성 폼 -->
       <div id="InsertDiary">
          <p class="InsertDiary_text">반려견 수정하기</p>
-         <form action="petprofileupdate.action" method="post" class="input form-inline" role="form" id="form">
+         <form action="petprofileupdate.action" method="post" class="input form-inline" role="form" id="form"  enctype="multipart/form-data">
             <input type="hidden" name="petId" value="${petId }">
             <table class="table" style="margin-top: 30px;">
                <tr>
@@ -163,6 +163,13 @@ $(function() {
                      style="width: 500px;" name="petNum" value="${select.petRegNum }" id="petNum">
                
                   </th>
+               </tr>
+               
+               <tr>
+               	<th>이미지 변경</th>
+               	<th>
+               		<input type="file" name="file" class="form-control">
+               	</th>
                </tr>
             </table>
          </form>

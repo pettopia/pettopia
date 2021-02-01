@@ -92,7 +92,7 @@ $(function() {
       <div id="InsertDiary">
          <p class="InsertDiary_text">반려견 등록하기</p>
          
-         <form action="petprofileinsert.action" class="input form-inline" role="form" id="form">
+         <form action="petprofileinsert.action" class="input form-inline" role="form" id="form" enctype="multipart/form-data">
             <input type="hidden" name="code" value="${code }">
             <table class="table" style="margin-top: 30px;">
                <tr>
@@ -155,6 +155,11 @@ $(function() {
                      style="width: 500px;" placeholder="1234567890" id="petNum">
                   </th>
                </tr>
+               
+               <tr>
+               		<th>프로필 이미지 등록</th>
+               		<th><input type="file" class="form-control"></th>
+               </tr>                      		
             </table>
          </form>
          <div class="button">
