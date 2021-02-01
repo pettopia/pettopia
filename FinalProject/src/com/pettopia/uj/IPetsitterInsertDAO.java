@@ -18,7 +18,7 @@ public interface IPetsitterInsertDAO
 	public int add2(HashMap<Object, String> paramMap);			// 이용서비스 INSERT
 	//public ArrayList<PetsitterInsertDTO> add2();
 	
-	public int add3(PetsitterInsertDTO insertdto);			// 돌봄 환경 이미지 등록 INSERT
+	public int add3(HashMap<Object, String> paramMap);			// 돌봄 환경 이미지 등록 INSERT
 	
 	public int add5(HashMap<Object, String> paramMap);		// 펫시터 이용 요금 
 }

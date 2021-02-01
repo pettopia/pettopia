@@ -157,7 +157,11 @@ public class PetsitterController
 			}
 
 			// 돌봄 환경 이미지 insert (사진 하나만 받기^^....?)
-			dao.add3(insertdto);
+			paramMap.put("filepath", insertdto.getFilepath());
+			dao.add3(paramMap);
+			
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			System.out.println(dao.add3(paramMap));
 
 			// 펫시터 이용 요금 등록
 			String arr1[] = insertdto.getPet_size_seq().split(",");
@@ -233,9 +237,9 @@ public class PetsitterController
 		// System.out.println(dao.search1(paramMap));
 		//System.out.println(dao.list7(paramMap));
 		//System.out.println(dao.promise(paramMap));
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		System.out.println(paramMap.get("code"));
-		System.out.println(paramMap.get("ps_profile_seq")); // <<-- 아까 이것도 왜 null이엇는지 모르겠어 그러네여 똑같이 쓴것같은데
+		//System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		//System.out.println(paramMap.get("code"));
+		//System.out.println(paramMap.get("ps_profile_seq")); // <<-- 아까 이것도 왜 null이엇는지 모르겠어 그러네여 똑같이 쓴것같은데
 		
 		
 		
@@ -359,9 +363,9 @@ public class PetsitterController
 		//System.out.println(dto.getPet_con_reg_seq()); 
 		//System.out.println(dto.getStartdate());
 		//System.out.println(dto.getEnddate());
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		System.out.println(dto.getPromise_seq());
-		System.out.println(dto.getAgree());
+		//System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		//System.out.println(dto.getPromise_seq());
+		//System.out.println(dto.getAgree());
 	
 		
 		try
