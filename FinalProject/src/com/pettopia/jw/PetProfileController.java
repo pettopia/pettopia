@@ -4,19 +4,18 @@
 package com.pettopia.jw;
 
 import javax.servlet.http.HttpSession;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.pettopia.bk.IAdminDAO;
 import com.pettopia.bk.INotifyDAO;
 import com.pettopia.bk.NotifyDTO;
 import com.pettopia.mh.IMyPageDAO;
 import com.pettopia.mh.MyPageDTO;
+
 
 @Controller
 public class PetProfileController
@@ -405,7 +404,8 @@ public class PetProfileController
 		IPetProfileDAO dao = sqlSession.getMapper(IPetProfileDAO.class);
 		String code = (String) session.getAttribute("code"); 
 		petprofileInsertdto.setCode(code);
-		
+			
+						
 		try
 		{
 			dao.addpet(petprofileInsertdto);
@@ -413,11 +413,11 @@ public class PetProfileController
 		} catch (Exception e)
 		{
 			System.out.println(e.toString());
-		}
-
+		}			
 			return "redirect:mypetdiary.action?code=" + code + "";
 	}
 	
+
 	/* 펫 수정 */
 	@RequestMapping(value = "/petprofileupdateform.action", method = { RequestMethod.GET, RequestMethod.POST })
 	public String petdiaryupdateform(Model model,String petId)
@@ -625,6 +625,8 @@ public class PetProfileController
 	}
 	
 	/* 펫 프로필 이미지 등록 */
+	
+	
 	
 	
 	
