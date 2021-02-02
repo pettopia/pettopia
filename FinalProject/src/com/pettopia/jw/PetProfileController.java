@@ -53,12 +53,15 @@ public class PetProfileController
 		// StringBuffer로 재선언
 		StringBuffer birth = new StringBuffer(str1);
 		
-		System.out.println(birth);
+		//System.out.println(birth);
+		//--==>> 2015-10-0100:00:00
 		
-		// 10번째 줄에 T 추가하기
+		// 분/초 단위 삭제
 		birth.delete(10,19);
 		
-		System.out.println(birth);
+		//System.out.println(birth);
+		//--==>> 2015-10-01
+		
 		// model 에 추가
 		model.addAttribute("birth", birth);
 		
@@ -620,6 +623,9 @@ public class PetProfileController
 		
 		return "redirect:notify.action";
 	}
+	
+	/* 펫 프로필 이미지 등록 */
+	
 	
 	
 	

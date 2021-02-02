@@ -101,7 +101,7 @@
     
     
     <!-- 돌봄 환경 이미지 등록 -->
-    <insert id="add3">	<!-- 돌봄환경 이미지 등록 -->
+    <insert id="add3" parameterType="java.util.HashMap">	<!-- 돌봄환경 이미지 등록 -->
      INSERT INTO PS_IMG_REG
 	 VALUES(#{ps_profile_seq}, #{filepath}, SYSDATE, 'PSIMG-'||LPAD(PS_IMG_REG_SEQ.NEXTVAL,6,0))
     </insert>

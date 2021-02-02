@@ -214,6 +214,11 @@
 	VALUES('PREG-'||LPAD(PET_CON_REG_SEQ.NEXTVAL,6,0), #{pet_con_req_seq}, SYSDATE)
    </insert>
    
+   <!-- 이미지 업로드 -->
+   <insert id="imageupload">
+   	INSERT INTO PET_PROF_IMG 
+	VALUES(#{petId},#{imageUpload},SYSDATE)
+   </insert>
 </mapper>
 
 

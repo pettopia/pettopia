@@ -126,12 +126,12 @@ String cp = request.getContextPath();
             <tr>
                <td>성별</td>
                         
-               <c:if test="${select.petGender == 1 }">
+              <c:if test="${select.petGender == 1 }">
                     <td>남</td>                  
-                    </c:if>
-                    <c:if test="${select.petGender == 2 }">
+              </c:if>
+              <c:if test="${select.petGender == 2 }">
                     <td>여</td>                  
-                    </c:if>
+              </c:if>
                     
             </tr>
             <tr>

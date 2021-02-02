@@ -5,14 +5,20 @@ public class PetprofileInsertDTO
 	private String breedId,breedName;
 	private String sizeId,sizeName;
 	private String petId,code,petName,petGender,petBirth
-				   ,petNum,neutral,writeDay;
+				   ,petNum,neutral,writeDay,imageUpload,imageUploadDay;
 	
-	
-	// getter / setter 구성
-	
+	// getter / setter 구성	
 	public String getBreedId()
 	{
 		return breedId;
+	}
+	public String getImageUploadDay()
+	{
+		return imageUploadDay;
+	}
+	public void setImageUploadDay(String imageUploadDay)
+	{
+		this.imageUploadDay = imageUploadDay;
 	}
 	public void setBreedId(String breedId)
 	{
@@ -106,12 +112,13 @@ public class PetprofileInsertDTO
 	{
 		this.writeDay = writeDay;
 	}
-	
-	//getter / setter
-	
-	
-
-	
-	
+	public String getImageUpload()
+	{
+		return imageUpload;
+	}
+	public void setImageUpload(String imageUpload)
+	{
+		this.imageUpload = imageUpload;
+	}
 	
 }
