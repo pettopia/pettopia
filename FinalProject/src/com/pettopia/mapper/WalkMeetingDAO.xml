@@ -61,4 +61,36 @@
 								FROM BEFORENEXTVIEW
 								WHERE CURRENTNUM = #{walk_meeting_seq}))
 	 </select>
+	 
+	 <!-- 현재 참여 인원수 -->
+	 <select id = "countnum" resultType="java.lang.Integer">
+	 	select count(*)
+		from walk_join
+		where walk_meeting_seq = #{walk_meeting_seq}
+	 
+	 </select>
+	 
+	 <!-- 산책에 참여하고있는지 아닌지의 여부를 조회하는 쿼리 -->
+	 <select id="count" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+	 	SELECT COUNT(*)
+			FROM 
+			(
+			    SELECT WJ.PET_CON_REG_SEQ "PET_CON_REG_SEQ", MC.SEQ "MEMBER_CODE_SEQ" , WJ.WALK_MEETING_SEQ "WALK_MEETING_SEQ"
+			    FROM WALK_JOIN WJ, PET_CON_REG PCRG, PET_CON_REQ PCRQ, MEMBER_CODE MC
+			    WHERE WJ.WALK_MEETING_SEQ = NVL(#{walk_meeting_seq},'0')  <!-- 게시물의 산책모임코드  -->
+			             AND MEMBER_CODE_SEQ = NVL(#{code},'0') <!-- 세션의 멤버고유코드 -->
+			             AND PCRG.SEQ = WJ.PET_CON_REG_SEQ 
+			             AND PCRQ.SEQ = PCRG.PET_CON_REQ_SEQ
+			             AND PCRQ.MEMBER_CODE_SEQ = MC.SEQ
+			)
+	 </select>
+	 
+	 <select id = "nicklist" resultType="com.pettopia.hj.WalkMeetingDTO">
+		SELECT MR.NICK "nick2"
+		FROM WALK_JOIN WJ, PET_CON_REG PCRG, PET_CON_REQ PCRQ, MEMBER_CODE MC, MEMBER_REG MR
+		WHERE WJ.PET_CON_REG_SEQ = PCRG.SEQ AND PCRG.PET_CON_REQ_SEQ = PCRQ.SEQ
+		    AND PCRQ.MEMBER_CODE_SEQ = MC.SEQ AND MC.SEQ = MR.MEMBER_CODE_SEQ
+		    AND WJ.WALK_MEETING_SEQ = #{walk_meeting_seq}
+	 </select>
+	 
 </mapper>

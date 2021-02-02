@@ -12,6 +12,14 @@ String code = (String) session.getAttribute("code");
 <head>
 <meta charset="UTF-8">
 <title>walkmeeting.jsp</title>
+<style type="text/css">
+
+#txtarea {
+  resize: none; /* 사용자 임의 변경 불가 */
+
+}
+
+</style>
 <link rel="stylesheet" type="text/css"
    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script type="text/javascript"
@@ -184,6 +192,13 @@ String code = (String) session.getAttribute("code");
                  </td>
               </tr>
               
+              <tr>
+                 <th>현재 참여인원 : </th>
+                 <td>
+                    ${countnum} 명 
+                 </td>
+              </tr>
+              
               <%-- <strong>모임 인원 수</strong> : ${list.numpeople}<br>
               <strong>모임 목적</strong> : ${list.walkaim}<br>
               <strong>날짜</strong> : ${list.walkdate}<br>
@@ -198,17 +213,35 @@ String code = (String) session.getAttribute("code");
            </table>     
               
            <strong>산책 내용 : ${list.contents}</strong>
+            
+          <br>
+           
          </div>
-                 
-        
+         
+         <br> <br>
                 <!-- } 본문 내용 끝 -->
               
         <ul class="bo_v_com">
            <li id="list"><a href="walklistboard.action" class="btn_b01 btn"><i class="fa fa-list" aria-hidden="true"></i> 목록으로</a></li>
-           <li id="list"><a href = "javascript:popup2()"><i class="fa fa-list" aria-hidden="true"></i> 참여하기</a></li>
+               <c:choose>
+               <c:when test = "${count eq 0 }" >
+           <li id="list"><a href = "javascript:popup2()" class="btn_b01 btn"><i class="fa fa-list" aria-hidden="true"></i> 참여하기</a></li>
+           
+         	   </c:when>
+         	   <c:otherwise>
+            <li id="list"><a href = "walkdelete.action" class="btn_b01 btn"><i class="fa fa-list" aria-hidden="true"></i> 취소하기</a></li>	      
+            		
+         	   </c:otherwise>
+         	   </c:choose>
+         	  
         </ul>
         <br><br>
-
+ 				<textarea id = "txtarea" cols="19" rows="7" readonly>
+	          		참여자목록
+	          		<c:forEach var="nicklist" items ="${nicklist }" varStatus="i">
+					${nicklist.nick2 }
+					</c:forEach>
+       		    </textarea>  
     </section>
 
 

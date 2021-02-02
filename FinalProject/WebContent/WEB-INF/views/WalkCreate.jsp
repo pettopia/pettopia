@@ -401,7 +401,7 @@ td
 			<th>모임 인원 수</th>
 			<td><input type="radio" name="walk_nop_seq" value="1" > 2~3인</td>
 			<td><input type="radio" name="walk_nop_seq" value="2" > 4인</td>
-			<td><input type="radio" name="walk_nop_seq" value="3" > 무관</td>
+			<td><input type="radio" name="walk_nop_seq" value="3" > 무관(최대4명)</td>
 		</tr>
 		
 		<tr>

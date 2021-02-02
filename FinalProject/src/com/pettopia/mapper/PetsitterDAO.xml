@@ -61,9 +61,7 @@
     
 
     <select id="list3" resultType="com.pettopia.uj.PetsitterDTO" parameterType="java.util.HashMap"> 
-     SELECT PC.CAREPAY AS CAREPAY
-     	  , PAY.PET_SIZE_SEQ AS PET_SIZE_SEQ
-     	  , PAY.SEQ AS PS_CARE_PAY_SEQ
+     SELECT PC.CAREPAY AS CAREPAY, PAY.PET_SIZE_SEQ AS PET_SIZE_SEQ
 	 FROM PETSITTER_CAREPAY PC LEFT JOIN PS_CARE_PAY PAY
      ON PC.PS_CARE_PAY_SEQ = PAY.SEQ
 	 WHERE SID= #{ps_profile_seq}

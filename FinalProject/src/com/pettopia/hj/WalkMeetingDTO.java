@@ -5,6 +5,28 @@ public class WalkMeetingDTO
 	private String walktitle, walkdate, walkaim, numpeople, views, sizename, larname, midname,
 			walkplace, writedate, genderoption, ageoption, nick, contents, beforetitle,
 			nexttitle, walk_meeting_seq;
+	private String code;
+	private String nick2;
+
+	public String getNick2()
+	{
+		return nick2;
+	}
+
+	public void setNick2(String nick2)
+	{
+		this.nick2 = nick2;
+	}
+
+	public String getCode()
+	{
+		return code;
+	}
+
+	public void setCode(String code)
+	{
+		this.code = code;
+	}
 
 	public String getWalk_meeting_seq()
 	{

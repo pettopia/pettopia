@@ -4,6 +4,8 @@
 
 package com.pettopia.hj;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface IWalkMeetingDAO
 {
@@ -19,5 +21,13 @@ public interface IWalkMeetingDAO
 	//조회수 증가처리
 	public int views(String walk_meeting_seq);
 	
+	//산책참여 여부
+	public int count(HashMap<Object, String>paramaMap);
+	
+	//산책참여인원수
+	public int countnum(String walk_meeting_seq);
+	
+	//산책 참여 인원의 닉네임
+	public ArrayList<WalkMeetingDTO> nicklist(String walk_meeting_seq);
 	
 }

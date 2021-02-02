@@ -1,8 +1,11 @@
 
 package com.pettopia.hj;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 
 @Controller
 public class WalkMeetingController
@@ -28,7 +30,7 @@ private SqlSession sqlSession;
 // 이 때, 전송 방식은 submit 액션인 경우에만 POST
 // 나머지 모든 전송 방식은 GET 으로 처리한다.
 @RequestMapping(value = "/walkmeeting.action", method = RequestMethod.GET)
-public String WalkMeeting(Model model,String walk_meeting_seq, String membercode, HttpSession session)
+public String WalkMeeting(Model model,String walk_meeting_seq, HttpSession session)
 {
 	String result = null;
 	
@@ -37,8 +39,16 @@ public String WalkMeeting(Model model,String walk_meeting_seq, String membercode
 //	IWalkCreateDAO dao = sqlSession.getMapper(IWalkCreateDAO.class);
 	
 //	model.addAttribute("list", dao.list());
-	model.addAttribute("doglist", dao2.doglist((String)session.getAttribute("code")));
+	String code = (String)session.getAttribute("code");
+	model.addAttribute("doglist", dao2.doglist(code));
+	
+	//확인
 	System.out.println(walk_meeting_seq);
+	System.out.println(code);
+	
+	HashMap<Object, String> h = new HashMap<Object, String>();
+	h.put("walk_meeting_seq", walk_meeting_seq);
+	h.put("code", code);
 	
 	model.addAttribute("list", dao.list(walk_meeting_seq));
 	model.addAttribute("before", dao.before(walk_meeting_seq));
@@ -46,6 +56,11 @@ public String WalkMeeting(Model model,String walk_meeting_seq, String membercode
 	model.addAttribute("next", dao.next(walk_meeting_seq));
 	model.addAttribute("nextlist", dao.nextlist(walk_meeting_seq));
 	model.addAttribute("views", dao.views(walk_meeting_seq));
+	
+	model.addAttribute("count",dao.count(h));
+	model.addAttribute("countnum",dao.countnum(walk_meeting_seq));
+	model.addAttribute("nicklist",dao.nicklist(walk_meeting_seq));
+	
 	result = "/WEB-INF/views/WalkMeeting.jsp";
 	
 	return result;
