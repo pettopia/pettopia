@@ -25,11 +25,18 @@ public interface IPetsitterUpdateDAO
 	public int carepayinsert(HashMap<Object, String> paramMap);
 	
 	
-	
+	// 펫시터 견종 크기 및 돌봄비용 조회
+	public HashMap<String, Object> selpscarepay(HashMap<String, Object> paramMap);
+
 	// 펫시터 견종 크기 및 돌봄비용 업데이트
-	public void pscarepay(HashMap<Object, String> paramMap);
+	public void uppscarepay(HashMap<String, Object> paramMap2);
 
 	public Object ps_profile_seq(HashMap<Object, String> paramMap);
+
+	
+
+
+
 	
 	
 

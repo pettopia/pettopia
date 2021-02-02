@@ -37,6 +37,20 @@ String cp = request.getContextPath();
 	
 
 </script>
+<script type="text/javascript">
+//검색 버튼 클릭 액션
+	$(".search").click(function()
+	{
+		if($("#search_text").val() == "")
+		{
+			alert("검색어를 입력하세요.");
+			return;
+		}
+		
+		
+	});
+
+</script>
 
 
 

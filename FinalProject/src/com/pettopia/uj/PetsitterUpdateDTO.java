@@ -10,9 +10,30 @@ public class PetsitterUpdateDTO
 	// 펫시터 프로필 업데이트 컬럼
 	private String ps_care_type_seq, pscontent, psaddrnumber
 				 , psaddr1, psaddr2, psaddr3, ps_open_seq, bank_seq
-				 , psaccountnumber, psaccountname;
+				 , psaccountnumber, psaccountname
+				 , ps_care_pay_seq, ps_size_seq;
      
 	
+	public String getPs_care_pay_seq()
+	{
+		return ps_care_pay_seq;
+	}
+
+	public void setPs_care_pay_seq(String ps_care_pay_seq)
+	{
+		this.ps_care_pay_seq = ps_care_pay_seq;
+	}
+
+	public String getPs_size_seq()
+	{
+		return ps_size_seq;
+	}
+
+	public void setPs_size_seq(String ps_size_seq)
+	{
+		this.ps_size_seq = ps_size_seq;
+	}
+
 	// 펫크기코드 , 돌봄비용
 	private String pet_size_seq, carepay;
 	

@@ -118,11 +118,17 @@
     
     </update>
     
+    <select id="selpscarepay" resultType="HashMap" parameterType="java.util.HashMap">
+    SELECT SEQ AS PS_CARE_PAY_SEQ, PS_PROFILE_SEQ, PET_SIZE_SEQ
+    FROM PS_CARE_PAY
+    WHERE PS_PROFILE_SEQ=#{ps_profile_seq}
+    </select>
+    
 
-    <update id="pscarepay" parameterType="java.util.HashMap">
+    <update id="uppscarepay" parameterType="java.util.HashMap">
     UPDATE PS_CARE_PAY
 	SET PET_SIZE_SEQ=#{pet_size_seq}, CAREPAY=#{carepay}
-	WHERE PS_PROFILE_SEQ=#{ps_profile_seq};
+	WHERE PS_PROFILE_SEQ=#{ps_profile_seq}
     </update>
 	
     
