@@ -32,7 +32,7 @@ public class PetsitterListController
 	
    // 펫시터 리스트 action 처리
 	@RequestMapping(value = "/petsitter.action", method = RequestMethod.GET)
-	public String PetsitterList(Model model, HttpSession session)
+	public String PetsitterList(Model model, HttpSession session, PetsitterListDTO dto)
 	{
 		String result = null;
 		String code = (String)session.getAttribute("code");
@@ -40,17 +40,28 @@ public class PetsitterListController
 		IPetsitterListDAO dao = sqlSession.getMapper(IPetsitterListDAO.class);
 		IPetsitterDAO dao1 = sqlSession.getMapper(IPetsitterDAO.class);
 		
+
+       
+		
 		try
 		{
-			HashMap<Object, String> paramMap = new HashMap<Object, String>();
+			HashMap<String, Object> paramMap = new HashMap<String, Object>();	
+			
+			
+			// 게시물을 검색했을 경우
+			paramMap.put("keyword", dto.getKeyword());
+			
+//			System.out.println(dto.getKeyword());
+			System.out.println(paramMap);
+			System.out.println(dao.profilelistsearch(paramMap));
+			
+			model.addAttribute("profile", dao.profilelistsearch(paramMap));
 
-			model.addAttribute("profile", dao.profile());
+//			model.addAttribute("profile", dao.profile());
 			
 			if(code != null)	
 			{
-				
 				model.addAttribute("psregcode", dao1.searchPsRegCode(code));
-				
 			}
 			
 

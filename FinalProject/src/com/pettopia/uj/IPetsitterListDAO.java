@@ -17,4 +17,10 @@ public interface IPetsitterListDAO
 	
 	public PetsitterDTO psprofileview(String seq);	// 펫시터 프로필 뿌리기
 
+
+	public ArrayList<HashMap<String, Object>> profilelistsearch(HashMap<String, Object> paramMap); // 펫시터 리스트 검색
+
+
+
+
 }
