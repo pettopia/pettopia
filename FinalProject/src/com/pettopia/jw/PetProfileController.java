@@ -236,18 +236,44 @@ public class PetProfileController
 		startdate.insert(10, "T");
 		/* 2021-01-23T00:00:00 */
 		
+		// 일정 시작날짜 년도 달 일 만 뽑아내기
+		String std = startdate.substring(0,10);
+		
+		System.out.println(std);
+		//--==>> 2021-02-03
+		
+		//--==>>  일정 시작날짜 시 분 만 뽑아내기
+		String stdtime = startdate.substring(11);
+		System.out.println(stdtime);
+		//--==>> 01:00:00
+		
+		
 		String etr = dao.selectdetail(diaryId).getEndDate();
 		etr = etr.replaceAll(" " , "");
-		System.out.println(str);
-				
+		System.out.println(etr);
+							
 		StringBuffer enddate = new StringBuffer(etr);
 		/* dao.selectdetail(diaryId).setStartDate(startdate.replace("", "T")); */
 		
 		enddate.insert(10, "T");
 		/* 2021-01-23T00:00:00 */
 		
-		model.addAttribute("startdate", startdate);
-		model.addAttribute("enddate", enddate);
+		// 일정 종료 날짜 년도 달 일 만 뽑아내기
+		String etd = startdate.substring(0,10);
+		System.out.println(etd);
+		
+		// 일정 종료 날짜 시 분 만 뽑아내기
+		String etdtime = enddate.substring(11);
+		System.out.println(etdtime);
+		
+		
+		
+		
+		model.addAttribute("startdate", std);
+		model.addAttribute("startdatetime", stdtime);
+		
+		model.addAttribute("enddate", etd);
+		model.addAttribute("enddatetime", etdtime);
 				
 		System.out.println(startdate);
 		/*

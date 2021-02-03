@@ -12,10 +12,12 @@ String cp = request.getContextPath();
 <link rel="stylesheet" type="text/css" href="css/DiaryInsert.css">
 <link rel="stylesheet" type="text/css"
    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript"
    src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript"
    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
    
 <script type="text/javascript">
    
@@ -57,6 +59,28 @@ $(function() {
         var radioVal = $('input[name="neutral"]:checked').val();
         /* alert(radioVal); */
       });
+    
+    /* 달력 선택 function - jqueryUI - datepicker 함수*/
+    var dateFormat = "yy-mm-dd";
+
+		$("#birth").datepicker({
+            dateFormat: "yy-mm-dd",
+            defaultDate: 0,
+            changeMonth: true,
+            maxDate: 0,
+            numberOfMonths: 1,
+            closeText: "닫기",
+            prevText: "이전달",
+            nextText: "다음달",
+            currentText: "오늘",
+            monthNames: ["1월", "2월", "3월", "4월", "5월", "6월",
+                "7월", "8월", "9월", "10월", "11월", "12월"],
+            monthNamesShort: ["1월", "2월", "3월", "4월", "5월", "6월",
+                "7월", "8월", "9월", "10월", "11월", "12월"],
+            dayNames: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
+            dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
+            dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"]
+        });
     
     $("#submitBtn").click(function()
            {
@@ -141,7 +165,7 @@ $(function() {
                
                <tr>
                   <th>생일</th>
-                  <th><input type="date" class="form-control" value="${birth }" name="petBirth" id="birth"></th>
+                  <th><input type="text" class="form-control" value="${birth }" name="petBirth" id="birth"></th>
                </tr>
                
                <tr>
@@ -187,7 +211,7 @@ $(function() {
          <c:import url="footer.jsp"></c:import>
    </div>
 
-   <script src="js/jquery-3.1.1.min.js"></script>
+  
       <script src="js/scripts.js"></script>
 </body>
 </html>
