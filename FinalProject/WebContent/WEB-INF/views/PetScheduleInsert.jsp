@@ -12,10 +12,18 @@ String cp = request.getContextPath();
 <link rel="stylesheet" type="text/css" href="css/DiarySchedual.css">
 <link rel="stylesheet" type="text/css"
    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="css/jquery.timepicker.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 <script type="text/javascript"
    src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript"
    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="jquery.timepicker.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
 <script type="text/javascript">
 /*    $(document).ready(function()
    {
@@ -92,8 +100,10 @@ String cp = request.getContextPath();
          /* alert($(this).val()); */
          ajaxRequest3();
       });
+      
+   });
             
-      $(function() {
+  $(function() {
 
           $("#Daily2").change(function() {
 
@@ -101,12 +111,99 @@ String cp = request.getContextPath();
 
              /* alert("셀렉트값 : "+ v); */
 
-          });
+          });      
+   });
+      
+  
+  $(document).ready(function () {
+	  
+      /* 달력 선택 function - jqueryUI - datepicker 함수*/
+      var dateFormat = "yy-mm-dd",
 
-      });
+          from = $("#startdate").datepicker({
+              dateFormat: "yy-mm-dd",
+              defaultDate: 0,
+              changeMonth: true,
+              minDate: 0,
+              numberOfMonths: 1,
+              closeText: "닫기",
+              prevText: "이전달",
+              nextText: "다음달",
+              currentText: "오늘",
+              monthNames: ["1월", "2월", "3월", "4월", "5월", "6월",
+                  "7월", "8월", "9월", "10월", "11월", "12월"],
+              monthNamesShort: ["1월", "2월", "3월", "4월", "5월", "6월",
+                  "7월", "8월", "9월", "10월", "11월", "12월"],
+              dayNames: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
+              dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
+              dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"]
+          })
+              .on("change", function () {
+            	  
+            	  var curDate = $('#startdate').datepicker("getDate");
+            	  
+                  curDate.setDate(curDate.getDate());
+                  $("#enddate").datepicker("option", "minDate", curDate);
+					
+              }),
+          to = $("#enddate").datepicker({
+              dateFormat: "yy-mm-dd",
+              defaultDate: 0,
+              changeMonth: true,
+              numberOfMonths: 1,
+              closeText: "닫기",
+              prevText: "이전달",
+              nextText: "다음달",
+              currentText: "오늘",
+              monthNames: ["1월", "2월", "3월", "4월", "5월", "6월",
+                  "7월", "8월", "9월", "10월", "11월", "12월"],
+              monthNamesShort: ["1월", "2월", "3월", "4월", "5월", "6월",
+                  "7월", "8월", "9월", "10월", "11월", "12월"],
+              dayNames: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
+              dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
+              dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"]
+
+          })
+              .on("change", function () {
+                  from.datepicker("option", "maxDate", getDate(this));
+              });
+      	  
+      $("#startdatetime").timepicker({
+    	  step:30,  
+    	  timeFormat: "H:mm"
+    	    
+    	    /* interval: 60,
+    	    minTime: '10',
+    	    maxTime: '6:00pm',
+    	    defaultTime: '11',
+    	    startTime: '10:00',
+    	    dynamic: false,
+    	    dropdown: true,
+    	    scrollbar: true */
+    	});
+      
+      $("#enddatetime").timepicker({
+    	  step:30,  
+    	  timeFormat: "H:mm"
+    	    
+    	    /* interval: 60,
+    	    minTime: '10',
+    	    maxTime: '6:00pm',
+    	    defaultTime: '11',
+    	    startTime: '10:00',
+    	    dynamic: false,
+    	    dropdown: true,
+    	    scrollbar: true */
+    	});
+      
+  		/* $("#startdatetime").timepicker('setTime', new Date()); */
+   
+	  
+  });
+      
 
       
-   });
+      
 
    function ajaxRequest1()
    {
@@ -140,6 +237,11 @@ String cp = request.getContextPath();
          $("#Daily2").html(data).css("display", "inline");
       });
    }
+   
+   
+   
+   
+   
 </script>
 
 
@@ -166,9 +268,11 @@ String cp = request.getContextPath();
          제목 : <input type="text" class="form-control" style="width:500px;" name="title" id="title"> <br>
          <br> 장소 : <input type="text" class="form-control" style="width:500px;" name="place" id="place" > <br>
          <br> 일시 : 
-             <input type="datetime-local" class="form-control" style="width:200px;" name="startdate" id="startdate" >
+             <input type="text" class="form-control" style="width:100px;" name="startdate" id="startdate" readonly="readonly" placeholder="날짜를 입력하세요">
+             <input type="text" class="form-control" style="width:100px;" name="startdate" id="startdatetime" readonly="readonly" placeholder="시간을 입력하세요">
             &nbsp;-&nbsp;
-            <input type="datetime-local" class="form-control" style="width:200px;" name="enddate" id="enddate">
+            <input type="text" class="form-control" style="width:100px;" name="enddate" id="enddate" readonly="readonly" placeholder="날짜를 입력하세요">
+            <input type="text" class="form-control" style="width:100px;" name="enddate" id="enddatetime" readonly="readonly" placeholder="시간을 입력하세요">
 
       <!-- </form> -->
 
@@ -261,7 +365,7 @@ String cp = request.getContextPath();
    <div>
       <c:import url="footer.jsp"></c:import>
    </div>
-   <script src="js/jquery-3.1.1.min.js"></script>
+
    <script src="js/scripts.js"></script>
 </body>
 </html>

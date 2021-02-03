@@ -1,11 +1,63 @@
-<!-- 파일업로드 위한 라이브러리 임포트 -->
-
-<%@ page import="java.io.File" %>
-<!-- 파일 이름이 동일한게 나오면 자동으로 다른걸로 바꿔주고 그런 행동 해주는것 -->
-<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
-<!-- 실제로 파일 업로드 하기 위한 클래스 -->
-<%@ page import="com.oreilly.servlet.MultipartRequest" %>
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
+<%@page import="com.oreilly.servlet.MultipartRequest"%>
+<%@page import="java.io.File"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+	String cp = request.getContextPath();
+%>
+<%
+	
+	//String root = request.getRealPath("/"); //-- 예전 방식
+	String root = pageContext.getServletContext().getRealPath("/");
+	//String savePath = root + File.separator + "pds" + "\\" + "saveFile";
+	String savePath = root + "pds" + "\\" + "saveFile";
+
+	//String savePath = root + "pds"
+	File dir = new File(savePath);
+	
+	String str = null;
+	
+	System.out.println(savePath);
+	
+	
+	//확인
+	if(!dir.exists())
+		dir.mkdirs();
+	
+	String encType = "UTF-8";		//-- 인코딩 방식
+	int maxFileSize = 5*1024*1024;	//-- 최대 업로드 크기(5MB)
+	
+	try
+	{
+		MultipartRequest multi = null;
+		multi = new MultipartRequest(request, savePath, maxFileSize
+				, encType, new DefaultFileRenamePolicy());
+		
+		out.println("작성자 :" + multi.getParameter("userName") + "<br>");
+		out.println("제목:" + multi.getParameter("subject") + "<br>");
+		out.println("서버에 저장된 파일명 :" + multi.getFilesystemName("uploadFile")+ "<br>");
+		out.println("업로드한 파일명 :" + multi.getOriginalFileName("uploadFile")+ "<br>");
+		out.println("서버에 저장된 파일명 :" + multi.getContentType("uploadFile")+ "<br>");
+		
+		  File file = multi.getFile("uploadFile");
+	      if(file != null)
+	      {
+	         out.println("파일 크기 : " + file.length() + "<br>");
+	      }
+	      
+	      str = multi.getFilesystemName("uploadFile");
+	}
+	catch(Exception e)
+	{
+		System.out.println(e.toString());
+	}
+	
+	
+
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,31 +65,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%
-		 // 아까 만든 폴더를 가져올 수 있게함
-  	 	 String uploadDir =this.getClass().getResource("").getPath();
-		 uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"uploadTest/WebContent/images";
-		 out.println("절대경로 : " + uploadDir + "<br/>"); 
-	 
+		<%=savePath %>\<%=str%><br>
+		<img src="<%=savePath%>/<%=str%>"/>
 		
-		// 총 100M 까지 저장 가능하게 함
-		int maxSize = 1024 * 1024 * 100;
-		String encoding = "UTF-8";
-		
-		// 사용자가 전송한 파일 정보 토대로 업로드 장소에 크기 및 파일 업로드 수행할 수 있게 함
-		MultipartRequest multipartRequest
-		= new MultipartRequest(request, uploadDir, maxSize, encoding,
-				new DefaultFileRenamePolicy());
-		
-		// 이전 클래스 name = "file" 실제 사용자가 저장한 실제 네임
-		String fileName = multipartRequest.getOriginalFileName("file");
-		// 실제 서버에 업로드 된 파일시스템 네임
-		String fileRealName = multipartRequest.getFilesystemName("file");
-	
-		// 디비에 업로드 메소드
-		/* new imageUp.upload(fileName, fileRealName);
-		out.write("파일명 : " + fileName + "<br>");
-		out.write("실제파일명 : " + fileRealName + "<br>"); */
-	%>
 </body>
 </html>

@@ -4,10 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pettopia.bk.IBoardDAO">
 
-	<!-- 자유게시판 게시글 리스트 조회 -->
-	<select id="boardList" resultType="com.pettopia.bk.BoardDTO">
-		SELECT BOARD_CODE, HEAD, NICK, TITLE, VIEW_NUM, HIT, REG_DATE, DATE_CHECK
-			 , BLIND_COUNT, REPLY_COUNT
+	<!-- 자유게시판 게시글 갯수 -->
+	<select id="boardCount" resultType="java.lang.String">
+		SELECT COUNT(*)
 		FROM BOARD_VIEW_B
 		<where>
 		BLIND_COUNT = 0
@@ -16,7 +15,14 @@
 		<if test="search_type == 'titleAndContent'">AND TITLE LIKE '%${search_text}%' OR CONTENT LIKE '%${search_text}%'</if>
 		<if test="head_code != null and head_code != 0">AND HEAD_CODE = #{head_code}</if>
 		</where>
-		ORDER BY BOARD_CODE DESC
+	</select>
+
+	<!-- 자유게시판 게시글 리스트 조회 -->
+	<select id="boardList" resultType="com.pettopia.bk.BoardDTO">
+		SELECT NUM, BOARD_CODE, HEAD, NVL(NICK, '(탈퇴회원)') AS NICK, TITLE, VIEW_NUM, HIT, REG_DATE, DATE_CHECK
+		     , BLIND_COUNT, REPLY_COUNT
+		FROM BOARD_VIEW_B
+		WHERE <![CDATA[NUM >= #{start}]]> AND <![CDATA[NUM <= #{end}]]>
 	</select>
 
 	<!-- 말머리 목록 -->
@@ -27,7 +33,7 @@
 
 	<!-- 게시글 내용 -->
 	<select id="content" resultType="com.pettopia.bk.BoardDTO">
-		SELECT MEMBER_CODE, BOARD_CODE, HEAD_CODE, HEAD, TITLE, NICK, VIEW_NUM, HIT, REG_DATE, DATE_CHECK, CONTENT
+		SELECT NUM, MEMBER_CODE, BOARD_CODE, HEAD_CODE, HEAD, TITLE, NICK, VIEW_NUM, HIT, REG_DATE, DATE_CHECK, CONTENT
 		FROM BOARD_VIEW_B
 		WHERE BOARD_CODE = #{board_code} 
 	</select>
@@ -42,16 +48,30 @@
 		ORDER BY REPLY_CODE
 	</select>
 	 
-	<!-- 댓글 수 조회 -->
-	<!--
-	<select id="replyCnt" resultType="java.lang.Integer">
-		SELECT COUNT(*)
-		FROM REPLY_VIEW_B
-		WHERE BOARD_CODE = #{board_code}
-		AND BLIND_COUNT = 0
+	<!-- 다음글 행번호, 게시글코드 조회 -->
+	<select id="nextNum" resultType="com.pettopia.bk.BoardDTO">
+		SELECT NUM, BOARD_CODE
+		FROM BOARD_VIEW_B
+		WHERE NUM = ( SELECT NVL(MIN(NUM), -1) NEXTNUM
+		                FROM BOARD_VIEW_B
+						WHERE <![CDATA[NUM > #{num}]]> )
 	</select>
-	-->
 	
+	<!-- 이전글 행번호, 게시글코드 조회 -->
+	<select id="prevNum" resultType="com.pettopia.bk.BoardDTO">
+		SELECT NUM, BOARD_CODE
+		FROM BOARD_VIEW_B
+		WHERE NUM = ( SELECT NVL(MAX(NUM), -1) BEFORENUM
+		                FROM BOARD_VIEW_B
+						WHERE <![CDATA[NUM < #{num}]]> )
+	</select>
+	
+	<!-- 게시글코드로 행번호 조회 -->
+	<select id="searchNum" resultType="java.lang.String">
+		SELECT NUM
+		FROM BOARD_VIEW_B
+		WHERE BOARD_CODE = #{board_code}
+	</select>
 	
 	
 	<!-- 게시글 생성 액션 - 작성 완료 insert 쿼리 -->

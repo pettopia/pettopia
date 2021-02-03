@@ -11,7 +11,6 @@
 <title>menu.jsp</title>
 <link rel="stylesheet" href="css/main_master.css">
 <script src="https://kit.fontawesome.com/d0c252d761.js" crossorigin="anonymous"></script>
-<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/scripts.js"></script>
 <style type="text/css">
 	ol, ul { margin-bottom: 0px; }

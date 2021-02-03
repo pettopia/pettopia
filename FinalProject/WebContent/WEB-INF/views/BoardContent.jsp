@@ -225,26 +225,64 @@
 						<ul>
 							<li>
 								<span class="page_move_btn">
-									<a href="#a"><img src="<%=cp%>/img/page_up.png">이전글</a>
+									<c:if test="${before != null}">
+									<a href="boardcontent.action?${before.param }"><img src="<%=cp%>/img/page_up.png">이전글</a>
+									</c:if>
+									<c:if test="${before == null}">
+									<a href="javascript:void(0)"><img src="<%=cp%>/img/page_up.png">이전글</a>
+									</c:if>
 								</span>
+								
 								<p class="title">
-									<span><a href="#a">[후기]</a></span>
-									<a href="#a">수제 껌 만들기</a>
+									<span>
+										<c:if test="${before != null}">
+										<a href="boardcontent.action?${before.param }">[${before.head }]</a>
+										</c:if>
+									</span>
+									
+									<c:if test="${before != null}">
+									<a href="boardcontent.action?${before.param }">${before.title }</a>
+									</c:if>
+									<c:if test="${before == null}">
+									이전글이 없습니다.
+									</c:if>
+									
+									<c:if test="${before != null}">
 									<ul class="page_move_info">
-										<li><img src="<%=cp%>/img/date_cnt.png">2020.12.25</li>
+										<li><img src="<%=cp%>/img/date_cnt.png">${before.reg_date }</li>
 									</ul>
+									</c:if>
 								</p>
 							</li>
 							<li>
 								<span class="page_move_btn">
-									<a href="#a"><img src="<%=cp%>/img/page_down.png">다음글</a>
+									<c:if test="${next != null}">
+									<a href="boardcontent.action?${next.param }"><img src="<%=cp%>/img/page_down.png">다음글</a>
+									</c:if>
+									<c:if test="${next == null}">
+									<a href="javascript:void(0)"><img src="<%=cp%>/img/page_down.png">다음글</a>
+									</c:if>
 								</span>
+								
 								<p class="title">
-									<span><a href="#a">[묻고답하기]</a></span>
-									<a href="#a">강아지 처음 키워보는데..</a>
+									<span>
+										<c:if test="${next != null}">
+										<a href="boardcontent.action?${next.param }">[${next.head }]</a>
+										</c:if>
+									</span>
+									
+									<c:if test="${next != null}">
+									<a href="boardcontent.action?${next.param }">${next.title }</a>
+									</c:if>
+									<c:if test="${next == null}">
+									다음글이 없습니다.
+									</c:if>
+									
+									<c:if test="${next != null}">
 									<ul class="page_move_info">
-										<li><img src="<%=cp%>/img/date_cnt.png">2020.12.25</li>
+										<li><img src="<%=cp%>/img/date_cnt.png">${next.reg_date }</li>
 									</ul>
+									</c:if>
 								</p>
 							</li>
 						</ul>

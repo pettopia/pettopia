@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 public interface IBoardDAO
 {
+	// 자유게시판 게시글 갯수
+	public String boardCount(BoardDTO board);
 	// 자유게시판 게시글 리스트 조회
 	public ArrayList<BoardDTO> boardList(BoardDTO board);
 	// 말머리 목록
@@ -17,8 +19,12 @@ public interface IBoardDAO
 	public BoardDTO content(BoardDTO board);
 	// 댓글 리스트 조회
 	public ArrayList<ReplyDTO> replyList(BoardDTO board);
-	// 댓글 수
-	//public int replyCnt(BoardDTO board);
+	// 다음글 행번호 조회
+	public BoardDTO nextNum(BoardDTO board);
+	// 이전글 행번호 조회
+	public BoardDTO prevNum(BoardDTO board);
+	// 게시글코드로 행번호 조회
+	public String searchNum(BoardDTO board);
 	
 	
 	// 게시글 생성 액션

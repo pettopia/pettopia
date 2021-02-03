@@ -13,11 +13,54 @@ public class BoardDTO
 	//-- 게시물의 댓글 수
 	private String search_type, search_text;
 	//-- 검색 타입(제목, 닉네임, 제목+내용), 검색어
-	
+	private String start, end, num;
+	//-- 게시글 조회 시작 행번호, 끝행번호 (boardList 메소드의 파라미터), 행번호
+	private String pageNum, param;
+	//-- 상세게시글로 보내는 url 파라미터 처리
 	// getter/ setter
 	public String getReply_count()
 	{
 		return reply_count;
+	}
+	public String getPageNum()
+	{
+		return pageNum;
+	}
+	public void setPageNum(String pageNum)
+	{
+		this.pageNum = pageNum;
+	}
+	public String getParam()
+	{
+		return param;
+	}
+	public void setParam(String param)
+	{
+		this.param = param;
+	}
+	public String getNum()
+	{
+		return num;
+	}
+	public void setNum(String num)
+	{
+		this.num = num;
+	}
+	public String getStart()
+	{
+		return start;
+	}
+	public void setStart(String start)
+	{
+		this.start = start;
+	}
+	public String getEnd()
+	{
+		return end;
+	}
+	public void setEnd(String end)
+	{
+		this.end = end;
 	}
 	public String getSearch_type()
 	{

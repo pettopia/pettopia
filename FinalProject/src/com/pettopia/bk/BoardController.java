@@ -4,6 +4,8 @@
 
 package com.pettopia.bk;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -21,22 +23,76 @@ public class BoardController
 	
 	// 자유게시판 메인
 	@RequestMapping(value = "board.action", method = RequestMethod.GET)
-	public String board(Model model, HttpSession session, BoardDTO board)
+	public String board(Model model, HttpSession session, BoardDTO board, String pageNum)
 	{
+		/*
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		System.out.println("search_type : " + board.getSearch_type());
 		System.out.println("head_code : " + board.getHead_code());
+		System.out.println("head_code : " + board.getSearch_text());
+		System.out.println("pageNum : " + pageNum);
+		 */
+		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);
+		PagingUtil paging = new PagingUtil();	// 페이징 처리 유틸
+
 		
-		if(board.getSearch_text() != null)	// 게시물을 검색했을 경우
+		int currentPage = 1;	//-- currentPage : 현재 페이지(default 1)
+		if(pageNum != null)
+			currentPage = Integer.parseInt(pageNum);		
+		
+		int boardCount = Integer.parseInt(dao.boardCount(board));	// 조회된 게시글 수
+		int numPerPage = 10;	// 한 페이지에 표시할 게시글 갯수
+		int totalPage = paging.getPageCount(numPerPage, boardCount);	// 총 페이지 수
+
+		if(currentPage > totalPage)		// 다른 회원이 게시글을 삭제해서 총페이지가 줄었을 경우
+			currentPage = totalPage;
+
+		// 현재 페이지에 가져올 게시글 데이터의 시작과 끝
+		// ex) 2 페이지 게시글은 11번째(start) ~ 20번째(end) 데이터
+		int start = (currentPage-1) * numPerPage + 1;
+		int end = currentPage * numPerPage;
+
+		board.setStart(Integer.toString(start));
+		board.setEnd(Integer.toString(end));
+		
+		List<BoardDTO> boardList = dao.boardList(board);
+		String param = "";		// 검색해서 유입한 경우 페이징 전처리 url에 반영할 파라미터값
+   
+		if(board.getSearch_text() != null)	// 검색값이 존재한다면
 		{
+			param += "?search_type=" + board.getSearch_type();
+			param += "&head_code=" + board.getHead_code();
+			param += "&search_text=" + board.getSearch_text();
+		}
+		
+		String listUrl = "board.action" + param;		// 페이징 url 전처리 변수
+		
+		// 페이징 url 리스트(현재페이지, 총페이지수,전처리된페이징url)
+		String pageIndexList = paging.getIndexList(currentPage, totalPage, listUrl);
+		
+		
+		if(board.getSearch_text() != null)	// 게시물을 검색했을 경우 처리
+		{
+			for (BoardDTO dto : boardList)
+			{
+				dto.setParam("search_type=" + board.getSearch_type() + "&head_code=" + board.getHead_code()
+								+ "&search_text=" + board.getSearch_text() + "&board_code=" + dto.getBoard_code());
+			}
+			
 			model.addAttribute("search_type", board.getSearch_type());
 			model.addAttribute("head_code", board.getHead_code());
 			model.addAttribute("search_text", board.getSearch_text());
 		}
-		
-		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);
-		
-		model.addAttribute("boardList", dao.boardList(board));
+		else
+		{
+			for (BoardDTO dto : boardList)
+			{
+				dto.setParam("board_code=" + dto.getBoard_code());
+			}
+		}
+		model.addAttribute("boardList", boardList);
 		model.addAttribute("headList", dao.headList());
+		model.addAttribute("pageIndexList", pageIndexList);
 		
 		return "WEB-INF/views/Board.jsp";
 	}
@@ -47,12 +103,52 @@ public class BoardController
 	{
 		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);
 		
-		dao.viewnumUpdate(board);
+		dao.viewnumUpdate(board);	// 조회수 증가
+		
+		String num = dao.searchNum(board);	// 게시글의 행번호 조회(이전글, 다음글 용도)
+		board.setNum(num);
+		
+		BoardDTO before = dao.prevNum(board);
+		BoardDTO next = dao.nextNum(board);
+		
+		if(before != null)		// 이전글이 존재한다면
+		{
+			before = dao.content(before);
+
+			if(board.getSearch_text() != null)	// 게시물을 검색했을 경우 처리
+			{
+				before.setParam("search_type=" + board.getSearch_type() + "&head_code=" + board.getHead_code()
+					+ "&search_text=" + board.getSearch_text() + "&board_code=" + before.getBoard_code());
+			}
+			else
+				before.setParam("board_code=" + before.getBoard_code());
+			
+			model.addAttribute("before", before);
+		}
+		
+		if(next != null)		// 다음글이 존재한다면
+		{
+			next = dao.content(next);
+
+			if(board.getSearch_text() != null)	// 게시물을 검색했을 경우 처리
+			{
+				next.setParam("search_type=" + board.getSearch_type() + "&head_code=" + board.getHead_code()
+					+ "&search_text=" + board.getSearch_text() + "&board_code=" + next.getBoard_code());
+			}
+			else
+				next.setParam("board_code=" + next.getBoard_code());
+			
+			model.addAttribute("next", next);
+		}
+		
+		// 해당 게시물을 요청했을 때 삭제된 경우
+		BoardDTO content = dao.content(board);
+		if(content.getBoard_code()==null)
+			return "board.action";
 		
 		model.addAttribute("code", (String)session.getAttribute("code"));
 		model.addAttribute("content", dao.content(board));
 		model.addAttribute("replyList", dao.replyList(board));
-		//model.addAttribute("replyCount", dao.replyCnt(board));
 		
 		return "WEB-INF/views/BoardContent.jsp";
 	}
