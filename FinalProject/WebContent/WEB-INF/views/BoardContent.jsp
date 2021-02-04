@@ -163,8 +163,34 @@
 										<a href="#a">${reply.nick }</a>
 										<span>${reply.reg_date } </span>
 									</p>
+									
+									<script type="text/javascript">
+									
+										$().ready(function()
+										{
+											// 댓글 수정 버튼 클릭 액션
+											$(".modify_reply").click(function()
+											{
+												//alert("수정 버튼 클릭");
+												$(".reply_btn_wrap").css("display", "none");
+												$(".reply_text").css("display", "none");
+												$(".txar_wrap").css("display", "block");
+											});
+											
+											// 댓글 수정 취소 버튼 클릭 액션
+											$(".reply_cancle").click(function()
+											{
+												$(".reply_btn_wrap").css("display", "block");
+												$(".reply_text").css("display", "block");
+												$(".txar_wrap").css("display", "none");
+											});
+											
+										});
+									
+									</script>
+									
 									<!-- 댓글 관련 버튼 -->
-									<ul class="reply_btn_wrap">
+									<ul class="reply_btn_wrap" style="display: block;">
 										<c:if test="${reply.member_code == code }">
 										<li><a href="javascript:void(0)" class="modify_reply">수정</a></li>
 										<li>
@@ -180,9 +206,20 @@
 										</li>
 									</ul>
 									<!-- 댓글 내용 -->
-									<div class="reply_text" style="white-space: pre-line;">
+									<div class="reply_text" style="white-space: pre-line; display: block;">
 										${reply.content }
-									</div>									
+									</div>
+									<!-- 댓글 수정 폼 -->
+									<div class="txar_wrap ctracker" style="display: none;">
+										<textarea name="content" rows="10" cols="30" class="txar">${reply.content }</textarea>
+										<div class="txar_btn">
+											<div class="txar_right_btn">
+												<span class="glist_number">(<em>0</em>/200)</span>
+												<span><a class="btn01_g reply_submit" href="javascript:void(0)">등록</a></span>
+												<span><a class="btn01_g reply_cancle" href="javascript:void(0)">취소</a></span>
+											</div>
+										</div>
+									</div>
 								</div>
 							</li>
 							</c:forEach>
@@ -190,7 +227,9 @@
 						
 					</div><!-- /reply_wrap end -->
 					
+					<%-- 
 					<div class="page_numb2">
+					
 						<!-- 리플 페이징 처리 -->
 						<span class="cm_prev">
 							<a><img src="<%=cp%>/img/re_prev_off.png"></a>
@@ -200,8 +239,8 @@
 							<a><img src="<%=cp%>/img/re_next_off.png"></a>
 						</span>
 						
-						
 					</div>
+					--%>
 					
 					<div class="bottom_txar_wrap">
 						<!-- 댓글 등록 -->

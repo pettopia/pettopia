@@ -947,15 +947,15 @@ input[type="hidden" i] {
 .txar_wrap {
     float: left;
     margin-top: 15px;
-    width: 800px;
+    width: 880px;
     height: 154px;
     border: 1px solid #e3e3e3;
 }
 .txar {
     float: left;
     padding: 20px;
-    width: 778px;
-    height: 60px;
+    width: 880px;
+    height: 90px;
     resize: none;
 }
 .txar_btn {
@@ -985,7 +985,7 @@ input[type="hidden" i] {
     float: left;
     margin-top: 11px;
 }
-.txar_right_btn ul li {
+.txar_right_btn span {
     float: left;
     margin-left: 4px;
 }

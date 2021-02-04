@@ -28,7 +28,7 @@
 		$(".search_info").css("display","none");
 		
 		//검색했을 경우 검색 정보 노출
-		if(search_text != 'null')
+		if(search_text != 'null' && search_text != "")
 		{
 			$(".search_info").css("display","block");			
 		}
@@ -36,11 +36,6 @@
 		// 검색 버튼 클릭 액션
 		$(".search").click(function()
 		{
-			if($("#search_text").val() == "")
-			{
-				alert("검색어를 입력하세요.");
-				return;
-			}
 			$(location).attr("href","board.action?search_type=" + $("#search_type").val() +"&head_code=" + $("#head_code").val() + "&search_text=" + $("#search_text").val());
 			
 		});
@@ -117,7 +112,7 @@
 						
 					</h1>
 					
-					<div class="search_info" style="margin-top:0; margin-bottom:30px;">
+					<div class="search_info" style="margin-top:0; margin-bottom:30px; display: none">
 						<span>'${search_text }'</span>
 						(으)로 검색한 결과입니다.
 					</div>
@@ -128,7 +123,7 @@
 						<li>
 							<p class="list_title">
 								<a href="#a" style="color: rgb(51, 51, 51);"><span class="category">[${board.head }]</span>
-									<a href="boardcontent.action?board_code=${board.board_code }" class="etc">
+									<a href="boardcontent.action?${board.param }" class="etc">
 										<span class="title">${board.title }</span>
 										<c:if test="${board.reply_count>0 }">
 										<em>(${board.reply_count })</em>
@@ -144,168 +139,14 @@
 								<span class="user_name"> <a href="">${board.nick }</a>
 								</span>
 								<ul>
-									<li class="like_cnt"><img src="<%=cp %>/img/like_cnt.png">${board.hit }</li>
-									<li class="date_cnt"><img src="<%=cp %>/img/date_cnt.png">${board.reg_date }</li>
-									<li class="eye_cnt"><img src="<%=cp %>/img/eye_cnt.png">${board.view_num }</li>
+									<li class="like_cnt">${board.hit }</li>
+									<li class="date_cnt">${board.reg_date }</li>
+									<li class="eye_cnt">${board.view_num }</li>
 								</ul>
 							</div>
 						</li>
 						</c:forEach>
-						<%-- 
-						<li>
-							<p class="list_title">
-								<a href="#a" style="color: rgb(51, 51, 51);"><span class="category">[일상]</span>
-									<span class="title">우리 바비 보고가세용</span>
-									<img class="new" src="<%=cp %>/img/new.png">
-								</a>
-							</p>
-							<div class="board_other_info">
-								<span class="user_name"> <a href="">babiluv</a>
-								</span>
-								<ul>
-									<li class="like_cnt">0</li>
-									<li class="date_cnt">2020.12.25</li>
-									<li class="eye_cnt">20</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<p class="list_title">
-								<a href="#a" style="color: rgb(51, 51, 51);"><span class="category">[일상]</span>
-									<span class="title">다들 글 쓰실 때 조심하세여ㅠㅠ</span>
-									<img class="new" src="<%=cp %>/img/new.png">
-								</a>
-							</p>
-							<div class="board_other_info">
-								<span class="user_name"> <a href="">핑키엄마</a>
-								</span>
-								<ul>
-									<li class="like_cnt">0</li>
-									<li class="date_cnt">2020.12.25</li>
-									<li class="eye_cnt">20</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<p class="list_title">
-								<a href="#a" style="color: rgb(51, 51, 51);"><span class="category">[묻고답하기]</span>
-									<span class="title">산책하기 싫은건가요??</span>
-									<img class="new" src="<%=cp %>/img/new.png">
-								</a>
-							</p>
-							<div class="board_other_info">
-								<span class="user_name"> <a href="">두부맘</a>
-								</span>
-								<ul>
-									<li class="like_cnt">0</li>
-									<li class="date_cnt">2020.12.25</li>
-									<li class="eye_cnt">20</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<p class="list_title">
-								<a href="#a" style="color: rgb(51, 51, 51);"><span class="category">[묻고답하기]</span>
-									<span class="title">강아지 마취</span>
-									<img class="new" src="<%=cp %>/img/new.png">
-								</a>
-							</p>
-							<div class="board_other_info">
-								<span class="user_name"> <a href="">하이루</a>
-								</span>
-								<ul>
-									<li class="like_cnt">0</li>
-									<li class="date_cnt">2020.12.25</li>
-									<li class="eye_cnt">20</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<p class="list_title">
-								<a href="#a" style="color: rgb(51, 51, 51);"><span class="category">[후기]</span>
-									<span class="title">흡수패드 추천 : 여러 패드 사용 후기</span>
-									<img class="new" src="<%=cp %>/img/new.png">
-								</a>
-							</p>
-							<div class="board_other_info">
-								<span class="user_name"> <a href="">콩이땅이</a>
-								</span>
-								<ul>
-									<li class="like_cnt">0</li>
-									<li class="date_cnt">2020.12.25</li>
-									<li class="eye_cnt">20</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<p class="list_title">
-								<a href="#a" style="color: rgb(51, 51, 51);"><span class="category">[꿀팁 정보]</span>
-									<span class="title">산책 준비 전 필수사항 꿀팁</span>
-									<img class="new" src="<%=cp %>/img/new.png">
-								</a>
-							</p>
-							<div class="board_other_info">
-								<span class="user_name"> <a href="">오지오지</a>
-								</span>
-								<ul>
-									<li class="like_cnt">0</li>
-									<li class="date_cnt">2020.12.25</li>
-									<li class="eye_cnt">20</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<p class="list_title">
-								<a href="#a" style="color: rgb(51, 51, 51);"><span class="category">[후기]</span>
-									<span class="title">포메 곰돌이컷 후기~♡</span>
-									<img class="new" src="<%=cp %>/img/new.png">
-								</a>
-							</p>
-							<div class="board_other_info">
-								<span class="user_name"> <a href="">딸랑구</a>
-								</span>
-								<ul>
-									<li class="like_cnt">0</li>
-									<li class="date_cnt">2020.12.25</li>
-									<li class="eye_cnt">20</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<p class="list_title">
-								<a href="#a" style="color: rgb(51, 51, 51);"><span class="category">[묻고답하기]</span>
-									<span class="title">강아지 처음 키워보는데..</span>
-									<img class="new" src="<%=cp %>/img/new.png">
-								</a>
-							</p>
-							<div class="board_other_info">
-								<span class="user_name"> <a href="">rnlcksgdk</a>
-								</span>
-								<ul>
-									<li class="like_cnt">0</li>
-									<li class="date_cnt">2020.12.25</li>
-									<li class="eye_cnt">20</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<p class="list_title">
-								<a href="#a" style="color: rgb(51, 51, 51);"><span class="category">[일상]</span>
-									<span class="title">첫 생일파티 했어요ㅎㅎ</span>
-									<img class="new" src="<%=cp %>/img/new.png">
-								</a>
-							</p>
-							<div class="board_other_info">
-								<span class="user_name"> <a href="">꿀비누나</a>
-								</span>
-								<ul>
-									<li class="like_cnt">0</li>
-									<li class="date_cnt">2020.12.25</li>
-									<li class="eye_cnt">20</li>
-								</ul>
-							</div>
-						</li>
-						--%>
+						
 					</ul>
 					
 					<span class="write">
@@ -316,39 +157,9 @@
 					
 					<div class="page_num">
 						<!-- 게시글 페이징 -->
-						<span class="all_prev">
-							<a>
-								<img src="<%=cp%>/img/all_prev.png">
-							</a>
-						</span>
-						<span class="prev">
-							<a>
-								<img src="<%=cp%>/img/prev.png">
-							</a>
-						</span>
-						<a class="active">1</a>
-						<a href="#a">2</a>
-						<a href="#a">3</a>
-						<a href="#a">4</a>
-						<a href="#a">5</a>
-						<a href="#a">6</a>
-						<a href="#a">7</a>
-						<a href="#a">8</a>
-						<a href="#a">9</a>
-						<a href="#a">10</a>
-						<span class="next">
-							<a href="#a">
-								<!-- 현재 페이지 +1 -->
-								<img src="<%=cp%>/img/next.png">
-							</a>
-						</span>
-						<span class="all_next">
-							<a href="#a">
-								<!-- 마지막 페이지 -->
-								<img src="<%=cp%>/img/all_next.png">
-							</a>
-						</span>
-		
+						
+						${pageIndexList }
+						
 					</div><!-- .page_num end -->
 					
 				</div><!-- .board end -->
