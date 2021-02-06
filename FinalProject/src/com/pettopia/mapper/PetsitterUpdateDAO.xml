@@ -133,6 +133,14 @@
     ORDER BY PET_SIZE_SEQ ASC
     </select>
     
+    <select id="petCareCheck" resultType="java.lang.String" parameterType="java.util.HashMap">
+    SELECT count(*) as count
+    FROM PS_CARE_PAY
+    WHERE PS_PROFILE_SEQ=#{ps_profile_seq}
+    and pet_size_seq = #{pet_size_seq} 
+    ORDER BY PET_SIZE_SEQ ASC
+    </select>
+    
 
     <update id="uppscarepay" parameterType="java.util.HashMap">
     UPDATE PS_CARE_PAY
