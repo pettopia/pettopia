@@ -83,7 +83,7 @@ public class PetsitterUpdateController
 			
 			for (PetsitterDTO dto1 : petcareList)
 			{
-				System.out.println(dto1.getPet_size_seq() + " " + dto1.getCarepay());
+//				System.out.println(dto1.getPet_size_seq() + " " + dto1.getCarepay());
 			}
 			
 			PetsitterDTO size1 = new PetsitterDTO();	// 대형 요금
@@ -131,7 +131,7 @@ public class PetsitterUpdateController
 	
 	/* 펫시터 프로필 수정 액션 */
 	@RequestMapping(value = "/psprofileupdate.action", method ={ RequestMethod.GET, RequestMethod.POST })
-	public String petprofileupdate(Model model,HttpSession session, PetsitterUpdateDTO petsitterUpdatedto, String size1, String size2, String size3)
+	public String petprofileupdate(Model model,HttpSession session, PetsitterUpdateDTO petsitterUpdatedto)
 	{
 		IPetsitterUpdateDAO dao = sqlSession.getMapper(IPetsitterUpdateDAO.class);
 		String code = (String) session.getAttribute("code"); 	
@@ -143,16 +143,16 @@ public class PetsitterUpdateController
 		petsitterUpdatedto.setPs_profile_seq(ps_profile_seq);
 		//System.out.println(ps_profile_seq);
 		
-		System.out.println(petsitterUpdatedto.getPs_care_type_seq());
-		System.out.println(petsitterUpdatedto.getPscontent());
-		System.out.println(petsitterUpdatedto.getPs_open_seq());
-		System.out.println(petsitterUpdatedto.getPsaddrnumber());
-		System.out.println(petsitterUpdatedto.getPsaddr1());
-		System.out.println(petsitterUpdatedto.getPsaddr2());
-		System.out.println(petsitterUpdatedto.getPsaddr3());
-		System.out.println(petsitterUpdatedto.getBank_seq());
-		System.out.println(petsitterUpdatedto.getPsaccountname());
-		System.out.println(petsitterUpdatedto.getPsaccountnumber());
+//		System.out.println(petsitterUpdatedto.getPs_care_type_seq());
+//		System.out.println(petsitterUpdatedto.getPscontent());
+//		System.out.println(petsitterUpdatedto.getPs_open_seq());
+//		System.out.println(petsitterUpdatedto.getPsaddrnumber());
+//		System.out.println(petsitterUpdatedto.getPsaddr1());
+//		System.out.println(petsitterUpdatedto.getPsaddr2());
+//		System.out.println(petsitterUpdatedto.getPsaddr3());
+//		System.out.println(petsitterUpdatedto.getBank_seq());
+//		System.out.println(petsitterUpdatedto.getPsaccountname());
+//		System.out.println(petsitterUpdatedto.getPsaccountnumber());
 			
 		try
 		{
@@ -173,7 +173,7 @@ public class PetsitterUpdateController
 	            paramMap.put("ps_service_seq", arr[i]);
 	            //System.out.println(paramMap); // 출력해서 확인
 	            dao.serviceinsert(paramMap); // 이용서비스 insert
-	            System.out.println(paramMap);
+//	            System.out.println(paramMap);
 	         }
 			
 	         
@@ -185,20 +185,13 @@ public class PetsitterUpdateController
 			
 	         //String arr1[] = petsitterUpdatedto.getPet_size_seq().split(",");
 	         //String arr2[] = petsitterUpdatedto.getCarepay().split(",");
-	         HashMap<String, Object> paramMap2 = new HashMap<String, Object>();	
 	         
 	
 	         
-	         paramMap2.put("ps_profile_seq", dao.searchCode(code));
 	         
-	         System.out.println("************************");
-	         //System.out.println(dao.searchCode(code));
+//	         System.out.println(dao.searchCode(code));
 	         
-	         paramMap2.put("ps_care_pay_seq", dao.selpscarepay(paramMap2).get("ps_care_pay_seq"));
-	         paramMap2.put("pet_size_seq", dao.selpscarepay(paramMap2).get("ps_size_seq"));
-	         
-	         System.out.println(dao.selpscarepay(paramMap2).get("ps_care_pay_seq"));
-	         System.out.println(dao.selpscarepay(paramMap2).get("ps_size_seq"));
+//	         System.out.println(dao.selpscarepay(paramMap2));
 	    
 	         /*
 	         for (int i = 0; i < arr1.length; i++)
@@ -209,33 +202,61 @@ public class PetsitterUpdateController
 	            dao.carepayinsert(paramMap2); // 이용서비스 insert
 	         }
 			*/
-	         if(size1 != null || size1 != "")	// 대형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
-	         {
-	        	 paramMap2.put("pet_size_seq", "1");
-	        	 paramMap2.put("carepay", size1);
-	        	 paramMap2.put("ps_care_pay_seq", dao.selpscarepay(paramMap2).get("ps_care_pay_seq"));
-		         dao.uppscarepay(paramMap2); // 이용서비스 insert
-		         
-		        
+	         HashMap<String, Object> paramMap2 = new HashMap<String, Object>();	
+	         paramMap2.put("ps_profile_seq", dao.searchCode(code)); // 펫시터 고유키
+//	         paramMap2.put("ps_care_pay_seq", dao.selpscarepay(paramMap2));  //중복키가 여러개 나올 수 있음.
+	         ArrayList<HashMap<String, Object>> dataList = dao.selpscarepayList(paramMap2);
+	         ArrayList<HashMap<String, Object>> carePaySeq = dao.selpscarepay(paramMap2);
+	         
+	         for(int i=0; i<dataList.size(); i++) {
+	        	 if(petsitterUpdatedto.getPet_size_seq1().equals("Y"))	// 대형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
+	        	 {
+	        		 paramMap2.put("pet_size_seq", "1");
+	        		 paramMap2.put("carepay", petsitterUpdatedto.getSize1()); 
+	        		 
+	        		 if(dataList.get(i).get("PET_SIZE_SEQ").toString().equals("1")) {
+	        			 System.out.println("대형 사이즈 update");
+	        			 dao.uppscarepay(paramMap2); // 이용서비스 insert
+	        		 }else {
+	        			 System.out.println("대형 사이즈 insert");
+	        			 dao.inpscarepay(paramMap2);
+	        		 }
+	        		 //paramMap2.put("ps_care_pay_seq", dao.selpscarepay(paramMap2).get("ps_care_pay_seq"));
+	        	 }
+	        	 
+	        	 System.out.println(petsitterUpdatedto.getPet_size_seq2());
+	        	 if(petsitterUpdatedto.getPet_size_seq2().equals("Y"))	// 중형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
+	        	 {
+	        		 System.out.println(petsitterUpdatedto.getSize2());
+	        		 paramMap2.put("pet_size_seq", "2");
+	        		 paramMap2.put("carepay", petsitterUpdatedto.getSize2());
+	        		 
+	        		 if(dataList.get(i).get("PET_SIZE_SEQ").toString().equals("2")) {
+	        			 System.out.println("중형 사이즈 update");
+	        			 dao.uppscarepay(paramMap2); // 이용서비스 insert
+	        		 }else {
+	        			 System.out.println("중형 사이즈 insert");
+	        			 System.out.println(paramMap2);
+	        			 dao.inpscarepay(paramMap2);
+	        		 }
+	        	 }
+	        	 
+	        	 if(petsitterUpdatedto.getPet_size_seq3().equals("Y"))	// 소형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
+	        	 {
+	        		 System.out.println("여기타냐");
+	        		 paramMap2.put("pet_size_seq", "3");
+	        		 paramMap2.put("carepay", petsitterUpdatedto.getSize3());
+	        		 
+	        		 if(dataList.get(i).get("PET_SIZE_SEQ").toString().equals("3")) {
+	        			 System.out.println("소형 사이즈 update");
+	        			 dao.uppscarepay(paramMap2); // 이용서비스 insert
+	        		 }else {
+	        			 System.out.println("소형 사이즈 insert");
+	        			 dao.inpscarepay(paramMap2);
+	        		 }
+	        	 }
 	         }
-
-	         if(size2 != null || size2 != "")	// 중형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
-	         {
-	        	 paramMap2.put("pet_size_seq", "2");
-	        	 paramMap2.put("carepay", size2);
-	        	 paramMap2.put("ps_care_pay_seq", dao.selpscarepay(paramMap2).get("ps_care_pay_seq"));
-		         dao.uppscarepay(paramMap2); // 이용서비스 insert
-		         
-	         }
-
-	         if(size3 != null || size3 != "")	// 소형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
-	         {
-	        	 paramMap2.put("pet_size_seq", "3");
-	        	 paramMap2.put("carepay", size3);
-	        	 paramMap2.put("ps_care_pay_seq", dao.selpscarepay(paramMap2).get("ps_care_pay_seq"));
-		         dao.uppscarepay(paramMap2); // 이용서비스 insert
-		         
-	         }
+	         
 	         
 	         
 					

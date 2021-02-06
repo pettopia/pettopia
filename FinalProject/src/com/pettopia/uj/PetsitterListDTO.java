@@ -4,6 +4,20 @@ public class PetsitterListDTO
 {
 	
 	String nick, age, addr1, ps_open_seq, pscontent, seq;
+	String keyword; // 검색어
+	
+
+
+
+	public String getKeyword()
+	{
+		return keyword;
+	}
+
+	public void setKeyword(String keyword)
+	{
+		this.keyword = keyword;
+	}
 
 	public String getNick()
 	{

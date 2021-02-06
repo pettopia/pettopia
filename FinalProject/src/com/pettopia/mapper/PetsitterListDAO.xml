@@ -36,12 +36,14 @@
     <!--    자료형 클래스(DTO) 멤버 변수(속성)와 일치하는 경우 -->
     <!--    자동 매핑이 이루어진다. -->
     
-    <!-- 로그인한 회원(MEMBER_CODE_SEQ) 프로필 코드 조회하기 -->
-
-	<select id="profile" resultType="com.pettopia.uj.PetsitterListDTO"  parameterType="java.util.HashMap">
-	 SELECT SEQ, NICK, AGE, ADDR1, PS_OPEN_SEQ, PSCONTENT
-	 FROM PETSITTER_LIST
-	</select> 
+	<!-- 검색기능 -->
+	<select id="profilelistsearch" resultType="com.pettopia.uj.PetsitterListDTO" parameterType="java.util.HashMap">
+		SELECT SEQ, NICK, AGE, ADDR1, PS_OPEN_SEQ, PSCONTENT
+		FROM PETSITTER_LIST
+		<if test="keyword != null and keyword != ''">
+			WHERE ADDR1 LIKE '%#{keyword}%'
+		</if>
+	</select>
 
 
 </mapper>

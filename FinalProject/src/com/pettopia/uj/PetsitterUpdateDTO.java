@@ -11,9 +11,71 @@ public class PetsitterUpdateDTO
 	private String ps_care_type_seq, pscontent, psaddrnumber
 				 , psaddr1, psaddr2, psaddr3, ps_open_seq, bank_seq
 				 , psaccountnumber, psaccountname
-				 , ps_care_pay_seq, ps_size_seq;
+				 , ps_care_pay_seq, ps_size_seq
+				 , size1, size2, size3
+				 , pet_size_seq1, pet_size_seq2, pet_size_seq3;
      
 	
+	public String getPet_size_seq1()
+	{
+		return pet_size_seq1;
+	}
+
+	public void setPet_size_seq1(String pet_size_seq1)
+	{
+		this.pet_size_seq1 = pet_size_seq1;
+	}
+
+	public String getPet_size_seq2()
+	{
+		return pet_size_seq2;
+	}
+
+	public void setPet_size_seq2(String pet_size_seq2)
+	{
+		this.pet_size_seq2 = pet_size_seq2;
+	}
+
+	public String getPet_size_seq3()
+	{
+		return pet_size_seq3;
+	}
+
+	public void setPet_size_seq3(String pet_size_seq3)
+	{
+		this.pet_size_seq3 = pet_size_seq3;
+	}
+
+	public String getSize1()
+	{
+		return size1;
+	}
+
+	public void setSize1(String size1)
+	{
+		this.size1 = size1;
+	}
+
+	public String getSize2()
+	{
+		return size2;
+	}
+
+	public void setSize2(String size2)
+	{
+		this.size2 = size2;
+	}
+
+	public String getSize3()
+	{
+		return size3;
+	}
+
+	public void setSize3(String size3)
+	{
+		this.size3 = size3;
+	}
+
 	public String getPs_care_pay_seq()
 	{
 		return ps_care_pay_seq;

@@ -118,10 +118,19 @@
     
     </update>
     
+    
+    
     <select id="selpscarepay" resultType="HashMap" parameterType="java.util.HashMap">
+    SELECT SEQ AS PS_CARE_PAY_SEQ
+    FROM PS_CARE_PAY
+    WHERE PS_PROFILE_SEQ=#{ps_profile_seq}
+    </select>
+    
+    <select id="selpscarepayList" resultType="HashMap" parameterType="java.util.HashMap">
     SELECT SEQ AS PS_CARE_PAY_SEQ, PS_PROFILE_SEQ, PET_SIZE_SEQ
     FROM PS_CARE_PAY
     WHERE PS_PROFILE_SEQ=#{ps_profile_seq}
+    ORDER BY PET_SIZE_SEQ ASC
     </select>
     
 
@@ -130,6 +139,12 @@
 	SET PET_SIZE_SEQ=#{pet_size_seq}, CAREPAY=#{carepay}
 	WHERE PS_PROFILE_SEQ=#{ps_profile_seq}
     </update>
+	
+	
+	 <insert id="inpscarepay" parameterType="java.util.HashMap">
+    INSERT INTO PS_CARE_PAY
+	VALUES('PS_C_P-'||LPAD(PS_CARE_PAY_SEQ.NEXTVAL,6,0), #{ps_profile_seq}, #{pet_size_seq}, #{carepay})
+    </insert>
 	
     
 

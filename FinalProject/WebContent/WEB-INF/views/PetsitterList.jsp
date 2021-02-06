@@ -17,6 +17,17 @@ String cp = request.getContextPath();
 <script type="text/javascript"
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<style type="text/css">
+	#searchForm
+	{
+		position: relative;
+		left: 40%;
+		
+		margin-top: 10px;
+		
+	}
+
+</style>
 
 <script type="text/javascript">
 
@@ -35,20 +46,6 @@ String cp = request.getContextPath();
 	
 	
 	
-
-</script>
-<script type="text/javascript">
-//검색 버튼 클릭 액션
-	$(".search").click(function()
-	{
-		if($("#search_text").val() == "")
-		{
-			alert("검색어를 입력하세요.");
-			return;
-		}
-		
-		
-	});
 
 </script>
 
@@ -70,7 +67,9 @@ String cp = request.getContextPath();
 	<div id="content" style="margin-top: 182px;">
 
 		<p class="Diary_text">PETSITTER</p>
-		<p class="Diary_text_small">펫시터를 찾아 돌봄 신청을 하세요.<br>펫시터가 되어 보세요-!</p>
+		<p class="Diary_text_small">
+			펫시터를 찾아 돌봄 신청을 하세요.<br>펫시터가 되어 보세요-!
+		</p>
 
 		<div class="Diary_select">
 			<div class="Diary_information">
@@ -85,43 +84,59 @@ String cp = request.getContextPath();
 						code = (String) session.getAttribute("code");
 				%>
 				<c:if test="${psregcode == null }">
-				<a href="petsitterreq.action">펫시터 신청</a>
+					<a href="petsitterreq.action">펫시터 신청</a>
 				</c:if>
 				<c:if test="${psregcode != null }">
-				<a href="javascript:void(0);" onclick="alert('이미 펫시터인 회원입니다.');">펫시터 신청</a>
+					<a href="javascript:void(0);" onclick="alert('이미 펫시터인 회원입니다.');">펫시터
+						신청</a>
 				</c:if>
 				<%
 					}
 					else
 					{
 				%>
-					<a href="petsitterloginform.action">펫시터 신청</a>
+				<a href="petsitterloginform.action">펫시터 신청</a>
 				<%
 					}
 				%>
 			</div>
 
 		</div>
-		
-							
 
 
-		 	<div class="menu">
-			<input type="text" name="search_text" id="search_text" value="${search_text }"
-				placeholder="동 이름을 검색하세요 (예. 논현동)" onKeypress="search()"> 
+
+
+
+		<form id ="searchForm" action="petsitter.action" method="get">
+			<!-- <label for="condition" input type="hidden">검색조건</label> -->
+			<input type="text" name="keyword" id="keyword" value="${keyword }" placeholder="지역을 검색하세요 (예. 서울)"/>
 			<!-- <input type="date" id="now_date"> <a>~</a> <input type="date" id="now_date"> -->
-			<div id="btn">
-				<span class="noselect">Search
-				<a href="javascript:void(0);" class="search">
-				</span>
-				
-				<div id="circle"></div>
-			</div>
+			
+			<button id="searchBtn">search</button>
+			
+			
+			
+			
+			
+		</form>
+	
 
 
-		</div> 
 
-		<br> <br> <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<br> <br> <br>
 
 
 

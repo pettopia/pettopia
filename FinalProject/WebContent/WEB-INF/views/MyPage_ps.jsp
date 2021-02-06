@@ -168,6 +168,7 @@
          <div class="info">
 
             <form action="psprofileupdate.action" method="post">
+            	<input type="hidden" name="ps_profile_seq" value="${ps_profile_seq}">
                
                <table class="table" style="width:900px;">
 
@@ -279,15 +280,15 @@
                   
                		<tr>
                			<th rowspan="3">이용요금<span style="font-size: 15px;">(※)</span></th>
-               			<td>대형 <input type="text" name="size1" class="form-control" style="width: 200px; display: inline;" 
+               			<td><input type="checkbox" name="pet_size_seq1" value="Y"> 대형 <input type="text" name="size1" class="form-control" style="width: 200px; display: inline;" 
                			value="${size1.carepay }"></td>
                		</tr>
                		<tr>
-               			<td>중형 <input type="text" name="size2" class="form-control" style="width: 200px; display: inline;" 
+               			<td><input type="checkbox" name="pet_size_seq2" value="Y"> 중형 <input type="text" name="size2" class="form-control" style="width: 200px; display: inline;" 
                			 value="${size2.carepay }"></td>
                		</tr>
                		<tr>
-               			<td>소형 <input type="text" name="size3" class="form-control"  style="width: 200px; display: inline;" 
+               			<td><input type="checkbox" name="pet_size_seq3" value="Y"> 소형 <input type="text" name="size3" class="form-control"  style="width: 200px; display: inline;" 
                			value="${size3.carepay }"></td>
                		</tr>
                		
