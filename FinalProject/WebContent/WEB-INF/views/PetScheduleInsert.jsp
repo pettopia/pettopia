@@ -13,7 +13,6 @@ String cp = request.getContextPath();
 <link rel="stylesheet" type="text/css"
    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="css/jquery.timepicker.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 <script type="text/javascript"
    src="http://code.jquery.com/jquery.min.js"></script>
@@ -21,7 +20,6 @@ String cp = request.getContextPath();
    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="jquery.timepicker.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
 <script type="text/javascript">
@@ -124,7 +122,7 @@ String cp = request.getContextPath();
               dateFormat: "yy-mm-dd",
               defaultDate: 0,
               changeMonth: true,
-              minDate: 0,
+              /* minDate: 0, 전체 선택하고 싶으면 주석 / 현재와 미래만 선택하고 싶으면 min / 현재와 과거만 선택하고 싶으면 max*/
               numberOfMonths: 1,
               closeText: "닫기",
               prevText: "이전달",
@@ -196,7 +194,7 @@ String cp = request.getContextPath();
     	    scrollbar: true */
     	});
       
-  		/* $("#startdatetime").timepicker('setTime', new Date()); */
+  		
    
 	  
   });
