@@ -39,6 +39,8 @@ public interface IPetsitterUpdateDAO
 	// 수정할 때 펫시터가 돌봄 가능한 견종을 처음 등록 
 	public void inpscarepay(HashMap<String, Object> paramMap2);
 
+	public String petCareCheck(HashMap<String, Object> paramMap2);
+
 	
 
 

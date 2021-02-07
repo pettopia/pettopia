@@ -141,6 +141,7 @@ public class PetsitterUpdateController
 		
 		String ps_profile_seq = dao.searchCode(code);
 		petsitterUpdatedto.setPs_profile_seq(ps_profile_seq);
+		System.out.println("ps_profile_seq >>>>>>>>>>>>>> " + ps_profile_seq);
 		//System.out.println(ps_profile_seq);
 		
 //		System.out.println(petsitterUpdatedto.getPs_care_type_seq());
@@ -203,59 +204,58 @@ public class PetsitterUpdateController
 	         }
 			*/
 	         HashMap<String, Object> paramMap2 = new HashMap<String, Object>();	
+	         System.out.println("code >>>>>>>>>>>>>> " + code);
+	         System.out.println("searchCode 값 >>>>>>" + dao.searchCode(code));
 	         paramMap2.put("ps_profile_seq", dao.searchCode(code)); // 펫시터 고유키
-//	         paramMap2.put("ps_care_pay_seq", dao.selpscarepay(paramMap2));  //중복키가 여러개 나올 수 있음.
-	         ArrayList<HashMap<String, Object>> dataList = dao.selpscarepayList(paramMap2);
-	         ArrayList<HashMap<String, Object>> carePaySeq = dao.selpscarepay(paramMap2);
 	         
-	         for(int i=0; i<dataList.size(); i++) {
-	        	 if(petsitterUpdatedto.getPet_size_seq1().equals("Y"))	// 대형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
-	        	 {
-	        		 paramMap2.put("pet_size_seq", "1");
-	        		 paramMap2.put("carepay", petsitterUpdatedto.getSize1()); 
-	        		 
-	        		 if(dataList.get(i).get("PET_SIZE_SEQ").toString().equals("1")) {
-	        			 System.out.println("대형 사이즈 update");
-	        			 dao.uppscarepay(paramMap2); // 이용서비스 insert
-	        		 }else {
-	        			 System.out.println("대형 사이즈 insert");
-	        			 dao.inpscarepay(paramMap2);
-	        		 }
-	        		 //paramMap2.put("ps_care_pay_seq", dao.selpscarepay(paramMap2).get("ps_care_pay_seq"));
-	        	 }
+	         // 대형견 돌봄 체크(Y)
+	    	 if(petsitterUpdatedto.getPet_size_seq1().equals("Y"))	// 대형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
+	    	 {
+	    		 paramMap2.put("pet_size_seq", "1"); // 대형견 사이즈 코드
+	    		 paramMap2.put("carepay", petsitterUpdatedto.getSize1()); // 대형견 돌봄 가격
+	    		 System.out.println(dao.petCareCheck(paramMap2).toString());
+	    		 if(Integer.parseInt(dao.petCareCheck(paramMap2).toString()) == 0) { // 대형견을 돌보는지 체크했는데 대형견 돌봄이 있는경우.
+	    			 System.out.println("insert");
+	    			 dao.inpscarepay(paramMap2);
+	    		 }else {  // 대형견 돌봄이 없을 경우.
+	    			 System.out.println("update");
+	    			 dao.uppscarepay(paramMap2);
+	    		 }
+	    	 }else { // 대형견 돌봄 체크(N)이므로 삭제
+	    		 System.out.println("삭제로직");
+	    	 }
 	        	 
-	        	 System.out.println(petsitterUpdatedto.getPet_size_seq2());
-	        	 if(petsitterUpdatedto.getPet_size_seq2().equals("Y"))	// 중형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
-	        	 {
-	        		 System.out.println(petsitterUpdatedto.getSize2());
-	        		 paramMap2.put("pet_size_seq", "2");
-	        		 paramMap2.put("carepay", petsitterUpdatedto.getSize2());
-	        		 
-	        		 if(dataList.get(i).get("PET_SIZE_SEQ").toString().equals("2")) {
-	        			 System.out.println("중형 사이즈 update");
-	        			 dao.uppscarepay(paramMap2); // 이용서비스 insert
-	        		 }else {
-	        			 System.out.println("중형 사이즈 insert");
-	        			 System.out.println(paramMap2);
-	        			 dao.inpscarepay(paramMap2);
-	        		 }
-	        	 }
+//	        	 System.out.println(petsitterUpdatedto.getPet_size_seq2());
+//	        	 if(petsitterUpdatedto.getPet_size_seq2().equals("Y"))	// 중형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
+//	        	 {
+//	        		 System.out.println(petsitterUpdatedto.getSize2());
+//	        		 paramMap2.put("pet_size_seq", "2");
+//	        		 paramMap2.put("carepay", petsitterUpdatedto.getSize2());
+//	        		 
+//	        		 if(dataList.get(i).get("PET_SIZE_SEQ").toString().equals("2")) {
+//	        			 System.out.println("중형 사이즈 update");
+//	        			 dao.uppscarepay(paramMap2); // 이용서비스 insert
+//	        		 }else {
+//	        			 System.out.println("중형 사이즈 insert");
+//	        			 System.out.println(paramMap2);
+//	        			 dao.inpscarepay(paramMap2);
+//	        		 }
+//	        	 }
 	        	 
-	        	 if(petsitterUpdatedto.getPet_size_seq3().equals("Y"))	// 소형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
-	        	 {
-	        		 System.out.println("여기타냐");
-	        		 paramMap2.put("pet_size_seq", "3");
-	        		 paramMap2.put("carepay", petsitterUpdatedto.getSize3());
-	        		 
-	        		 if(dataList.get(i).get("PET_SIZE_SEQ").toString().equals("3")) {
-	        			 System.out.println("소형 사이즈 update");
-	        			 dao.uppscarepay(paramMap2); // 이용서비스 insert
-	        		 }else {
-	        			 System.out.println("소형 사이즈 insert");
-	        			 dao.inpscarepay(paramMap2);
-	        		 }
-	        	 }
-	         }
+//	        	 if(petsitterUpdatedto.getPet_size_seq3().equals("Y"))	// 소형 : MyPage_ps,jsp 에서 size 값들 받아올 때 숫자 형식인지 체크해야함. 일단 패스,,
+//	        	 {
+//	        		 System.out.println("여기타냐");
+//	        		 paramMap2.put("pet_size_seq", "3");
+//	        		 paramMap2.put("carepay", petsitterUpdatedto.getSize3());
+//	        		 
+//	        		 if(dataList.get(i).get("PET_SIZE_SEQ").toString().equals("3")) {
+//	        			 System.out.println("소형 사이즈 update");
+//	        			 dao.uppscarepay(paramMap2); // 이용서비스 insert
+//	        		 }else {
+//	        			 System.out.println("소형 사이즈 insert");
+//	        			 dao.inpscarepay(paramMap2);
+//	        		 }
+//	        	 }
 	         
 	         
 	         

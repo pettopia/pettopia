@@ -280,16 +280,16 @@
                   
                		<tr>
                			<th rowspan="3">이용요금<span style="font-size: 15px;">(※)</span></th>
-               			<td><input type="checkbox" name="pet_size_seq1" value="Y"> 대형 <input type="text" name="size1" class="form-control" style="width: 200px; display: inline;" 
-               			value="${size1.carepay }"></td>
+               			<td><input type="checkbox" name="pet_size_seq1" value="N"> 대형 <input type="text" name="size1" class="form-control" style="width: 200px; display: inline;" 
+               			value="${size1.carepay}"></td>
                		</tr>
                		<tr>
-               			<td><input type="checkbox" name="pet_size_seq2" value="Y"> 중형 <input type="text" name="size2" class="form-control" style="width: 200px; display: inline;" 
-               			 value="${size2.carepay }"></td>
+               			<td><input type="checkbox" name="pet_size_seq2" value="N"> 중형 <input type="text" name="size2" class="form-control" style="width: 200px; display: inline;" 
+               			 value="${size2.carepay}"></td>
                		</tr>
                		<tr>
-               			<td><input type="checkbox" name="pet_size_seq3" value="Y"> 소형 <input type="text" name="size3" class="form-control"  style="width: 200px; display: inline;" 
-               			value="${size3.carepay }"></td>
+               			<td><input type="checkbox" name="pet_size_seq3" value="N"> 소형 <input type="text" name="size3" class="form-control"  style="width: 200px; display: inline;" 
+               			value="${size3.carepay}"></td>
                		</tr>
                		
 
@@ -315,6 +315,20 @@
 
    <c:import url="footer.jsp"></c:import>
 </body>
+
+<script>
+$(document).ready(function() { 
+	$("input:checkbox").on('click', function() { 
+		if ( $(this).prop('checked') ) { 
+			$(this).val('Y');
+		}else{
+			$(this).val('N');
+		}
+	}); 
+	
+});
+
+</script>
 </html>
    <%--<td>
                         <c:forEach var="care" items="${petcare }">
