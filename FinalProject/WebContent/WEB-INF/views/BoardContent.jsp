@@ -38,7 +38,7 @@
 		// 댓글 신고 버튼 클릭
 		$(".report").click(function()
 		{
-			if($("#member_code").val() == null)
+			if($("#member_code").val() == null || $("#member_code").val() == "")
 			{
 				alert("로그인이 필요합니다.");
 				return;
@@ -50,12 +50,12 @@
 		// 댓글 등록 버튼 클릭
 		$(".reply_submit").click(function()
 		{
-			if($("#member_code").val() == null)
+			if($("#member_code").val() == null || $("#member_code").val() == "")
 			{
 				alert("로그인이 필요합니다.");
 				return;
 			}
-			else if($("#content").val() == null || $("#content").val() == "")
+			if($("#content").val() == null || $("#content").val() == "")
 			{
 				alert("내용을 입력해주세요");
 				return;
@@ -94,7 +94,12 @@
 					<h1 class="con_title">
 						자유게시판
 						<span class="con_title_btn">
+							<c:if test="${param.search_text == null }">
 							<a href="board.action" class="back_btn" style="width:56px; text-align:center;">목록</a>
+							</c:if>
+							<c:if test="${param.search_text != null }">
+							<a href="board.action?search_type=${param.search_type }&head_code=${param.head_code}&search_text=${param.search_text}" class="back_btn" style="width:56px; text-align:center;">목록</a>
+							</c:if>
 						</span>
 					</h1>
 					

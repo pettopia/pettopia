@@ -23,7 +23,7 @@ public class BoardController
 	
 	// 자유게시판 메인
 	@RequestMapping(value = "board.action", method = RequestMethod.GET)
-	public String board(Model model, HttpSession session, BoardDTO board, String pageNum)
+	public String board(Model model, HttpSession session, BoardDTO board)
 	{
 		/*
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -37,10 +37,11 @@ public class BoardController
 
 		
 		int currentPage = 1;	//-- currentPage : 현재 페이지(default 1)
-		if(pageNum != null)
-			currentPage = Integer.parseInt(pageNum);		
+		if(board.getPageNum() != null)
+			currentPage = Integer.parseInt(board.getPageNum());		
 		
 		int boardCount = Integer.parseInt(dao.boardCount(board));	// 조회된 게시글 수
+		
 		int numPerPage = 10;	// 한 페이지에 표시할 게시글 갯수
 		int totalPage = paging.getPageCount(numPerPage, boardCount);	// 총 페이지 수
 

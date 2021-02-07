@@ -19,10 +19,24 @@
 
 	<!-- 자유게시판 게시글 리스트 조회 -->
 	<select id="boardList" resultType="com.pettopia.bk.BoardDTO">
-		SELECT NUM, BOARD_CODE, HEAD, NVL(NICK, '(탈퇴회원)') AS NICK, TITLE, VIEW_NUM, HIT, REG_DATE, DATE_CHECK
-		     , BLIND_COUNT, REPLY_COUNT
-		FROM BOARD_VIEW_B
-		WHERE <![CDATA[NUM >= #{start}]]> AND <![CDATA[NUM <= #{end}]]>
+		SELECT RNUM, NUM, BOARD_CODE, HEAD, NVL(NICK, '(탈퇴회원)') AS NICK, TITLE, VIEW_NUM, HIT, REG_DATE, DATE_CHECK
+		FROM
+		(
+		    SELECT ROWNUM AS RNUM, T.*
+		    FROM
+		    ( SELECT NUM, BOARD_CODE, HEAD, NVL(NICK, '(탈퇴회원)') AS NICK, TITLE, VIEW_NUM, HIT, REG_DATE, DATE_CHECK
+		         , BLIND_COUNT, REPLY_COUNT
+		      FROM BOARD_VIEW_B
+			  <where>
+			  BLIND_COUNT = 0
+			  <if test="search_type == 'title'">AND TITLE LIKE '%${search_text}%'</if>
+			  <if test="search_type == 'nick'">AND NICK = #{search_text}</if>
+			  <if test="search_type == 'titleAndContent'">AND TITLE LIKE '%${search_text}%' OR CONTENT LIKE '%${search_text}%'</if>
+			  <if test="head_code != null and head_code != 0">AND HEAD_CODE = #{head_code}</if>
+			  </where>
+			) T
+		)
+		WHERE <![CDATA[RNUM >= #{start}]]> AND <![CDATA[RNUM <= #{end}]]> 
 	</select>
 
 	<!-- 말머리 목록 -->
