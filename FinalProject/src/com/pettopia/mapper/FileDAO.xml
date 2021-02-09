@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pettopia.bk.IFileDAO">
+
+	<!-- 등록된 펫 프로필 이미지 수 조회 쿼리문 -->
+	<select id="petProfileImgCount" resultType="java.lang.String">
+		SELECT COUNT(*) AS COUNT
+		FROM PET_PROF_IMG
+		WHERE PET_REG_SEQ = #{petId}
+	</select>
+	
+	<!-- 펫 프로필 이미지 조회 쿼리문 -->
+	<select id="petProfileImgSearch" resultType="com.pettopia.bk.FileDTO">
+		SELECT PET_REG_SEQ AS PETID, IMGPATH AS FILEPATH, IMGDATE AS REGDATE
+		FROM PET_PROF_IMG
+		WHERE PET_REG_SEQ = #{petId}
+	</select>
+	
+	<!-- 펫 프로필 이미지 등록 쿼리문 -->
+	<insert id="petProfileImgInsert">
+		INSERT INTO PET_PROF_IMG
+		VALUES(#{petId}, #{filepath}, SYSDATE)
+	</insert>
+	
+	<!-- 펫 프로필 이미지 수정 쿼리문 -->
+	<update id="petProfileImgUpdate">
+		UPDATE PET_PROF_IMG
+		SET IMGPATH = #{filepath}, IMGDATE = SYSDATE
+		WHERE PET_REG_SEQ = #{petId}
+	</update>
+	
+	<!-- 펫 프로필 이미지 삭제 쿼리문 -->
+	<delete id="petProfileImgDelete">
+		DELETE
+		FROM PET_PROF_IMG
+		WHERE PET_REG_SEQ = #{petId}
+	</delete>
+	
+</mapper>

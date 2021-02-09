@@ -4,14 +4,22 @@ public class FileDTO
 {
 	private String reqcode, doc_type;
 	// 펫시터신청코드, 서류구분, 파일경로
-	private String profile_code;
-	//-- 펫시터프로필코드
+	private String profile_code, petId;
+	//-- 펫시터프로필코드, 펫코드
 	private String filepath, filename, regdate;
 	//-- 파일경로, 파일이름, 등록일
 	private String code;
 	//-- 회원신고접수코드 등 코드 담는 용도
 	
 	// getter / setter 
+	public String getPetId()
+	{
+		return petId;
+	}
+	public void setPetId(String petId)
+	{
+		this.petId = petId;
+	}
 	public String getCode()
 	{
 		return code;

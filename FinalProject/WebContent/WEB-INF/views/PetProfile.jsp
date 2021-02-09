@@ -110,10 +110,14 @@ String cp = request.getContextPath();
       <div id="Petprofile">
          
          <div class="profile_image">
-            <img src="images/dog.jpg">
+	        <div class="pet_profile_img">
+	        	<img src="${img.filepath }" >
+	        </div>
             
-            <button class="btn btn-primary petUpdate" style="width:200px; margin-top: 5px;" 
-               value="${select.petId }">프로필 수정</button>
+            <div class="btn">
+	            <button class="btn btn-primary petUpdate" style="width:180px; margin-top: 5px;" 
+	               value="${select.petId }">프로필 수정</button>
+            </div>
             
          </div>
          

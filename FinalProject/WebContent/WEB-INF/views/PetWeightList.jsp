@@ -60,7 +60,9 @@
 		<div id="Petprofile">
 			
 			<div class="profile_image">
-				<img src="images/dog.jpg">
+		        <div class="pet_profile_img">
+		        	<img src="${img.filepath }" >
+		        </div>
 								
 			</div>
 			
