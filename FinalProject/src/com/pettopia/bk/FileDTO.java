@@ -9,7 +9,7 @@ public class FileDTO
 	private String filepath, filename, regdate;
 	//-- 파일경로, 파일이름, 등록일
 	private String code;
-	//-- 회원신고접수코드 등 코드 담는 용도
+	//-- 회원코드, 회원신고접수코드 등 코드 담는 용도
 	
 	// getter / setter 
 	public String getPetId()

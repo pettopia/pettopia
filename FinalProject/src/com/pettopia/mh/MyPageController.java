@@ -3,6 +3,9 @@
 =========================*/
 package com.pettopia.mh;
 
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.pettopia.bk.FileDTO;
+import com.pettopia.bk.IFileDAO;
 
 @Controller
 public class MyPageController
@@ -33,7 +41,106 @@ public class MyPageController
 		}
 		model.addAttribute("list", dao.list((String) session.getAttribute("id")));
 
+		//==================================================================
+		// 프로필 이미지 가져오기
+		
+		IFileDAO fileDao = sqlSession.getMapper(IFileDAO.class);
+		FileDTO file = new FileDTO();
+		file.setCode((String)session.getAttribute("code"));	// 회원고유코드
+		file.setCode(fileDao.memberRegSeq(file));			// 회원등록코드
+		//System.out.println("회원등록코드 확인 : " + file.getCode());
+		
+		if(Integer.parseInt(fileDao.profileImgCount(file)) == 0)
+		{
+			// 등록된 프로필 이미지가 없을 경우
+			file.setFilepath("images/defaultProfile.png");
+			model.addAttribute("img", file);
+		}
+		else
+		{
+			file = fileDao.profileImgSearch(file);
+			String filepath = file.getFilepath();
+			filepath = filepath.substring(filepath.indexOf("\\pds\\"));
+			//System.out.println(filepath);
+			file.setFilepath(filepath);
+			
+			model.addAttribute("img", file);
+		}
+		//==================================================================
+
 		result = "/WEB-INF/views/MyPage.jsp";
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/myprofileimgupdateform.action", method ={ RequestMethod.GET, RequestMethod.POST })
+	public String myprofileimg(Model model, HttpSession session)
+	{
+		String result = null;
+
+		result = "/WEB-INF/views/MyProfileImg.jsp";
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/myprofileimgupdate.action", method ={ RequestMethod.GET, RequestMethod.POST })
+	public String myprofileimgupdate(Model model, HttpSession session, HttpServletRequest request)
+	{
+		String result = null;
+
+		model.addAttribute("code", session.getAttribute("code"));
+
+		//==================================================================
+		// form 태그 enctype="multipart/form-data" 속성 추가 후
+		
+		//String root = request.getSession().getServletContext().getRealPath("/");	// 프로젝트 절대경로
+		//System.out.println(root);
+		//String savePath = root + "pds" + File.separator + "petProfileImg";
+		// 절대경로에 저장할 경우, 다른 팀원들이 업로드한 사진을 볼 수 없으므로 WebContent/img 폴더에 저장함.
+		
+		String savePath = "C:\\GitHub\\pettopia\\FinalProject\\WebContent\\img\\" + "pds" + File.separator + "memberProfileImg";
+		File dir = new File(savePath);
+		
+		if(!dir.exists())
+			dir.mkdirs();
+		
+		int maxFileSize = 5*1024*1024;	// 최대 5MB
+		String encType = "UTF-8";		// UTF-8 로 인코딩
+		
+		try
+		{
+			// MultipartRequest(request, 저장경로, 최대크기, 인코딩방식, 중복파일명처리정책)
+			MultipartRequest req = new MultipartRequest(request, savePath, maxFileSize, encType, new DefaultFileRenamePolicy());
+
+			//System.out.println(req.getFilesystemName("file"));		// 서버에 저장된 파일명
+			//System.out.println(req.getOriginalFileName("file"));	// 업로드한 파일명
+			
+			File file = req.getFile("file");
+			if(file.exists())
+			{
+				//System.out.println("이미지 크기 : " + file.length());
+				
+				IFileDAO fileDao = sqlSession.getMapper(IFileDAO.class);	// 파일 업로드 dao
+				FileDTO fileDto = new FileDTO();
+				
+				fileDto.setCode((String)session.getAttribute("code"));	// 회원고유코드로 set
+				fileDto.setCode(fileDao.memberRegSeq(fileDto));			// 회원등록코드를 얻어 다시 set
+				fileDto.setFilepath(savePath + File.separator + req.getFilesystemName("file"));
+				
+				if(Integer.parseInt(fileDao.profileImgCount(fileDto)) == 0)	// 등록된 펫 이미지가 없으면
+					fileDao.profileImgInsert(fileDto);
+				else
+					fileDao.profileImgUpdate(fileDto);
+			}
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+		}
+
+		//==================================================================
+
+		result = "/WEB-INF/views/Complete.jsp";
 
 		return result;
 	}
