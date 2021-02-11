@@ -545,6 +545,14 @@ public class PetProfileController
 		model.addAttribute("select", dao.select(petId));
 		model.addAttribute("petId", petId);
 		
+		IFileDAO fileDao = sqlSession.getMapper(IFileDAO.class);
+		FileDTO file = new FileDTO();
+		file.setPetId(petId);
+		
+		if(Integer.parseInt(fileDao.petProfileImgCount(file)) == 1)	// 등록된 프로필이미지가 있다면
+		{
+			model.addAttribute("img", fileDao.petProfileImgSearch(file));
+		}		
 		
 		// 시간 value 값 넘겨주기 위한 코드
 		String str = dao.select(petId).getBirth();

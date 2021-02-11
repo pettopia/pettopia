@@ -203,7 +203,8 @@ $(function() {
                <tr>
                	<th>이미지 변경</th>
                	<th>
-               		<input type="file" name="file" id="file" class="form-control">
+               		<input type="file" name="file" id="file" class="form-control"
+               		value="${img.filepath }">
                	</th>
                </tr>
             </table>

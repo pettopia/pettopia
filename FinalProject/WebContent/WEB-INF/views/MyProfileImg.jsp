@@ -25,6 +25,12 @@
 	.button {
 		margin-top: 30px;
 	}
+	.deleteBtn {
+		width: 164px;
+	}
+	button {
+		width: 80px;
+	}
 
 </style>
 
@@ -43,6 +49,13 @@
 		   $("#form").submit();
 		   
 		});
+		
+		$(".deleteBtn").click(function()
+		{
+			confirm("정말로 삭제하시겠습니까?");
+			
+			$(location).attr("href", "myprofileimgdelete.action");
+		});
 	});
 
 </script>
@@ -52,8 +65,10 @@
 
 <div class="wrap">
 	<form action="myprofileimgupdate.action" method="post" id="form" enctype="multipart/form-data">
-		<div>프로필 이미지 수정하기</div>
-		<input type="file" name="file" id="file" style="margin-top: 30px;">
+		<div style="margin-bottom: 30px;">프로필 이미지 수정하기</div>
+		<div style="border: 1px solid #808080; width: 300px;">
+			<input type="file" name="file" id="file">
+		</div>
 	</form>
 	
 	<div class="select_img"><img src=""></div>
@@ -73,8 +88,11 @@
 	</script>
          
 	<div class="button">
-		<button type="submit" id="submitBtn" class="btn btn-success">수정하기</button>
+		<button type="submit" id="submitBtn" class="btn btn-success">등록하기</button>
 		<button type="button"  class="btn btn-danger back" onclick="window.close();">닫기</button>
+	</div>
+	<div style="margin-top: 5px;">
+		<button type="button" class="btn btn-primary deleteBtn">기존 이미지 삭제</button>
 	</div>
 	
 </div>

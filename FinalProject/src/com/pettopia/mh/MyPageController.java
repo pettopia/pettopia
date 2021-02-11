@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.pettopia.bk.FileDTO;
+import com.pettopia.bk.FileManager;
 import com.pettopia.bk.IFileDAO;
 
 @Controller
@@ -140,6 +141,36 @@ public class MyPageController
 
 		//==================================================================
 
+		result = "/WEB-INF/views/Complete.jsp";
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/myprofileimgdelete.action", method ={ RequestMethod.GET, RequestMethod.POST })
+	public String myprofileimgdelete(Model model, HttpSession session, HttpServletRequest request)
+	{
+		String result = null;
+		
+		IFileDAO dao = sqlSession.getMapper(IFileDAO.class);
+		FileDTO file = new FileDTO();
+		file.setCode((String)session.getAttribute("code"));	// 회원고유코드로 set
+		file.setCode(dao.memberRegSeq(file));				// 회원등록코드로 다시 set
+		
+		String msg;
+		
+		if(Integer.parseInt(dao.profileImgCount(file)) == 1)
+		{
+			file = dao.profileImgSearch(file);
+			FileManager.doFileDelete(file.getFilepath());
+			dao.profileImgDelete(file);
+			msg = "삭제되었습니다.";
+		}
+		else
+			msg = "등록된 사진이 없습니다.";
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("requestUrl", request.getServletPath());
+		
 		result = "/WEB-INF/views/Complete.jsp";
 
 		return result;

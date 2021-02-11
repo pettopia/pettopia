@@ -118,7 +118,7 @@ String cp = request.getContextPath();
 				</div>
 				<div class="btn profileBtn">
 		            <button class="btn btn-primary petUpdate" style="width:150px; margin-top: 5px;"
-		            	value="${select.petId }" onclick="window.open('myprofileimgupdateform.action', '', 'width=600, height=600, top=300, left=400')">프로필 사진 수정</button>
+		            	value="${select.petId }" onclick="window.open('myprofileimgupdateform.action', '', 'width=600, height=350, top=300, left=400')">프로필 사진 수정</button>
 				</div>
 			</div>
 			

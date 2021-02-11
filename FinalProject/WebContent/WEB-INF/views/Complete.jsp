@@ -17,6 +17,12 @@
 
 	$().ready(function()
 	{
+		var requestUrl = "<c:out value='${requestUrl}' />";
+		var msg = "<c:out value='${msg}' />";
+		
+		if(requestUrl == "/myprofileimgdelete.action")
+			alert(msg);
+		
 		window.opener.location.reload();	
 		window.close();
 	});
