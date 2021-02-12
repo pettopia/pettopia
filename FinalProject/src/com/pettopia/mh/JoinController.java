@@ -20,9 +20,17 @@ public class JoinController
 	private SqlSession sqlSession;
 
 	@RequestMapping(value = "/checkjoin.action", method ={ RequestMethod.GET, RequestMethod.POST })
-	public String checkjoin(Model model)
+	public String checkjoin(Model model, HttpSession session)
 	{
 		String result = null;
+		
+		if((String)session.getAttribute("code")!=null)
+		{
+			// 로그인된 회원이 직접 페이지 요청
+			session.removeAttribute("code");
+			
+			return "redirect:adminloginform.action";
+		}
 
 		result = "/WEB-INF/views/CheckJoin.jsp";
 
@@ -50,20 +58,22 @@ public class JoinController
 	}
 	
 	@RequestMapping(value = "/join.action", method = RequestMethod.POST)
-	public String join(Model model, MyPageDTO dto, HttpSession session)
+	public String join(Model model, MyPageDTO dto, HttpSession session, String ssn1, String ssn2)
 	{
 		IMyPageDAO dao = sqlSession.getMapper(IMyPageDAO.class);
 		String result = null;
 		
 		try 
 		{ 
+			String ssn = ssn1 + ssn2;
+			dto.setSsn(ssn);
 			dao.join(dto);
 			
 			session.setAttribute("id", dao.login(dto));
 			session.setAttribute("code", dao.searchCode(dao.login(dto)));
 			session.setAttribute("nick", dao.searchNick(dao.login(dto)));
 
-			model.addAttribute("msg", "�쉶�썝媛��엯 �꽦怨�"); 
+			model.addAttribute("msg", "회원가입이 완료되었습니다."); 
 			model.addAttribute("url","/main.action");
 		
 		} catch (NullPointerException e) 
@@ -93,7 +103,7 @@ public class JoinController
 				break;
 			} else
 			{
-				str = "사용 가능한 아이디입니다..";
+				str = "사용 가능한 아이디입니다.";
 			}
 		}
 

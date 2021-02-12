@@ -327,11 +327,11 @@ public class MyPageController
 		{
 			if (dto.getNick().equals(nickName))
 			{
-				str = "이미 사용중인 이름이 존재합니다.";
+				str = "이미 사용중인 닉네임이 존재합니다.";
 				break;
 			} else
 			{
-				str = "사용할 수 있는 이름입니다.";
+				str = "사용할 수 있는 닉네임입니다.";
 			}
 		}
 

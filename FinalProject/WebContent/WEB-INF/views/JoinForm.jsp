@@ -15,7 +15,8 @@ String cp = request.getContextPath();
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script type="text/javascript"
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>	
+<script type="text/javascript" src="<%=cp%>/js/util.js"></script>
 <style type="text/css">
 
 #wrapper {
@@ -37,7 +38,8 @@ String cp = request.getContextPath();
 
 .format
 {
-	font-size:13pt;
+	font-size:12pt;
+	display: block;
 }
 .id_1 {
     font-family: "나눔고딕";
@@ -83,14 +85,15 @@ $(document).ready(function()
          //실시간으로 입력값을 담아둘 변수 search
          var search = $(this).val();
          
-         //입력 내용이 있을 경우에만 전송할 수 있도록 처리
-         if(search.replace(" ", "") == "")
+         //입력 내용이 있는 경우에 전송할 수 있도록 처리
+         if(search.replace(" ", "") == "" || search.length < 5)
          {
             $("#errId").css("display", "none");
             return;
          }
          
-         ajaxIdRequest();
+         if(search.length > 4)
+        	ajaxIdRequest();
       });
       
       
@@ -133,13 +136,39 @@ $(document).ready(function()
          ajaxNickRequest();
       });
       
+      //생년월일 입력 시 처리
+      $("#ssn1").on("keyup", function()
+      {
+         //keyup 이벤트가 발생할 때 마다 실시간으로 입력값을 담아둘 변수
+         var ssn1 = $(this).val();
+         
+         //입력 내용이 있을 경우에만 전송할 수 있도록 처리
+         if(ssn1.length == 6)
+         {
+        	 $("#ssn2").focus();
+             return;
+         }
+      });
+
+      // 주민번호 뒷자리 입력 시 처리
+      $("#ssn2").on("keyup", function()
+      {
+         //keyup 이벤트가 발생할 때 마다 실시간으로 입력값을 담아둘 변수
+         var ssn2 = $(this).val();
+         
+         //입력 내용이 있을 경우에만 전송할 수 있도록 처리
+         if(ssn2.length == 1)
+         {
+        	 $("#nick").focus();
+             return;
+         }
+      });
       
-      
-      //지역 추가 버튼이 클릭되었을 때 수행할 코드 처리
+      // 회원가입 버튼이 클릭되었을 때 수행할 코드 처리
       $("#submitBtn").click(function()
       {
          $("#err").css("display", "none");
-
+         
          //1. 데이터 검사
          if($("#id").val() == "" || $("#nick").val() == "" || $("#pw1").val() == "" || $("#pw").val() == "" 
             || $("#birth").val() == "" || $("#gender").val() == "" || $("#addrnumber").val() == ""
@@ -186,9 +215,9 @@ $(document).ready(function()
          }
          
          //닉네임 중복 확인 유효성 검사
-         if( $("#errNick").html().trim() == "이미 사용중인 이름이 존재합니다.")
+         if( $("#errNick").html().trim() == "이미 사용중인 닉네임이 존재합니다.")
          {
-            $("#err").html("사용중인 이름은 등록할 수 없습니다.");
+            $("#err").html("사용중인 닉네임은 등록할 수 없습니다.");
             $("#err").css("display", "inline");
             return;
          }
@@ -206,15 +235,19 @@ $(document).ready(function()
          //아이디 영어 숫자만 입력가능 5~20글자수 제한
          if( !/^[A-Za-z0-9]{5,20}$/.test($("#id").val()) ) // 『!』 check~!!!
          {
-            $("#errId").html("아이디를 확인해주세요.");
+            $("#errId").html("5~20자리의 영문, 숫자만 사용가능합니다.");
             $("#errId").css("display", "inline");
+            $("#err").html("아이디를 확인해주세요.");
+            $("#err").css("display", "inline");
             return;
          }
          //비밀번호 글자수 6~14 글자의 영문 숫자 조합
-         if( !/^[A-Za-z0-9]{5,20}$/.test($("#pw").val()) ) // 『!』 check~!!!
+         if( !/^[A-Za-z0-9]{6,14}$/.test($("#pw").val()) ) // 『!』 check~!!!
          {
-            $("#errPw").html("비밀번호를 확인해주세요");
+            $("#errPw").html("6~14자리의 영문, 숫자만 사용가능합니다.");
             $("#errPw").css("display", "inline");
+            $("#err").html("비밀번호를 확인해주세요");
+            $("#err").css("display", "inline");
             return;
          }
          
@@ -227,14 +260,62 @@ $(document).ready(function()
          }
          
          
-         
-         //2. 생년월일 확인(7글자) 유효성 검사
-         if(!/^[0-9]{7}$/.test($("#ssn").val()) ) 
+         // 생년월일 유효성 검사
+         var ssn1 = $("#ssn1").val();
+
+         if(!/^[0-9]{6}$/.test(ssn1))
          {
             $("#err").html("생년월일을 확인해주세요.");
             $("#err").css("display", "inline");
             return;
          }
+
+         // 주민번호 뒷자리 유효성 검사
+         if(!/^[1-4]{1}$/.test($("#ssn2").val()) ) 
+         {
+            $("#err").html("주민번호 뒷자리를 확인해주세요.");
+            $("#err").css("display", "inline");
+            return;
+         }
+
+         var year = parseInt(ssn1.substring(0,2));
+         var month = parseInt(ssn1.substring(2,4));
+         var day = parseInt(ssn1.substring(4,6));
+         var months = [31,28,31,30,31,30,31,31,30,31,30,31];
+         
+         if(month > 12) 
+         {
+            $("#err").html("생년월일을 확인해주세요.");
+            $("#err").css("display", "inline");
+            return;
+         }
+         
+         if(month != 2)
+       	 {
+        	 if(day > months[month-1])
+        	 {
+                 $("#err").html("생년월일을 확인해주세요.");
+                 $("#err").css("display", "inline");
+                 return;
+        	 }
+       	 } 
+         if(month == 2)
+   		 {
+   		 	 if($("#ssn2").val() == 1 || $("#ssn2").val() == 2)
+   		 		 year += 1900;
+   		 	 else
+   		 		 year += 2000;
+   		 	 
+   		 	 if(year%400==0 || (year%4==0 && year%100!=0))
+				 months[1]++;
+   		 	 
+   		 	 if(day > months[1])
+        	 {
+                 $("#err").html("생년월일을 확인해주세요.");
+                 $("#err").css("display", "inline");
+                 return;
+        	 }
+   		 }
          
          //submit 액션 처리 수행
          $("#form").submit();
@@ -275,7 +356,7 @@ function ajaxNickRequest()
 				<form id="form" name="form" action="join.action" method="post">
 					<table class="table">
 					<tr>
-						<th class="id_1">아이디</th>
+						<th class="id_1">아이디 *</th>
 						<td>
 							<input type="text"  title="아이디 입력" id="id" name="id"
 								class="form-control" placeholder="아이디 입력">
@@ -285,7 +366,7 @@ function ajaxNickRequest()
 						<td></td>
 					</tr>
 					<tr>	
-						<th>비밀번호</th> 
+						<th>비밀번호 *</th> 
 						<td>	
 							<input type="password" title="비밀번호 입력" id="pw1" name="pw1"
 								class="form-control" placeholder="비밀번호 입력">
@@ -293,7 +374,7 @@ function ajaxNickRequest()
 						<td></td>	
 					</tr>
 					<tr>	
-						<th>비밀번호 재확인</th>
+						<th>비밀번호 재확인 *</th>
 						<td> 
 							<input type="password"  title="비밀번호 재확인" id="pw" name="pw"
 								class="form-control" placeholder="비밀번호 재확인">
@@ -304,18 +385,19 @@ function ajaxNickRequest()
 					</tr>
 					<tr>
 					<tr>	
-						<th style="font-size:13pt;">생년월일</th>
+						<th>생년월일 *</th>
 						<td> 
-							<input type="text"  title="생년월일 + 성별" id="ssn" name="ssn"
-								class="form-control" placeholder="생년월일(6)+주민번호 뒷자리(1)">
-							<span class="format">형식 : 9509162</span>
+							<input type="text"  title="생년월일 + 성별" id="ssn1" name="ssn1"
+								class="form-control" placeholder="생년월일(6)+주민번호 뒷자리(1)" style="width: 100px; display: inline;"> - 
+								<input type="text"  title="생년월일 + 성별" id="ssn2" name="ssn2"
+								class="form-control" style="width: 20px; display: inline; padding-left: 5px; padding-right: 5px;">******
+							<span class="format">형식 : 950916 - 2******</span>
 						</td>
 						<td></td>
 					</tr>
 					
-					
 					<tr>		
-						<th>닉네임</th>
+						<th>닉네임 *</th>
 						<td>
 							<input type="text"  id="nick" name="nick" title="닉네임 입력" placeholder="닉네임 입력" class="form-control"> 
 							
@@ -326,7 +408,7 @@ function ajaxNickRequest()
 					</tr>
 					
 						<tr>
-									<th style="width: 195px;">거주지 주소*</th>
+									<th style="width: 195px;">거주지 주소 *</th>
 									<td>																				
 										<input type="text" class="form-control" title="우편번호 입력" 
 										readonly="readonly" id="addrnumber"  name="addrnumber" >
@@ -342,7 +424,7 @@ function ajaxNickRequest()
 									</td>
 										
 									<td>
-										<button type="button" class="btn btn-primary addbtn" onClick="goPopup()">주소찾기</button>										
+										<button type="button" class="btn btn-primary addbtn" onclick="goPopup()">주소찾기</button>										
 									</td>								
 								
 					
@@ -359,7 +441,7 @@ function ajaxNickRequest()
 							<td></td>
 						</tr>
 						<tr>
-							<th>이메일
+							<th>이메일 *
 							</th>
 							<td>
 								<div class="email-wrap mt05">
@@ -377,8 +459,8 @@ function ajaxNickRequest()
 							<td></td>
 						</tr>					
 					</table>					
-						<div id="submitBtn" class="btn">
-							<button class="btn btn-success" style="width: 500px;margin-left:40px; height: 40px;">회원가입</button>
+						<div class="btn">
+							<button type="button" id="submitBtn" class="btn btn-success" style="width: 500px;margin-left:40px; height: 40px;">회원가입</button>
 						</div>
 						
 				</form>
