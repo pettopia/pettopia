@@ -37,6 +37,8 @@ public interface IBoardDAO
 	
 	// 댓글 등록 액션
 	public int replyInsert(ReplyDTO reply);
+	// 댓글 수정 액션
+	public int replyUpdate(ReplyDTO reply);
 	// 댓글 삭제 액션
 	public int replyDelete(ReplyDTO reply);
 	

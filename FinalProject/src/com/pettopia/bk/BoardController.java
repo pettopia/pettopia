@@ -6,6 +6,7 @@ package com.pettopia.bk;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -100,7 +101,7 @@ public class BoardController
 	
 	// 자유게시판 게시글 내용
 	@RequestMapping(value = "boardcontent.action", method = RequestMethod.GET)
-	public String boardContent(BoardDTO board, Model model, HttpSession session)
+	public String boardContent(BoardDTO board, Model model, HttpSession session, HttpServletRequest request)
 	{
 		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);
 		
@@ -286,6 +287,23 @@ public class BoardController
 			System.out.println("reply 데이터베이스 저장 실패");
 		
 		return "redirect:boardcontent.action?board_code="+reply.getBoard_code();
+	}
+	
+	// 댓글 수정 액션
+	@RequestMapping(value = "replymodify.action", method = RequestMethod.POST)
+	public String replyUpdateAction(HttpSession session, ReplyDTO reply)
+	{
+		String code = (String) session.getAttribute("code");
+		//System.out.println(code);	// 세션 확인
+		
+		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);
+		
+		int result = dao.replyUpdate(reply);
+		
+		if(result!=1)
+			System.out.println("reply 데이터베이스 저장 실패");
+		
+		return "WEB-INF/views/ReplyUpdate.jsp";
 	}
 	
 	// 댓글 삭제 액션

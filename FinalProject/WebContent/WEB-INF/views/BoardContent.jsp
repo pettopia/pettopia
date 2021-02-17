@@ -1,3 +1,4 @@
+<%@page import="org.springframework.web.util.UrlPathHelper"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
@@ -38,13 +39,14 @@
 		// 댓글 신고 버튼 클릭
 		$(".report").click(function()
 		{
+			var reply_code = "<c:out value='${reply.reply_code}' />";
 			if($("#member_code").val() == null || $("#member_code").val() == "")
 			{
 				alert("로그인이 필요합니다.");
 				return;
 			}
 			
-			window.open("replyreport.action?reply_code="+'${reply.reply_code}', "", "width=750, height=600, top=300, left=400");
+			window.open("replyreport.action?reply_code="+reply_code, "", "width=750, height=600, top=300, left=400");
 		});
 		
 		// 댓글 등록 버튼 클릭
@@ -64,6 +66,30 @@
 			$("#reply").submit();
 			
 		});
+
+		// 본인 댓글 수정 버튼 클릭 액션
+		$(".modify_reply").click(function()
+		{
+			//alert("수정 버튼 클릭");
+			$(".reply_btn_wrap").css("display", "block");
+			$(".reply_text").css("display", "block");
+			$(".txar_wrap").css("display", "none");
+			
+			var parent = $(this).parent().parent().parent();
+
+			parent.children(".reply_btn_wrap").css("display", "none");
+			parent.children(".reply_text").css("display", "none");
+			parent.children(".txar_wrap").css("display", "block");
+		});
+		
+		// 본인 댓글 수정 취소 버튼 클릭 액션
+		$(".reply_cancle").click(function()
+		{
+			$(".reply_btn_wrap").css("display", "block");
+			$(".reply_text").css("display", "block");
+			$(".txar_wrap").css("display", "none");
+		});
+		
 		// 본인 댓글 삭제 버튼 클릭
 		$(".delete_reply").click(function()
 		{
@@ -73,6 +99,52 @@
 				return;
 		});
 	});
+	
+	// 본인 댓글 수정 후 등록 버튼 클릭 액션
+	function replyModify(reply_code)
+	{
+		var reply = $("#"+reply_code);
+		alert(reply.children(".my_content").val());
+		var params = "reply_code=" + reply_code + "&content=" + $("#"+reply_code).children(".my_content").val();
+		alert(params);
+		alert(reply);
+		$.ajax(
+		{
+			type : "post"
+			, url : "replymodify.action"
+			, data : params
+			, success : function(data)
+			{
+				// 댓글 수정 폼 none 처리, 버튼 관련 block 처리
+				$(".reply_btn_wrap").css("display", "block");
+				$(".reply_text").css("display", "block");
+				$(".txar_wrap").css("display", "none");
+				
+				// 해당 댓글의 class="reply_text" 내용 수정하기
+				reply.children(".reply_text").html(data);
+			}
+			, beforeSend : replyModifyCheck
+			, error : function(e)
+			{
+				console.log(e.responseTest);
+			}
+		});
+	}
+	
+	function replyModifyCheck()
+	{
+		if($("#member_code").val() == null || $("#member_code").val() == "")
+		{
+			alert("로그인 세션이 종료되었습니다.\n다시 로그인해주세요.");
+			return false;
+		}
+		if($(".my_content").val() == null || $(".my_content").val() == "")
+		{
+			alert("내용을 입력해주세요");
+			return false;
+		}
+		return true;
+	}
 
 </script>
 
@@ -162,37 +234,14 @@
 							<!-- 댓글 -->
 							<c:forEach var="reply" items="${replyList }">
 							<li>
-								<div class="reply">
-									<input type="hidden" id="reply_code" value="${reply.reply_code }">
+								<c:if test="${reply.member_code == code }">
+								<input type="hidden" value="${reply.member_code }">
+								</c:if>
+								<div class="reply" id="${reply.reply_code }">
 									<p class="common_id">
 										<a href="#a">${reply.nick }</a>
 										<span>${reply.reg_date } </span>
 									</p>
-									
-									<script type="text/javascript">
-									
-										$().ready(function()
-										{
-											// 댓글 수정 버튼 클릭 액션
-											$(".modify_reply").click(function()
-											{
-												//alert("수정 버튼 클릭");
-												$(".reply_btn_wrap").css("display", "none");
-												$(".reply_text").css("display", "none");
-												$(".txar_wrap").css("display", "block");
-											});
-											
-											// 댓글 수정 취소 버튼 클릭 액션
-											$(".reply_cancle").click(function()
-											{
-												$(".reply_btn_wrap").css("display", "block");
-												$(".reply_text").css("display", "block");
-												$(".txar_wrap").css("display", "none");
-											});
-											
-										});
-									
-									</script>
 									
 									<!-- 댓글 관련 버튼 -->
 									<ul class="reply_btn_wrap" style="display: block;">
@@ -215,16 +264,18 @@
 										${reply.content }
 									</div>
 									<!-- 댓글 수정 폼 -->
+									<c:if test="${reply.member_code == code }">
 									<div class="txar_wrap ctracker" style="display: none;">
-										<textarea name="content" rows="10" cols="30" class="txar">${reply.content }</textarea>
+										<textarea  rows="10" cols="30" class="txar my_content">${reply.content }</textarea>
 										<div class="txar_btn">
 											<div class="txar_right_btn">
 												<span class="glist_number">(<em>0</em>/200)</span>
-												<span><a class="btn01_g reply_submit" href="javascript:void(0)">등록</a></span>
+												<span><a class="btn01_g" href="javascript:replyModify('${reply.reply_code }')">등록</a></span>
 												<span><a class="btn01_g reply_cancle" href="javascript:void(0)">취소</a></span>
 											</div>
 										</div>
 									</div>
+									</c:if>
 								</div>
 							</li>
 							</c:forEach>
@@ -253,7 +304,12 @@
 							<input type="hidden" name="board_code" value="${content.board_code }">
 							<input type="hidden" id="member_code" name="member_code" value="${code }">
 							<div class="bottom_txar ctracker">
+								<c:if test="${code == null || code == ''}">
+								<textarea id="content" class="txar" readonly="readonly">로그인 후 이용해주세요.</textarea>
+								</c:if>
+								<c:if test="${code != null}">
 								<textarea name="content" id="content" rows="10" cols="30" class="txar"></textarea>
+								</c:if>
 								<div class="bottom_txar_btn">
 									<div class="txar_right_btn">
 										<span class="glist_number">(<em>0</em>/200)</span>

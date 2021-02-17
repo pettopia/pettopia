@@ -32,6 +32,9 @@ public class MyPageController
 	public String mypagelist(Model model, HttpSession session)
 	{
 		String result = null;
+		
+		if((String)session.getAttribute("code")==null)
+			return "redirect:loginform.action";
 
 		IMyPageDAO dao = sqlSession.getMapper(IMyPageDAO.class);
 

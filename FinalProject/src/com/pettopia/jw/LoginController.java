@@ -4,6 +4,7 @@
 package com.pettopia.jw;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -23,8 +24,12 @@ public class LoginController
 	private SqlSession sqlSession;
 
 	@RequestMapping(value = "/loginform.action", method = {RequestMethod.GET, RequestMethod.POST})
-	public String loginform(HttpSession session)
+	public String loginform(HttpSession session, HttpServletRequest request)
 	{
+		String rq_url = (String)request.getHeader("REFERER");
+		
+		session.setAttribute("rq_url", rq_url);	// 로그인 이전의 페이지로 돌아가기위한 session 값
+			
 		// 현재 로그인된 상태라면 세션 제거 후 로그인 폼으로 이동
 		if ( (String)session.getAttribute("code")!=null
 				|| (String)session.getAttribute("id")!=null)
