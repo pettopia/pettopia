@@ -22,7 +22,7 @@ public class PetProfileController
 {
 	@Autowired
 	private SqlSession sqlSession;
-	
+	 
 	/* 펫 프로필 컨트롤러 */
 	@RequestMapping(value = "/petprofilelist.action", method = RequestMethod.GET)
 	public String petprofileList(String petId, Model model, HttpSession session)
@@ -649,19 +649,5 @@ public class PetProfileController
 		
 		return "redirect:notify.action";
 	}
-	
-	/* 펫 프로필 이미지 등록 */
-	
-	
-	
-	
-	
-	
-	
-	
-	
-			
-
-	
 
 }
