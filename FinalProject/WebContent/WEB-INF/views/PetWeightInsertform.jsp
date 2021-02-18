@@ -61,33 +61,34 @@
 		<div id="Petprofile">
 			
 			<div class="profile_image">
-				<img src="images/dog.jpg">
-								
+				<div class="pet_profile_img">
+					<img src="${img.filepath }" >
+				</div>
 			</div>
 			
-		<form action="petweightinsert.action" method="post">
-			<input type="hidden" name="petId" value="${petId }">
-			<div class="profile_table">
-				<table style="margin-top: 20px; font-size: 20px; font-weight: bold;">
-					<tr>
-						<th>${select.petName }의 현재체중은?</th>
-					</tr>
-					<tr>
-						<td>
-							<input type="text" class="form-control" name="petWeight">
-						</td>
-						<td>
-							kg
-						</td>
-					</tr>
-									
-				</table>
-			</div>
-		
-			<div class="btn_diaryinsert">
-				<button class="btn btn-success weightInsert" value="${select.petId }">체중 등록하기</button>				
-			</div>
-		</form>
+			<form action="petweightinsert.action" method="post">
+				<input type="hidden" name="petId" value="${petId }">
+				<div class="profile_table">
+					<table style="margin-top: 20px; font-size: 20px; font-weight: bold;">
+						<tr>
+							<th>${select.petName }의 현재체중은?</th>
+						</tr>
+						<tr>
+							<td>
+								<input type="text" class="form-control" name="petWeight">
+							</td>
+							<td>
+								kg
+							</td>
+						</tr>
+										
+					</table>
+				</div>
+			
+				<div class="btn_diaryinsert">
+					<button class="btn btn-success weightInsert" value="${select.petId }">체중 등록하기</button>				
+				</div>
+			</form>
 		</div>
 	</div>
 <br><br><br><br><br><br><br><br><br><br><br><br>

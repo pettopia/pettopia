@@ -18,7 +18,18 @@ String cp = request.getContextPath();
 <script type="text/javascript"
    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-   
+
+<style type="text/css">
+
+	.select_img {
+		text-align: center;
+	}
+	.button {
+		margin-top: 30px;
+	}
+
+</style>
+
 <script type="text/javascript">
    
 $(function() {
@@ -123,7 +134,7 @@ $(function() {
       <!-- 다이어리 생성 폼 -->
       <div id="InsertDiary">
          <p class="InsertDiary_text">반려견 수정하기</p>
-         <form action="petprofileupdate.action" method="post" class="input form-inline" role="form" id="form"  enctype="multipart/form-data">
+         <form action="petprofileupdate.action" method="post" class="input form-inline" role="form" id="form" enctype="multipart/form-data">
             <input type="hidden" name="petId" value="${petId }">
             <table class="table" style="margin-top: 30px;">
                <tr>
@@ -192,11 +203,29 @@ $(function() {
                <tr>
                	<th>이미지 변경</th>
                	<th>
-               		<input type="file" name="file" class="form-control">
+               		<input type="file" name="file" id="file" class="form-control"
+               		value="${img.filepath }">
                	</th>
                </tr>
             </table>
          </form>
+         
+         <div class="select_img"><img src=""></div>
+         
+         <script>
+         	$("#file").change(function()
+			{
+				if(this.files && this.files[0]) {
+					var reader = new FileReader;
+					reader.onload = function(data)
+					{
+						$(".select_img img").attr("src", data.target.result).width(500);
+					}
+					reader.readAsDataURL(this.files[0]);
+				}
+			});
+         </script>
+         
          <div class="button">
             <button type="submit" id="submitBtn" class="btn btn-success" style="width:300px; height:50px;">수정하기</button>
             <button type="reset"  class="btn btn-danger back" value="${select.petId }" style="width:300px; height:50px;">돌아가기</button>

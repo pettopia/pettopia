@@ -32,10 +32,13 @@ String cp = request.getContextPath();
 }
 
 .my_image {
+	position: relative;
 	width: 150px;
 	height: 150px;
-	border-radius: 50%;
+	border-radius: 70%;
+	overflow: hidden;
 	float: left;
+	border: 1px solid #808080;
 } 
 .following_user_form
 {
@@ -53,13 +56,28 @@ String cp = request.getContextPath();
 {
 	width:100px;
 }
-
 #my-inf
 {
 	width:80%;
 	height:500px; 
 }
-
+.my_profile_img
+{
+	float: left;
+}
+.profileBtn
+{
+	margin-top: 150px;
+    margin-left: -165px;
+    vertical-align: middle;
+}
+.my_image img
+{
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width:150px;
+}
 
 </style>
 <script type="text/javascript">
@@ -68,8 +86,7 @@ String cp = request.getContextPath();
 		$("#modifyBtn").click(function()
 	    {
 	    	$(location).attr('href','checkpwform.action?n=1');
-	    });
-		
+	    });		
 	});
 </script>
 </head>
@@ -95,9 +112,17 @@ String cp = request.getContextPath();
 		<!-- 팔로잉 유저 리스트 -->
 		<div class="following_user_form">
 			
-			<img class="my_image" src="images/me.jpg" alt="profile_img">
+			<div class="my_profile_img">
+				<div class="my_image">
+					<img src="${img.filepath }" alt="profile_img">
+				</div>
+				<div class="btn profileBtn">
+		            <button class="btn btn-primary petUpdate" style="width:150px; margin-top: 5px;"
+		            	value="${select.petId }" onclick="window.open('myprofileimgupdateform.action', '', 'width=600, height=350, top=300, left=400')">프로필 사진 수정</button>
+				</div>
+			</div>
 			
-			<table class="table table1" style="width: 30%;">
+			<table class="table table1" style="width: 30%; float: left;">
 			<tr>
 				<th>팔로잉</th>
 				<th>팔로우</th>
@@ -107,8 +132,9 @@ String cp = request.getContextPath();
 				<th>${list.follower }</th>
 			</tr>
 			</table>
-				
+			
 		</div>	
+		
 
 		<div id="my-inf">
 			<h3>회원 로그인 정보</h3>

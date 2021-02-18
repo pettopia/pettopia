@@ -284,9 +284,16 @@ AccordionMenu.prototype = {
 </script>
 </head>
 <body>
+<%-- 
+<script type="text/javascript">
+	var ps = "<c:out value='${ps}' />";
+	$().ready(function()
+	{
+		alert(ps);
+	});
 
-
-
+</script>
+--%>
 <div class="sidebar">
 	
 	 
@@ -300,17 +307,10 @@ AccordionMenu.prototype = {
          {
          %>
          <button class="btn btn-primary psmypage" style="width: 100%; height: 50px; margin-bottom: 30px;" >
-            <span>펫시터 마이페이지</span>
+            <span>펫시터 전용 페이지</span>
          </button>
          <%
-         } else
-         {
-         %>
-          <button class="btn btn-primary psreg" style="width: 100%; height: 50px; margin-bottom: 30px;">
-            <span>펫시터 등록하기</span>
-         </button>
-         <%
-            }
+         }
          %>
 
 	 		 	

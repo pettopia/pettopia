@@ -117,6 +117,13 @@
 		VALUES('REP-'||LPAD(REPLY_SEQ.NEXTVAL,6,0), #{member_code}, #{board_code}, SYSDATE, #{content})
 	</insert>	
 	
+	<!-- 댓글 수정 -->
+	<update id="replyUpdate">
+		UPDATE REPLY
+		SET CONTENT=#{content}
+		WHERE SEQ=#{reply_code}
+	</update>	
+	
 	<!-- 댓글 삭제 -->
 	<delete id="replyDelete">
 		DELETE

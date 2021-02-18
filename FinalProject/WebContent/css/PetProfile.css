@@ -83,3 +83,15 @@
 {
 	text-align: right;
 }
+.pet_profile_img {
+	position: relative;
+	width: 200px;
+	height: 256px;
+	border: 1px solid #808080;
+}
+.pet_profile_img img {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 198px;
+}
